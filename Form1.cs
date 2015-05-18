@@ -16,48 +16,52 @@ namespace Pic_Simulator
     {
         const int MAX_REGISTER = 256;
         // Variables for the simulation 
-        bool _running; 
+        bool _running;
         bool _sleepMode;
         bool _bank0;
         bool _bOpenedFile = false;
-        int  _iDelay; // Delay between the Simulation commands
-        int  iPC; // Programm Counter 
+        int _iDelay; // Delay between the Simulation commands
+        int iPC; // Programm Counter 
         long lCycles, lRuntime; //Zyklen und Laufzeit
         long lWatchdog; // Watchdog Counter
 
         bool _timer0enabled = true;
-        int  _iPrescalercnt;
-        int  _iPrescalerValue;
+        int _iPrescalercnt;
+        int _iPrescalerValue;
 
         // Change RB Port 
         int iRA, iRB;   // Helpvariables for changes between RA and RB 
-        
+
         // ******** Simulation Register  ************
 
         //Array for Register
         int[] iReg = new int[MAX_REGISTER];
-        
+
         //Stack 
         Stack<int> stack = new Stack<int>(8);
-        
+
         //W Register;
         int iWReg;
 
         // Object of the Decoder 
-        Decoder _obDecoder = new Decoder();   
+        Decoder _obDecoder = new Decoder();
 
         // bool for Watchdog
         bool bWatchdog = false;
-  
+
         List<String> OperandList = new List<String>();
 
+        // Arrays für die Visualisierung
         string[,] ArrayBank0 = new string[16, 8]; //16 Zeilen, 8 Spalten
         string[,] ArrayBank1 = new string[16, 8];
-        
+        string[,] ArrayEEPROM = new string[8, 8];
+        string[] ArrayStatusReg = new string[8];
+        string[] ArrayOptionReg = new string[8];
+        string[] ArrayInterruptReg = new string[8];
+        string[] ArrayStack = new string[8];
 
 
-
-        public KerTKDSim()  
+        public KerTKDSim()
         {
 
             iPC = 0;
@@ -78,8 +82,8 @@ namespace Pic_Simulator
 
             #region Tabellen/Grid initialisierung
             //Initialisieren der tabelle Bank1 und Bank2
-            int Row=17;
-            int Col=9;
+            int Row = 17;
+            int Col = 9;
 
             gridBank_1.EnableSort = false;
             gridBank_0.EnableSort = false;
@@ -94,104 +98,44 @@ namespace Pic_Simulator
             gridBank_0.Redim(Row, Col);
             gridEEPROM.Redim(9, Col);
 
-            
-            #region initialisieren der Zellen
+
+            #region Bank0/1,EEPROM initialisierung
             for (int r = 0; r < Row; r++)
-            {               
+            {
                 for (int c = 0; c < Col; c++)
                 {
 
-                        if (c == 0)
-                        {
-                            gridBank_1[r, c] = new SourceGrid.Cells.ColumnHeader("");
-                            gridBank_0[r, c] = new SourceGrid.Cells.ColumnHeader("");
+                    if (c == 0)
+                    {
+                        gridBank_1[r, c] = new SourceGrid.Cells.ColumnHeader("");
+                        gridBank_0[r, c] = new SourceGrid.Cells.ColumnHeader("");
 
-                            if (r < 9) { gridEEPROM[r, c] = new SourceGrid.Cells.ColumnHeader(""); }
-                        }
-                        else if (r == 0) 
-                        {                           
-                            gridBank_1[r, c] = new SourceGrid.Cells.ColumnHeader("");
-                            gridBank_0[r, c] = new SourceGrid.Cells.ColumnHeader("");
+                        if (r < 9) { gridEEPROM[r, c] = new SourceGrid.Cells.ColumnHeader(""); }
+                    }
+                    else if (r == 0)
+                    {
+                        gridBank_1[r, c] = new SourceGrid.Cells.ColumnHeader("");
+                        gridBank_0[r, c] = new SourceGrid.Cells.ColumnHeader("");
 
-                            if (r < 9) { gridEEPROM[r, c] = new SourceGrid.Cells.ColumnHeader(""); }
-                        }
-                        else 
-                        {
-                            // typeof(string) muss für editierbare zellen durchgeführt werden
-                            gridBank_1[r, c] = new SourceGrid.Cells.Cell("", typeof(string)); 
-                            gridBank_0[r, c] = new SourceGrid.Cells.Cell("", typeof(string));
-                            if (r < 9) { gridEEPROM[r, c] = new SourceGrid.Cells.Cell("", typeof(string)); }
-                          
-                        }
-                        gridBank_0.Columns[c].Width = 27;
-                        gridBank_1.Columns[c].Width = 27;
-                       if (r < 9) {  gridEEPROM.Columns[c].Width = 27;}
-                        gridBank_0.Rows[r].Height = 22;
-                        gridBank_1.Rows[r].Height = 22;
-                        if (r < 9) { gridEEPROM.Rows[r].Height = 22; }
+                        if (r < 9) { gridEEPROM[r, c] = new SourceGrid.Cells.ColumnHeader(""); }
+                    }
+                    else
+                    {
+                        // typeof(string) muss für editierbare zellen durchgeführt werden
+                        gridBank_1[r, c] = new SourceGrid.Cells.Cell("", typeof(string));
+                        gridBank_0[r, c] = new SourceGrid.Cells.Cell("", typeof(string));
+                        if (r < 9) { gridEEPROM[r, c] = new SourceGrid.Cells.Cell("", typeof(string)); }
+
+                    }
+                    gridBank_0.Columns[c].Width = 27;
+                    gridBank_1.Columns[c].Width = 27;
+                    if (r < 9) { gridEEPROM.Columns[c].Width = 27; }
+                    gridBank_0.Rows[r].Height = 22;
+                    gridBank_1.Rows[r].Height = 22;
+                    if (r < 9) { gridEEPROM.Rows[r].Height = 22; }
                 }
             }
-            #endregion initialisieren der Zellen
-
-            #region Beschriftung der Tabellen
-            gridBank_1[0, 0].Value = "0x";
-            gridBank_0[0, 0].Value = "0x";
-            gridEEPROM[0, 0].Value = "0x"; 
-
-            for (int c = 1; c < Col; c++) 
-            { 
-                gridBank_1[0, c].Value = "+0" + (c - 1);
-                gridBank_0[0, c].Value = "+0" + (c - 1);
-                gridEEPROM[0, c].Value = "+0" + (c - 1); 
-            }
-
-            //Grid der Bank 0 Beschriftung
-            gridBank_0[1, 0].Value = "00";
-            gridBank_0[2, 0].Value = "08";
-            gridBank_0[3, 0].Value = "10";
-            gridBank_0[4, 0].Value = "18";
-            gridBank_0[5, 0].Value = "20";
-            gridBank_0[6, 0].Value = "28";
-            gridBank_0[7, 0].Value = "30";
-            gridBank_0[8, 0].Value = "38";
-            gridBank_0[9, 0].Value = "40";
-            gridBank_0[10, 0].Value = "48";
-            gridBank_0[11, 0].Value = "50";
-            gridBank_0[12, 0].Value = "58";
-            gridBank_0[13, 0].Value = "60";
-            gridBank_0[14, 0].Value = "68";
-            gridBank_0[15, 0].Value = "70";
-            gridBank_0[16, 0].Value = "78";
-
-            //Grid der bank 1 Beschriftung          
-            gridBank_1[1, 0].Value = "80";
-            gridBank_1[2, 0].Value = "88";
-            gridBank_1[3, 0].Value = "90";
-            gridBank_1[4, 0].Value = "98";
-            gridBank_1[5, 0].Value = "A0";
-            gridBank_1[6, 0].Value = "A8";
-            gridBank_1[7, 0].Value = "B0";
-            gridBank_1[8, 0].Value = "B8";
-            gridBank_1[9, 0].Value = "C0";
-            gridBank_1[10, 0].Value = "C8";
-            gridBank_1[11, 0].Value = "D0";
-            gridBank_1[12, 0].Value = "D8";
-            gridBank_1[13, 0].Value = "E0";
-            gridBank_1[14, 0].Value = "E8";
-            gridBank_1[15, 0].Value = "F0";
-            gridBank_1[16, 0].Value = "F8";
-
-            //Grid des EEPROM
-            //Grid der Bank 0 Beschriftung
-            gridEEPROM[1, 0].Value = "00";
-            gridEEPROM[2, 0].Value = "08";
-            gridEEPROM[3, 0].Value = "10";
-            gridEEPROM[4, 0].Value = "18";
-            gridEEPROM[5, 0].Value = "20";
-            gridEEPROM[6, 0].Value = "28";
-            gridEEPROM[7, 0].Value = "30";
-            gridEEPROM[8, 0].Value = "38";
-            #endregion Beschriftung der Tabellen
+            #endregion Bank0/1,EEPROM initialisierung
 
             #region StatusRegister
             //initialisieren des Stausregisters
@@ -214,7 +158,7 @@ namespace Pic_Simulator
             gridStatus[1, 6] = new SourceGrid.Cells.Cell("0", typeof(string));
             gridStatus[1, 7] = new SourceGrid.Cells.Cell("0", typeof(string));
 
-            for (int i = 0; i < 8; i++) { gridStatus.Columns[i].Width = 30; }          
+            for (int i = 0; i < 8; i++) { gridStatus.Columns[i].Width = 30; }
 
             #endregion StatusRegister
 
@@ -308,10 +252,69 @@ namespace Pic_Simulator
             gridEECON1[1, 4] = new SourceGrid.Cells.Cell("0", typeof(string));
 
             gridEECON1.AutoSizeCells();
-        //    for (int i = 0; i < 5; i++) { gridEECON1.Columns[i].Width = 53; }
+            //    for (int i = 0; i < 5; i++) { gridEECON1.Columns[i].Width = 53; }
 
             #endregion EECON1
 
+            #region Beschriftung der Tabellen
+            gridBank_1[0, 0].Value = "0x";
+            gridBank_0[0, 0].Value = "0x";
+            gridEEPROM[0, 0].Value = "0x";
+
+            for (int c = 1; c < Col; c++)
+            {
+                gridBank_1[0, c].Value = "+0" + (c - 1);
+                gridBank_0[0, c].Value = "+0" + (c - 1);
+                gridEEPROM[0, c].Value = "+0" + (c - 1);
+            }
+
+            //Grid der Bank 0 Beschriftung
+            gridBank_0[1, 0].Value = "00";
+            gridBank_0[2, 0].Value = "08";
+            gridBank_0[3, 0].Value = "10";
+            gridBank_0[4, 0].Value = "18";
+            gridBank_0[5, 0].Value = "20";
+            gridBank_0[6, 0].Value = "28";
+            gridBank_0[7, 0].Value = "30";
+            gridBank_0[8, 0].Value = "38";
+            gridBank_0[9, 0].Value = "40";
+            gridBank_0[10, 0].Value = "48";
+            gridBank_0[11, 0].Value = "50";
+            gridBank_0[12, 0].Value = "58";
+            gridBank_0[13, 0].Value = "60";
+            gridBank_0[14, 0].Value = "68";
+            gridBank_0[15, 0].Value = "70";
+            gridBank_0[16, 0].Value = "78";
+
+            //Grid der bank 1 Beschriftung          
+            gridBank_1[1, 0].Value = "80";
+            gridBank_1[2, 0].Value = "88";
+            gridBank_1[3, 0].Value = "90";
+            gridBank_1[4, 0].Value = "98";
+            gridBank_1[5, 0].Value = "A0";
+            gridBank_1[6, 0].Value = "A8";
+            gridBank_1[7, 0].Value = "B0";
+            gridBank_1[8, 0].Value = "B8";
+            gridBank_1[9, 0].Value = "C0";
+            gridBank_1[10, 0].Value = "C8";
+            gridBank_1[11, 0].Value = "D0";
+            gridBank_1[12, 0].Value = "D8";
+            gridBank_1[13, 0].Value = "E0";
+            gridBank_1[14, 0].Value = "E8";
+            gridBank_1[15, 0].Value = "F0";
+            gridBank_1[16, 0].Value = "F8";
+
+            //Grid des EEPROM
+            //Grid der Bank 0 Beschriftung
+            gridEEPROM[1, 0].Value = "00";
+            gridEEPROM[2, 0].Value = "08";
+            gridEEPROM[3, 0].Value = "10";
+            gridEEPROM[4, 0].Value = "18";
+            gridEEPROM[5, 0].Value = "20";
+            gridEEPROM[6, 0].Value = "28";
+            gridEEPROM[7, 0].Value = "30";
+            gridEEPROM[8, 0].Value = "38";
+            #endregion Beschriftung der Tabellen
 
 
             // Vorgeschriebene Werte !!!!!!!!!!!
@@ -333,16 +336,11 @@ namespace Pic_Simulator
             #endregion Tabellen/Grid initialisierung
         }
 
-        /*********************************************************************/
-        /**   SimReset
-        **
-        **  Verursacht einen normalen, nicht Hardware, Reset
-        **
-        **  Ret: void
-        **
-        **************************************************************************/
 
         private delegate void SimResetDelegate();
+        /// <summary>
+        /// Verursacht einen normalen, nicht Hardware, Reset
+        /// </summary>
         private void SimReset()
         {
             if (InvokeRequired)
@@ -387,6 +385,7 @@ namespace Pic_Simulator
             }
         }
 
+
         private delegate void SimStartupDelegate();
         private void SimStartup()
         {
@@ -410,7 +409,7 @@ namespace Pic_Simulator
                 iReg[0x88] = iReg[0x88] & 0x08;
 
                 iWReg = 0;
-                stack.Clear(); 
+                stack.Clear(); //Stack leeren
 
                 for (int i = 0; i <= 255; i++)
                 {
@@ -432,7 +431,6 @@ namespace Pic_Simulator
                 {
                     lCycles = 0;
                     lRuntime = 0;
-
                     refreshGridValue();
                 }
             }
@@ -442,10 +440,14 @@ namespace Pic_Simulator
 
         private void beendenToolStripMenuItem_Click(object sender, EventArgs e) // Beenden der Anwendung
         {
-            Stop();
             this.Close();
         }
 
+        /// <summary>
+        /// Der Button zum Datei Laden im ToolStrip Menü
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dateiLadenToolStripMenuItem_Click(object sender, EventArgs e) // Laden der .LST
         {
             OpenFileDialog MyOpenFileDialog = new OpenFileDialog();
@@ -472,7 +474,7 @@ namespace Pic_Simulator
                         OperandList = myCutter.StringCutterFkt(StrList);
                         List<string> TStrList = myCutter.CodeView(StrList);
                         lvCode.Items.Clear(); // Leeren der Code Anzeige
-                       
+
                         lvCode.Columns.Add("", 500); //Eine Spalte einfügen(Überschrift,breite)
                         for (int i = 0; i < TStrList.Count; i++)
                         {
@@ -488,15 +490,10 @@ namespace Pic_Simulator
         }
 
 
-        /*********************************************************************/
-        /**   watchdog
-        **
-        **  Checks the Watchdog
-        **
-        **  Ret: void
-        **
-        **************************************************************************/
-
+        ///<summary>
+        /// Überprüft den Watchdog
+        /// Ret: void
+        /// </summary>
         private void watchdog()
         {
             if (bWatchdog)
@@ -512,21 +509,18 @@ namespace Pic_Simulator
                     {
                         _iPrescalercnt = 0;
                         ExecuteWDT();
-                        
+
                     }
                 }
             }
         }
 
-        /*********************************************************************/
-        /**   ExecuteWDT
-        **
-        **  Watchdog hochzählen und Interrupt bei Überlauf
-        **
-        **  Ret: void
-        **
-        **************************************************************************/
 
+
+        ///<summary>
+        /// Watchdog hochzählen und Interrupt bei Überlauf
+        /// Ret: void
+        ///</summary>
         private void ExecuteWDT()
         {
             lWatchdog++;
@@ -542,15 +536,11 @@ namespace Pic_Simulator
             }
         }
 
-        /*********************************************************************/
-        /**   simulateTimer0
-        **
-        **  Simuliert den TMR0
-        **
-        **  Ret: void
-        **
-        **************************************************************************/
 
+        ///<summary>
+        /// Simuliert den TMR0
+        /// Ret: void
+        ///</summary>
         private void simulateTimer0()
         {
             if (_timer0enabled)
@@ -578,15 +568,11 @@ namespace Pic_Simulator
             }
         }
 
-        /*********************************************************************/
-        /**   ExecuteTimer
-        **
-        **  Führt den Timer aus
-        **
-        **  Ret: void
-        **
-        **************************************************************************/
 
+        ///<summary>
+        /// Führt den Timer aus
+        /// Ret: void
+        ///</summary>
         private void ExecuteTimer()
         {
             if ((iReg[0x81] & 0x20) == 0)    //Timer0 in Timer-Mode?
@@ -637,15 +623,11 @@ namespace Pic_Simulator
             }
         }
 
-        /*********************************************************************/
-        /** simulateProgram
-        **
-        **  Starting the program as long as the Thread is avaiable.
-        **
-        **  Ret: void
-        **
-        **************************************************************************/
 
+        ///<summary>
+        /// Endlosschleife solange der Thread läuft (nachdem "Start"-Gedrückt wurde)
+        ///  Ret: void
+        ///</summary>
         private void simulateProgram()
         {
             while (_running)
@@ -655,44 +637,22 @@ namespace Pic_Simulator
             }
         }
 
-        /*********************************************************************/
-        /**   bStop_Click
-        **
-        **  Pauses the programme.
-        **
-        **  Ret: void
-        **
-        **************************************************************************/
 
+        ///<summary>
+        /// pausiert das Programm
+        /// Ret: void
+        ///</summary>
         private void bStop_Click(object sender, EventArgs e)
         {
             _running = false;
             Stop();
         }
 
-        /*********************************************************************/
-        /**   bStop_Click
-        **
-        **  Stops the programme, after clicking at the end button.
-        **
-        **  Ret: void
-        **
-        **************************************************************************/
 
-        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Stop();
-        }
-
-        /*********************************************************************/
-        /**   Stop
-        **
-        **  Stops the programme
-        **
-        **  Ret: void
-        **
-        **************************************************************************/
-
+        ///<summary>
+        /// Pausiert das Programm
+        /// Ret: void
+        ///</summary>        
         private delegate void StopDelegate();
         private void Stop()
         {
@@ -707,49 +667,17 @@ namespace Pic_Simulator
                 btnStart.Enabled = true;
                 btnStep.Enabled = true;
                 btnStop.Enabled = false;
-                // Disable buttons..
+                //Buttons disablen..
             }
         }
 
 
-        /*********************************************************************/
-        /**   bReset_Click
-        **
-        **  Resettet das Programm (nicht HardwareReset!)
-        **
-        **  Ret: void
-        **
-        **************************************************************************/
 
-        private void bReset_Click(object sender, EventArgs e)
-        {
-            _running = false;
-            SimReset();
-        }
 
-        /*********************************************************************/
-        /**   bStep_Click
-        **
-        **  One Step Command execution.
-        **
-        **  Ret: void
-        **
-        **************************************************************************/
-
-        private void bStep_Click(object sender, EventArgs e)
-        {
-            ExecuteCmd();
-        }
-
-        /*********************************************************************/
-        /**   checkinterrupt
-        **
-        **  Schaut ob ein Interrupt ausgelöst wird
-        **
-        **  Ret: void
-        **
-        **************************************************************************/
-
+        ///<summary>
+        /// Schaut ob ein Interrupt ausgelöst wird
+        /// Ret: void
+        /// </summary>
         private void checkinterrupt()
         {
             //Auf Globalinterrupt enabled überprüfen
@@ -795,15 +723,11 @@ namespace Pic_Simulator
             }
         }
 
-        /*********************************************************************/
-        /**   setInterrupt
-        **
-        **  Setzt einen Interrupt
-        **
-        **  Ret: void
-        **
-        **************************************************************************/
 
+        ///<summary>
+        /// Setzt einen Interrupt
+        /// Ret: void
+        /// </summary>
         private void setInterrupt()
         {
             //-------Set Interrupts -----
@@ -838,36 +762,14 @@ namespace Pic_Simulator
             //-------Set Interrupts Ende ---- 
         }
 
-        private bool checkBreakPoint()
-        {
-            {
-                if (lvCode.Items[iPC].Selected == true)
-                {
-                    if (lvCode.Items[iPC].BackColor == Color.Red )
-                    {
-                        Stop();
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-            return false;
-        }
 
 
-        /*********************************************************************/
-        /**   ExecuteCmd
-        **
-        **  Führt einen Befehl aus
-        **
-        **  Ret: void
-        **
-        **************************************************************************/
 
         private delegate void ExecuteCommandDelegate();
+        /// <summary>
+        /// Führt einen Befehl aus
+        /// Ret: void
+        /// </summary>
         public void ExecuteCmd()
         {
             if (InvokeRequired)
@@ -885,7 +787,7 @@ namespace Pic_Simulator
                 tbTest.Text = strCurCmd;
                 ScanCommand(strCurCmd, bCmd);
 
-                _markCommand( iPC );
+                _markCommand(iPC);
 
                 //Spiegelung
                 //PC wird gespiegelt
@@ -942,7 +844,28 @@ namespace Pic_Simulator
 
         }
 
-        private void _markCommand( int cmdNumber )
+
+        private bool checkBreakPoint()
+        {
+            {
+                if (lvCode.Items[iPC].Selected == true)
+                {
+                    if (lvCode.Items[iPC].BackColor == Color.Red)
+                    {
+                        Stop();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            return false;
+        }
+
+
+        private void _markCommand(int cmdNumber)
         {
             // markieren des nächsten Befehls
             lvCode.Items[cmdNumber].Selected = true;
@@ -953,20 +876,26 @@ namespace Pic_Simulator
 
 
 
+
+        /// <summary>
+        /// Refresh der Anzeigeinhalte
+        /// Schreibt die Datenarrays in die dafür vorgesehenen Grids
+        /// </summary>
         private void refreshGridValue()
         {
-            #region WriteBankArrays To Bank
             refreshReg();
 
             int Col = 9;
             int Row = 17;
+            //Bank1
             for (int r = 1; r < Row; r++)
             {
                 for (int c = 1; c < Col; c++)
                 {
-                    gridBank_1[r, c].Value = ArrayBank1[r-1, c-1];
+                    gridBank_1[r, c].Value = ArrayBank1[r - 1, c - 1];
                 }
             }
+            //Bank0
             for (int r = 1; r < Row; r++)
             {
                 for (int c = 1; c < Col; c++)
@@ -974,10 +903,33 @@ namespace Pic_Simulator
                     gridBank_0[r, c].Value = ArrayBank0[r - 1, c - 1];
                 }
             }
+            //EEPROM
+            for (int r = 1; r < 9; r++)
+            {
+                for (int c = 1; c < 9; c++)
+                {
+                    gridBank_0[r, c].Value = ArrayBank0[r - 1, c - 1];
+                }
+            }
 
-            #endregion WriteBankArrays To Bank
+
+            for (int c = 1; c < 9; c++)
+            {
+                // ArrayStatusReg = new string[8];
+                if (ArrayStatusReg[c - 1] != null) gridStatus[1, c].Value = ArrayStatusReg[c - 1];
+
+                // ArrayOptionReg = new string[8];
+                if (ArrayOptionReg[c - 1] != null) gridOption[1, c].Value = ArrayOptionReg[c - 1];
+
+                // ArrayInterruptReg = new string[8];           
+                if (ArrayInterruptReg[c - 1] != null) gridInterrupt[1, c].Value = ArrayInterruptReg[c - 1];
+
+                // ArrayStack = new string[8];
+                if (ArrayStack[c - 1] != null) gridStack[1, c].Value = ArrayStack[c - 1];
+            }
+
         }
-      
+
 
         private void lvCode_DoubleClick(object sender, EventArgs e)// Einfärben der BreakePoint Zeilen
         {
@@ -987,16 +939,19 @@ namespace Pic_Simulator
             {
                 lvCode.Items[myindex].BackColor = Color.White;
             }
-            else
-            { 
-                lvCode.Items[myindex].BackColor = Color.Red; 
-            }
+            else { lvCode.Items[myindex].BackColor = Color.Red; }
 
         }
 
 
-        // ************************************************************//
+
         #region DebugButtons
+
+        /// <summary>
+        /// Startet den Prorgammdurchlauf
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStart_Click(object sender, EventArgs e)
         {
             if (OperandList == null || OperandList.Count <= 0) { MessageBox.Show("Bitte laden sie eine .LST Datei"); }
@@ -1015,26 +970,43 @@ namespace Pic_Simulator
             }
         }
 
+        /// <summary>
+        /// "Pausiert" das Programm/ Stoppt es
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStop_Click(object sender, EventArgs e)
         {
             _running = false;
             Stop();
         }
 
+        /// <summary>
+        /// Setzt alles zurück(Programmzähler, Register, etc)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnReset_Click(object sender, EventArgs e)
         {
             _running = false;
             SimReset();
         }
 
+        /// <summary>
+        /// Einen Befeh des Programms ausführen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStep_Click(object sender, EventArgs e)
         {
             if (_obDecoder == null) return;
 
             if (OperandList == null || OperandList.Count <= 0) { MessageBox.Show("Bitte laden sie eine .LST Datei"); }
             else
-            { 
+            {
+
                 ExecuteCmd();
+
             }
         }
 
