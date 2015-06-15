@@ -834,10 +834,10 @@ namespace Pic_Simulator
                 setInterrupt();
                 checkInterrupt();
 
-                //if (bSerialCon)
-                //{
-                //    _sendSerialData();
-                //}
+                if (bSerialCon)
+                {
+                    _sendSerialData( );
+                }
                 refreshGridValue();
                 lRuntime = lCycles * 200;
                 checkBreakPoint();

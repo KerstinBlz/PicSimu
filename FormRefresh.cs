@@ -48,19 +48,24 @@ namespace Pic_Simulator
                     ctrl.Text = "0";
                 }
 
-                string statusReg = tStatus7.Text +
-                                   tStatus6.Text +
-                                   tStatus5.Text +
-                                   tStatus4.Text +
-                                   tStatus3.Text +
-                                   tStatus2.Text +
-                                   tStatus1.Text +
-                                   tStatus0.Text;
+                string statusReg = null;
+
+                for ( int i = 0 ; i < 7 ; i++ )
+                { 
+                    statusReg += ArrayStatusReg[i].ToString();   // that should work
+                }
+
+                //string statusReg = tStatus7.Text +
+                //                   tStatus6.Text +
+                //                   tStatus5.Text +
+                //                   tStatus4.Text +
+                //                   tStatus3.Text +
+                //                   tStatus2.Text +
+                //                   tStatus1.Text +
+                //                   tStatus0.Text;
                 statusReg.PadLeft( 2 , '0' );
                 iReg[0x03] = Convert.ToInt32( statusReg , 2 );
                 iReg[0x83] = iReg[0x03];
-
-                listCode.Focus( );
 
                 refreshReg( );
             }

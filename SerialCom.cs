@@ -33,11 +33,11 @@ namespace Pic_Simulator
         /// <param name="input"></param>
         /// <returns>void</returns>
         
-        private void sendSerialData()
+        private void _sendSerialData()
         {
             if (InvokeRequired)
             {
-                var invokeHelper = new sendSerialDataDelegate( sendSerialData );
+                var invokeHelper = new sendSerialDataDelegate( _sendSerialData );
                 Invoke( invokeHelper );
             }
             else
