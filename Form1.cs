@@ -54,6 +54,8 @@ namespace Pic_Simulator
 
         List<String> OperandList = new List<String>();
 
+        int[] iEEPROM = new int[64];
+
         // Arrays für die Visualisierung
         string[,] ArrayBank0 = new string[16, 8]; //16 Zeilen, 8 Spalten
         string[,] ArrayBank1 = new string[16, 8];
@@ -499,7 +501,7 @@ namespace Pic_Simulator
         /// </summary>
         private void watchdog()
         {
-            if (bWatchdog)
+            if ( bWatchdog )
             {
                 if ((iReg[0x81] & 0x08) == 0x00) //Prescaler TMR0 zugewiesen?
                 {
@@ -512,7 +514,6 @@ namespace Pic_Simulator
                     {
                         _iPrescalerCnt = 0;
                         ExecuteWDT();
-
                     }
                 }
             }

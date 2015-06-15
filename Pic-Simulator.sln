@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pic-Simulator", "Pic-Simulator.csproj", "{C7D40710-8F85-4131-AB51-8EE329F96B8C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{92FABAE1-A931-408A-9C0D-D20EF2C71946}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -289,8 +289,9 @@
             this.btnSaveEEP.Name = "btnSaveEEP";
             this.btnSaveEEP.Size = new System.Drawing.Size(75, 23);
             this.btnSaveEEP.TabIndex = 479;
-            this.btnSaveEEP.Text = "Save";
+            this.btnSaveEEP.Text = "Save EEPROM";
             this.btnSaveEEP.UseVisualStyleBackColor = true;
+            // this.btnLoadEEP.Click += new System.EventHandler( this.saveEEPROM );
             // 
             // btnLoadEEP
             // 
@@ -298,8 +299,9 @@
             this.btnLoadEEP.Name = "btnLoadEEP";
             this.btnLoadEEP.Size = new System.Drawing.Size(75, 23);
             this.btnLoadEEP.TabIndex = 478;
-            this.btnLoadEEP.Text = "Load";
+            this.btnLoadEEP.Text = "Load EEPROM";
             this.btnLoadEEP.UseVisualStyleBackColor = true;
+            // this.btnLoadEEP.Click += new System.EventHandler( this.loadEEPROM );
             // 
             // gbEECON
             // 
