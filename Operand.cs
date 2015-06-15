@@ -819,13 +819,13 @@ namespace Pic_Simulator
 
         private void opSLEEP() // Go into standby mode
         {
-            //lWatchdog = 0; //Watchdog clearen
-            //timer0enabled = false;   //Timer0 deaktivieren
-            //sleepMode = true; //Simulator in Sleep Modus versetzen
-            //iPC++;
-            //iReg[0x03] |= 0x10; iReg[0x03] &= 0xF7;     // set TO and clear PD
-            //iReg[0x83] |= 0x10; iReg[0x83] &= 0xF7;
-            ////Simulator kann dann durch Interrupt an RB0 oder PortB Bit 4-7 oder EEPROM-Write geweckt werden
+            lWatchdog = 0; //Watchdog clearen
+            _timer0enabled = false;   //Timer0 deaktivieren
+            _sleepMode = true; //Simulator in Sleep Modus versetzen
+            iPC++;
+            iReg[0x03] |= 0x10; iReg[0x03] &= 0xF7;     // set TO and clear PD
+            iReg[0x83] |= 0x10; iReg[0x83] &= 0xF7;
+            //Simulator kann dann durch Interrupt an RB0 oder PortB Bit 4-7 oder EEPROM-Write geweckt werden
         }
 
         private void opSUBLW( byte k ) // Subtract W from literal

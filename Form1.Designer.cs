@@ -291,7 +291,6 @@
             this.btnSaveEEP.TabIndex = 479;
             this.btnSaveEEP.Text = "Save EEPROM";
             this.btnSaveEEP.UseVisualStyleBackColor = true;
-            // this.btnLoadEEP.Click += new System.EventHandler( this.saveEEPROM );
             // 
             // btnLoadEEP
             // 
@@ -301,7 +300,6 @@
             this.btnLoadEEP.TabIndex = 478;
             this.btnLoadEEP.Text = "Load EEPROM";
             this.btnLoadEEP.UseVisualStyleBackColor = true;
-            // this.btnLoadEEP.Click += new System.EventHandler( this.loadEEPROM );
             // 
             // gbEECON
             // 
@@ -545,6 +543,7 @@
             this.tbTrisA0.TabIndex = 32;
             this.tbTrisA0.Text = "o";
             this.tbTrisA0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbTrisA0.Click += new System.EventHandler(this.updateTrisA_Click);
             // 
             // tbTrisA1
             // 
@@ -558,6 +557,7 @@
             this.tbTrisA1.TabIndex = 31;
             this.tbTrisA1.Text = "o";
             this.tbTrisA1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbTrisA1.Click += new System.EventHandler(this.updateTrisA_Click);
             // 
             // tRA4
             // 
@@ -571,6 +571,7 @@
             this.tRA4.TabStop = false;
             this.tRA4.Text = "0";
             this.tRA4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tRA4.Click += new System.EventHandler( this.portRA_Click );
             // 
             // tbTrisA2
             // 
@@ -584,6 +585,7 @@
             this.tbTrisA2.TabIndex = 30;
             this.tbTrisA2.Text = "o";
             this.tbTrisA2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbTrisA2.Click += new System.EventHandler(this.updateTrisA_Click);
             // 
             // tRA3
             // 
@@ -597,6 +599,7 @@
             this.tRA3.TabStop = false;
             this.tRA3.Text = "0";
             this.tRA3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tRA3.Click += new System.EventHandler( this.portRA_Click );
             // 
             // tbTrisA3
             // 
@@ -610,6 +613,7 @@
             this.tbTrisA3.TabIndex = 30;
             this.tbTrisA3.Text = "o";
             this.tbTrisA3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbTrisA3.Click += new System.EventHandler(this.updateTrisA_Click);
             // 
             // tRA0
             // 
@@ -623,6 +627,7 @@
             this.tRA0.TabStop = false;
             this.tRA0.Text = "0";
             this.tRA0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tRA0.Click += new System.EventHandler( this.portRA_Click );
             // 
             // tbTrisA4
             // 
@@ -649,6 +654,7 @@
             this.tRA1.TabStop = false;
             this.tRA1.Text = "0";
             this.tRA1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tRA1.Click += new System.EventHandler( this.portRA_Click );
             // 
             // tRA2
             // 
@@ -662,6 +668,7 @@
             this.tRA2.TabStop = false;
             this.tRA2.Text = "0";
             this.tRA2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tRA2.Click += new System.EventHandler( this.portRA_Click );
             // 
             // gbRB
             // 
@@ -810,6 +817,7 @@
             this.tbTrisB0.TabIndex = 30;
             this.tbTrisB0.Text = "o";
             this.tbTrisB0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbTrisB0.Click += new System.EventHandler( this.updateTrisB_Click );
             // 
             // tRB7
             // 
@@ -822,7 +830,7 @@
             this.tRB7.TabIndex = 88;
             this.tRB7.TabStop = false;
             this.tRB7.Text = "0";
-            this.tRB7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tRB7.Click += new System.EventHandler( this.portRB_Click );
             // 
             // tRB6
             // 
@@ -836,6 +844,7 @@
             this.tRB6.TabStop = false;
             this.tRB6.Text = "0";
             this.tRB6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tRB6.Click += new System.EventHandler( this.portRB_Click );
             // 
             // tbTrisB1
             // 
@@ -849,6 +858,7 @@
             this.tbTrisB1.TabIndex = 29;
             this.tbTrisB1.Text = "o";
             this.tbTrisB1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbTrisB1.Click += new System.EventHandler( this.updateTrisB_Click );
             // 
             // tRB5
             // 
@@ -862,6 +872,7 @@
             this.tRB5.TabStop = false;
             this.tRB5.Text = "0";
             this.tRB5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tRB5.Click += new System.EventHandler( this.portRB_Click );
             // 
             // tRB4
             // 
@@ -875,6 +886,7 @@
             this.tRB4.TabStop = false;
             this.tRB4.Text = "0";
             this.tRB4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tRB4.Click += new System.EventHandler( this.portRB_Click );
             // 
             // tbTrisB2
             // 
@@ -888,6 +900,7 @@
             this.tbTrisB2.TabIndex = 29;
             this.tbTrisB2.Text = "o";
             this.tbTrisB2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbTrisB2.Click += new System.EventHandler( this.updateTrisB_Click );
             // 
             // tRB3
             // 
@@ -901,6 +914,7 @@
             this.tRB3.TabStop = false;
             this.tRB3.Text = "0";
             this.tRB3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tRB3.Click += new System.EventHandler( this.portRB_Click );
             // 
             // tRB2
             // 
@@ -914,6 +928,7 @@
             this.tRB2.TabStop = false;
             this.tRB2.Text = "0";
             this.tRB2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tRB2.Click += new System.EventHandler( this.portRB_Click );
             // 
             // tbTrisB6
             // 
@@ -927,6 +942,7 @@
             this.tbTrisB6.TabIndex = 5;
             this.tbTrisB6.Text = "o";
             this.tbTrisB6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbTrisB6.Click += new System.EventHandler( this.portRB_Click );
             // 
             // tRB1
             // 
@@ -940,6 +956,8 @@
             this.tRB1.TabStop = false;
             this.tRB1.Text = "0";
             this.tRB1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tRB1.Click += new System.EventHandler( this.portRB_Click );
+
             // 
             // tRB0
             // 
@@ -953,6 +971,7 @@
             this.tRB0.TabStop = false;
             this.tRB0.Text = "0";
             this.tRB0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tRB0.Click += new System.EventHandler( this.portRB_Click );
             // 
             // tbTrisB3
             // 
@@ -966,6 +985,7 @@
             this.tbTrisB3.TabIndex = 4;
             this.tbTrisB3.Text = "o";
             this.tbTrisB3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbTrisB3.Click += new System.EventHandler( this.updateTrisB_Click );
             // 
             // tbTrisB7
             // 
@@ -979,6 +999,7 @@
             this.tbTrisB7.TabIndex = 1;
             this.tbTrisB7.Text = "o";
             this.tbTrisB7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbTrisB7.Click += new System.EventHandler( this.updateTrisB_Click );
             // 
             // tbTrisB5
             // 
@@ -992,6 +1013,7 @@
             this.tbTrisB5.TabIndex = 2;
             this.tbTrisB5.Text = "o";
             this.tbTrisB5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbTrisB5.Click += new System.EventHandler( this.updateTrisB_Click );
             // 
             // tbTrisB4
             // 
@@ -1005,6 +1027,7 @@
             this.tbTrisB4.TabIndex = 3;
             this.tbTrisB4.Text = "o";
             this.tbTrisB4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbTrisB4.Click += new System.EventHandler( this.updateTrisB_Click );
             // 
             // gbPrescaler
             // 
@@ -1086,6 +1109,7 @@
             this.tbWatchDogSw.TabIndex = 36;
             this.tbWatchDogSw.Text = "OFF";
             this.tbWatchDogSw.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbWatchDogSw.Click += new System.EventHandler(this.updateWatchDog);
             // 
             // tbWatchdog
             // 
@@ -1208,6 +1232,7 @@
             this.tbSerialState.TabIndex = 32;
             this.tbSerialState.Text = "OFF";
             this.tbSerialState.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbSerialState.Click += new System.EventHandler( this.updateSerialCom );
             // 
             // cbComPorts
             // 

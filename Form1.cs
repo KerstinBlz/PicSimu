@@ -337,7 +337,8 @@ namespace Pic_Simulator
             ArrayBank1[0, 6] = "FF";
             ArrayBank0[0, 3] = "18";
 
-            refreshGridValue();
+            refreshReg();
+            //refreshGridValue();
             #endregion Tabellen/Grid initialisierung
         }
 
@@ -356,6 +357,7 @@ namespace Pic_Simulator
             else
             {
                 iPC = 0;
+
                 //Bank 0
                 iReg[0x03] = iReg[0x03] & 0x1F;
                 iReg[0x05] = iReg[0x05] & 0x1F;
@@ -385,7 +387,7 @@ namespace Pic_Simulator
                 iWReg = 0;
                 stack.Clear(); //Stack leeren
 
-                refreshGridValue();
+                refreshReg();
                 _markCommand(iPC);
             }
         }
@@ -436,7 +438,7 @@ namespace Pic_Simulator
                 {
                     lCycles = 0;
                     lRuntime = 0;
-                    refreshGridValue();
+                    refreshReg();
                 }
             }
 
@@ -839,7 +841,8 @@ namespace Pic_Simulator
                 {
                     _sendSerialData( );
                 }
-                refreshGridValue();
+                refreshReg();
+                //refreshGridValue();
                 lRuntime = lCycles * 200;
                 checkBreakPoint();
                 watchdog();
@@ -924,19 +927,19 @@ namespace Pic_Simulator
                     gridStatus[1, c].Value = ArrayStatusReg[c - 1];
                 }
 
-                // ArrayOptionReg = new string[8];
+                ArrayOptionReg = new string[8];
                 if ( ArrayOptionReg[c - 1] != null) 
                 {
                     gridOption[1, c].Value = ArrayOptionReg[c - 1];
                 }
 
-                // ArrayInterruptReg = new string[8];           
+                ArrayInterruptReg = new string[8];           
                 if ( ArrayInterruptReg[c - 1] != null) 
                 {
                     gridInterrupt[1, c].Value = ArrayInterruptReg[c - 1];
                 }
 
-                // ArrayStack = new string[8];
+                ArrayStack = new string[8];
                 if ( ArrayStack[c - 1] != null) 
                 {
                     gridStack[1, c].Value = ArrayStack[c - 1];
@@ -1026,5 +1029,6 @@ namespace Pic_Simulator
 
 
         #endregion DebugButtons
+
     }
 }
