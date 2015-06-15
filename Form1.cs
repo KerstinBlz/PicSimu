@@ -26,7 +26,7 @@ namespace Pic_Simulator
         long lWatchdog; // Watchdog Counter
 
         bool _timer0enabled = true;
-        int _iPrescalercnt;
+        int _iPrescalerCnt;
         int _iPrescalerValue;
 
         // Change RB Port 
@@ -34,13 +34,16 @@ namespace Pic_Simulator
 
         // ******** Simulation Register  ************
 
-        //Array for Register
+        // Array for Register
         int[] iReg = new int[MAX_REGISTER];
 
-        //Stack 
+        // Stack 
         Stack<int> stack = new Stack<int>(8);
 
-        //W Register;
+        // Boolean for Serial Connection
+        bool bSerialCon = false;
+
+        // W Register;
         int iWReg;
 
         // Object of the Decoder 
@@ -69,7 +72,7 @@ namespace Pic_Simulator
             lCycles = 0;
             lRuntime = 0;
             lWatchdog = 0;
-            _iPrescalercnt = 0;
+            _iPrescalerCnt = 0;
             _timer0enabled = true;
             _sleepMode = false;
             _bank0 = true;
@@ -504,10 +507,10 @@ namespace Pic_Simulator
                 }
                 else  //Prescaler WDT zugewiesen
                 {
-                    _iPrescalercnt++;
-                    if (_iPrescalercnt >= _iPrescalerValue)  //ansonsten Prescalratio(mindestens 1:1)
+                    _iPrescalerCnt++;
+                    if (_iPrescalerCnt >= _iPrescalerValue)  //ansonsten Prescalratio(mindestens 1:1)
                     {
-                        _iPrescalercnt = 0;
+                        _iPrescalerCnt = 0;
                         ExecuteWDT();
 
                     }
@@ -553,10 +556,10 @@ namespace Pic_Simulator
                     }
                     else //Prescaler TMR0 zugewiesen? dann Ratio 1:x
                     {
-                        _iPrescalercnt++;
-                        if (_iPrescalercnt >= _iPrescalerValue)
+                        _iPrescalerCnt++;
+                        if (_iPrescalerCnt >= _iPrescalerValue)
                         {
-                            _iPrescalercnt = 0;
+                            _iPrescalerCnt = 0;
                             ExecuteTimer();
                         }
                     }
@@ -593,10 +596,10 @@ namespace Pic_Simulator
 
                     if ((iReg[0x81] & 0x10) == 0)   //Jede ansteigende Taktflanke zählen
                     {
-                        _iPrescalercnt++;
-                        if (_iPrescalercnt >= _iPrescalerValue)
+                        _iPrescalerCnt++;
+                        if (_iPrescalerCnt >= _iPrescalerValue)
                         {
-                            _iPrescalercnt = 0;
+                            _iPrescalerCnt = 0;
                             iReg[0x01]++; //Timer inkrementieren
                         }
                     }
@@ -606,10 +609,10 @@ namespace Pic_Simulator
                     iRA = iRA & 0xEF; //Hilfsvariable aktualisieren
                     if ((iReg[0x81] & 0x10) > 1)        //Jede fallende Taktflanke zählen
                     {
-                        _iPrescalercnt++;
-                        if (_iPrescalercnt >= _iPrescalerValue)
+                        _iPrescalerCnt++;
+                        if (_iPrescalerCnt >= _iPrescalerValue)
                         {
-                            _iPrescalercnt = 0;
+                            _iPrescalerCnt = 0;
                             iReg[0x01]++; //Timer inkrementieren
                         }
                     }
@@ -678,7 +681,7 @@ namespace Pic_Simulator
         /// Schaut ob ein Interrupt ausgelöst wird
         /// Ret: void
         /// </summary>
-        private void checkinterrupt()
+        private void checkInterrupt()
         {
             //Auf Globalinterrupt enabled überprüfen
             if ((iReg[0x0B] & 0x80) > 0)     //Globalinterrupt enabled?
@@ -829,7 +832,7 @@ namespace Pic_Simulator
                     }
                 }
                 setInterrupt();
-                checkinterrupt();
+                checkInterrupt();
 
                 //if (bSerialCon)
                 //{
@@ -912,22 +915,32 @@ namespace Pic_Simulator
                 }
             }
 
-
             for (int c = 1; c < 9; c++)
             {
                 // ArrayStatusReg = new string[8];
-                if (ArrayStatusReg[c - 1] != null) gridStatus[1, c].Value = ArrayStatusReg[c - 1];
+                if ( ArrayStatusReg[c - 1] != null) 
+                {
+                    gridStatus[1, c].Value = ArrayStatusReg[c - 1];
+                }
 
                 // ArrayOptionReg = new string[8];
-                if (ArrayOptionReg[c - 1] != null) gridOption[1, c].Value = ArrayOptionReg[c - 1];
+                if ( ArrayOptionReg[c - 1] != null) 
+                {
+                    gridOption[1, c].Value = ArrayOptionReg[c - 1];
+                }
 
                 // ArrayInterruptReg = new string[8];           
-                if (ArrayInterruptReg[c - 1] != null) gridInterrupt[1, c].Value = ArrayInterruptReg[c - 1];
+                if ( ArrayInterruptReg[c - 1] != null) 
+                {
+                    gridInterrupt[1, c].Value = ArrayInterruptReg[c - 1];
+                }
 
                 // ArrayStack = new string[8];
-                if (ArrayStack[c - 1] != null) gridStack[1, c].Value = ArrayStack[c - 1];
+                if ( ArrayStack[c - 1] != null) 
+                {
+                    gridStack[1, c].Value = ArrayStack[c - 1];
+                }
             }
-
         }
 
 

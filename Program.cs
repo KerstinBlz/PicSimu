@@ -15,8 +15,8 @@ namespace Pic_Simulator
         static void Main()
         {
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new KerTKDSim());
+            Application.SetCompatibleTextRenderingDefault( false );
+            Application.Run( new KerTKDSim() );
         }
     }
 }

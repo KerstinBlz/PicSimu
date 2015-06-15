@@ -22,6 +22,51 @@ namespace Pic_Simulator
 {
     public partial class KerTKDSim : Form
     {
+        private delegate void updateStatus_ClickDelegate( object sender , EventArgs e );
+
+        /// <summary>
+        /// Registers clicks in the Status register fields
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private void updateStatus_Click( object sender , EventArgs e )
+        {
+            if (InvokeRequired)
+            {
+                var invokeVar = new updateStatus_ClickDelegate( updateStatus_Click );
+                Invoke( invokeVar );
+            }
+            else
+            {
+                Control ctrl = (Control)sender;
+                if (ctrl.Text == "0")
+                {
+                    ctrl.Text = "1";
+                }
+                else
+                {
+                    ctrl.Text = "0";
+                }
+
+                string statusReg = tStatus7.Text +
+                                   tStatus6.Text +
+                                   tStatus5.Text +
+                                   tStatus4.Text +
+                                   tStatus3.Text +
+                                   tStatus2.Text +
+                                   tStatus1.Text +
+                                   tStatus0.Text;
+                statusReg.PadLeft( 2 , '0' );
+                iReg[0x03] = Convert.ToInt32( statusReg , 2 );
+                iReg[0x83] = iReg[0x03];
+
+                listCode.Focus( );
+
+                refreshReg( );
+            }
+        }
+
+
         private delegate void refreshRegkDelegate();
         
         private void refreshReg()

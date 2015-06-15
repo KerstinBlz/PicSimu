@@ -1,4 +1,15 @@
-﻿using System;
+﻿/**************************************************************************
+**
+**  KerTKDSim
+**
+**  StringCutter.cs: 
+**  ---------
+**  Cuts the string... reads the programme parameters
+**
+**  
+**************************************************************************/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
