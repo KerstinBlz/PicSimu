@@ -338,7 +338,7 @@ namespace Pic_Simulator
             ArrayBank0[0, 3] = "18";
 
             refreshReg();
-            //refreshGridValue();
+            
             #endregion Tabellen/Grid initialisierung
         }
 
@@ -385,7 +385,7 @@ namespace Pic_Simulator
                 }
 
                 iWReg = 0;
-                stack.Clear(); //Stack leeren
+                stack.Clear(); 
 
                 refreshReg();
                 _markCommand(iPC);
@@ -445,7 +445,7 @@ namespace Pic_Simulator
         }
 
 
-        private void beendenToolStripMenuItem_Click(object sender, EventArgs e) // Beenden der Anwendung
+        private void beendenToolStripMenuItem_Click(object sender, EventArgs e) // End the Application
         {
             this.Close();
         }
@@ -460,6 +460,7 @@ namespace Pic_Simulator
             OpenFileDialog MyOpenFileDialog = new OpenFileDialog();
             MyOpenFileDialog.Filter = "MASM Listing (*.LST)|*.LST|All files (*.*)|*.*";
             DialogResult myresult = MyOpenFileDialog.ShowDialog();
+            
             if (myresult == DialogResult.OK)
             {
                 string filepath = MyOpenFileDialog.FileName;
@@ -491,7 +492,7 @@ namespace Pic_Simulator
                     catch { MessageBox.Show("Stringcutter fehler"); }
                 }
                 catch { MessageBox.Show("Fehler bei Dateiaufruf"); }
-            }// Dialogresult
+            } // Dialogresult
 
 
         }
@@ -505,14 +506,15 @@ namespace Pic_Simulator
         {
             if ( bWatchdog )
             {
-                if ((iReg[0x81] & 0x08) == 0x00) //Prescaler TMR0 zugewiesen?
+                if ((iReg[0x81] & 0x08) == 0x00) // Prescaler TMR0 
                 {
-                    ExecuteWDT();     //.. dann Ratio 1:1
+                    ExecuteWDT();    
                 }
-                else  //Prescaler WDT zugewiesen
+                else  // Prescaler WDT 
                 {
                     _iPrescalerCnt++;
-                    if (_iPrescalerCnt >= _iPrescalerValue)  //ansonsten Prescalratio(mindestens 1:1)
+
+                    if ( _iPrescalerCnt >= _iPrescalerValue )  // ansonsten Prescalratio(mindestens 1:1)
                     {
                         _iPrescalerCnt = 0;
                         ExecuteWDT();
@@ -530,14 +532,15 @@ namespace Pic_Simulator
         private void ExecuteWDT()
         {
             lWatchdog++;
-            if (lWatchdog >= 18000 * 5)     //18ms, da 200ns pro Zyklus!
+            if (lWatchdog >= 18000 * 5)     // 18ms - 200ns every Cycle
             {
-                //TimeOut-Flag setzen
+                // TimeOut-Flag setzen
                 iReg[0x03] &= 0xEF;
                 iReg[0x83] &= 0xEF;
-                //Löse Reset aus
-                SimReset();     //Simulator zurücksetzen!
-                lWatchdog = 0;  //Watchdog zurücksetzen
+
+                
+                SimReset();     // Reset the Simulation
+                lWatchdog = 0;  // Reset the Watchdog
                 _sleepMode = false;
             }
         }
@@ -549,25 +552,25 @@ namespace Pic_Simulator
         ///</summary>
         private void simulateTimer0()
         {
-            if (_timer0enabled)
+            if ( _timer0enabled )
             {
-                if ((iReg[0x81] & 0x20) == 0) //Timer0 in Timer-Mode?
+                if ( ( iReg[0x81] & 0x20) == 0 ) // Timer0 in Timer-Mode?
                 {
-                    if ((iReg[0x81] & 0x08) == 0x08) //Prescaler WDT zugewiesen?
+                    if ((iReg[0x81] & 0x08) == 0x08) // Prescaler WDT
                     {
-                        ExecuteTimer(); //Ratio 1:1
+                        ExecuteTimer(); 
                     }
-                    else //Prescaler TMR0 zugewiesen? dann Ratio 1:x
+                    else 
                     {
                         _iPrescalerCnt++;
-                        if (_iPrescalerCnt >= _iPrescalerValue)
+                        if ( _iPrescalerCnt >= _iPrescalerValue )
                         {
                             _iPrescalerCnt = 0;
                             ExecuteTimer();
                         }
                     }
                 }
-                else   //Prescaler wird auch beim Counter verwendet
+                else   
                 {
                     ExecuteTimer();
                 }
@@ -581,23 +584,23 @@ namespace Pic_Simulator
         ///</summary>
         private void ExecuteTimer()
         {
-            if ((iReg[0x81] & 0x20) == 0)    //Timer0 in Timer-Mode?
+            if ((iReg[0x81] & 0x20) == 0)    // Timer0 in Timer-Mode?
             {
-                iReg[0x01]++;   //Timer inkrementieren
-                if (iReg[0x01] > 255)   //Timer-Überlauf? *iPrescalervalue?
+                iReg[0x01]++;   // Increment the Timer
+                if (iReg[0x01] > 255)   
                 {
-                    iReg[0x0B] |= 0x04;     //Timerinterruptflag setzen
-                    iReg[0x01] = 0; //Timer zurücksetzen
+                    iReg[0x0B] |= 0x04;     // Set the Timer Interrupt flag 
+                    iReg[0x01] = 0;         // Reset the Timer
                     Console.WriteLine("Timer0 Überlauf TimerMode");
                 }
             }
-            else   //Timer0 in Counter-Mode?
+            else   //Timer0 in Counter-Mode
             {
                 if (((iReg[0x05] & 0x10) > 0) && ((iRA & 0x10)) == 0) //Wechsel von 0 auf 1?
                 {
-                    iRA = iRA | 0x10; //Hilfsvariable aktualisieren
+                    iRA = iRA | 0x10; // Updating help Variables
 
-                    if ((iReg[0x81] & 0x10) == 0)   //Jede ansteigende Taktflanke zählen
+                    if ((iReg[0x81] & 0x10) == 0)   // Count every growing Flank
                     {
                         _iPrescalerCnt++;
                         if (_iPrescalerCnt >= _iPrescalerValue)
@@ -841,8 +844,8 @@ namespace Pic_Simulator
                 {
                     _sendSerialData( );
                 }
-                refreshReg();
-                //refreshGridValue();
+                //refreshReg();
+                refreshGridValue();
                 lRuntime = lCycles * 200;
                 checkBreakPoint();
                 watchdog();
@@ -890,8 +893,6 @@ namespace Pic_Simulator
         /// </summary>
         private void refreshGridValue()
         {
-            refreshReg();
-
             int Col = 9;
             int Row = 17;
             //Bank1

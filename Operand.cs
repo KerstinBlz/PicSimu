@@ -663,7 +663,7 @@ namespace Pic_Simulator
         private void opBSF( byte f, byte b ) // Bit set f
         {
             if (f == 0x00) f = (byte)iReg[0x04];  // Indirect
-            // if ((iReg[0x03] & 0x20) > 0) f += 0x80;  // Bank 1 check
+            if ((iReg[0x03] & 0x20) > 0) f += 0x80;  // Bank 1 check
 
             iReg[f] = iReg[f] | b;      // set bit
             lCycles++;
@@ -673,7 +673,7 @@ namespace Pic_Simulator
         private void opBTFSC( byte f, byte b ) // Bit test f , skip if clear 
         {
             if (f == 0x00) f = (byte)iReg[0x04];  //    Indirect
-            // if ((iReg[0x03] & 0x20) > 0) f += 0x80;  // Bank 1 check
+            if ((iReg[0x03] & 0x20) > 0) f += 0x80;  // Bank 1 check
 
             if ((iReg[f] & b) > 0)  // Bit set?
             {
@@ -691,7 +691,7 @@ namespace Pic_Simulator
         private void opBTFSS( byte f, byte b) // Bit test f , skip if set 
         {
             if (f == 0x00) f = (byte)iReg[0x04];  // Indirect
-            // if ((iReg[0x03] & 0x20) > 0) f += 0x80;  //Bank 1 check
+            if ((iReg[0x03] & 0x20) > 0) f += 0x80;  //Bank 1 check
 
             if ((iReg[f] & b) > 0) // Bit set?
             {
