@@ -52,7 +52,8 @@ namespace Pic_Simulator
             for ( int i = 0; i < input.Count; i++ )
             {
                 string line = input[i].ToString();
-                if (line[1] != ' ')
+
+                if ( line[1] != ' ' )
                 {
                     _lstOutput.Add(line);
                 }

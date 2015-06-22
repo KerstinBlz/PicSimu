@@ -35,7 +35,7 @@ namespace Pic_Simulator
             }
 
             f =     (byte) ( bCmd & 0x7F );                 // Registeradresse aus Befehl holen. 
-            b =     (byte) ( 1 << (bCmd & 0x380 ) >> 7 );   // bytestelle aus Befehl holen
+            b =     (byte) ( 1 << ( (bCmd & 0x380 ) >> 7 ) );   // bytestelle aus Befehl holen
             k =     (byte) ( bCmd & 0xFF );                 // literal aus Befehl holen
             kBig =  (byte) ( bCmd & 0x7FF );                // grosse literal fuer GOTO and CALL  
 

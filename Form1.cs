@@ -20,8 +20,8 @@ namespace Pic_Simulator
         bool _sleepMode;
         bool _bank0;
         bool _bOpenedFile = false;
-        int _iDelay; // Delay between the Simulation commands
-        int iPC; // Programm Counter 
+        int _iDelay;            // Delay between the Simulation commands
+        int iPC;                // Programm Counter 
         long lCycles, lRuntime; //Zyklen und Laufzeit
         long lWatchdog; // Watchdog Counter
 
@@ -60,10 +60,10 @@ namespace Pic_Simulator
         string[,] ArrayBank0 = new string[16, 8]; //16 Zeilen, 8 Spalten
         string[,] ArrayBank1 = new string[16, 8];
         string[,] ArrayEEPROM = new string[8, 8];
-        string[] ArrayStatusReg = new string[8];
-        string[] ArrayOptionReg = new string[8];
-        string[] ArrayInterruptReg = new string[8];
-        string[] ArrayStack = new string[8];
+        //string[] ArrayStatusReg = new string[8];
+        //string[] ArrayOptionReg = new string[8];
+        //string[] ArrayInterruptReg = new string[8];
+        //string[] ArrayStack = new string[8];
 
 
         public KerTKDSim()
@@ -79,10 +79,14 @@ namespace Pic_Simulator
             _sleepMode = false;
             _bank0 = true;
             bWatchdog = false;
+            iRA = 0x00;
+            iRB = 0x00;
 
 
             SimStartup();
             InitializeComponent();
+            
+
 
 
             #region Tabellen/Grid initialisierung
@@ -93,7 +97,7 @@ namespace Pic_Simulator
             gridBank_1.EnableSort = false;
             gridBank_0.EnableSort = false;
             gridEEPROM.EnableSort = false;
-            gridEECON1.EnableSort = false;
+            // gridEECON1.EnableSort = false;
             gridInterrupt.EnableSort = false;
             gridOption.EnableSort = false;
             gridStack.EnableSort = false;
@@ -242,24 +246,24 @@ namespace Pic_Simulator
 
             #endregion OptionRegister
 
-            #region EECON1
-            gridEECON1.Redim(2, 5);
-            gridEECON1[0, 0] = new SourceGrid.Cells.ColumnHeader("EEIF");
-            gridEECON1[0, 1] = new SourceGrid.Cells.ColumnHeader("WRERR");
-            gridEECON1[0, 2] = new SourceGrid.Cells.ColumnHeader("WREN");
-            gridEECON1[0, 3] = new SourceGrid.Cells.ColumnHeader("WR");
-            gridEECON1[0, 4] = new SourceGrid.Cells.ColumnHeader("RD");
+            //#region EECON1
+            //gridEECON1.Redim( 2 , 5 );
+            //gridEECON1[0 , 0] = new SourceGrid.Cells.ColumnHeader( "EEIF" );
+            //gridEECON1[0 , 1] = new SourceGrid.Cells.ColumnHeader( "WRERR" );
+            //gridEECON1[0 , 2] = new SourceGrid.Cells.ColumnHeader( "WREN" );
+            //gridEECON1[0 , 3] = new SourceGrid.Cells.ColumnHeader( "WR" );
+            //gridEECON1[0 , 4] = new SourceGrid.Cells.ColumnHeader( "RD" );
 
-            gridEECON1[1, 0] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridEECON1[1, 1] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridEECON1[1, 2] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridEECON1[1, 3] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridEECON1[1, 4] = new SourceGrid.Cells.Cell("0", typeof(string));
+            //gridEECON1[1 , 0] = new SourceGrid.Cells.Cell( "0" , typeof( string ) );
+            //gridEECON1[1 , 1] = new SourceGrid.Cells.Cell( "0" , typeof( string ) );
+            //gridEECON1[1 , 2] = new SourceGrid.Cells.Cell( "0" , typeof( string ) );
+            //gridEECON1[1 , 3] = new SourceGrid.Cells.Cell( "0" , typeof( string ) );
+            //gridEECON1[1 , 4] = new SourceGrid.Cells.Cell( "0" , typeof( string ) );
 
-            gridEECON1.AutoSizeCells();
-            //    for (int i = 0; i < 5; i++) { gridEECON1.Columns[i].Width = 53; }
+            //gridEECON1.AutoSizeCells( );
+            //for (int i = 0 ; i < 5 ; i++) { gridEECON1.Columns[i].Width = 53; }
 
-            #endregion EECON1
+            //#endregion EECON1
 
             #region Beschriftung der Tabellen
             gridBank_1[0, 0].Value = "0x";
@@ -322,22 +326,8 @@ namespace Pic_Simulator
             #endregion Beschriftung der Tabellen
 
 
-            // Vorgeschriebene Werte !!!!!!!!!!!
-            for (int r = 0; r < 16; r++)
-            {
-                for (int c = 0; c < 8; c++)
-                {
-                    ArrayBank0[r, c] = "00";
-                    ArrayBank1[r, c] = "00";
-                }
-            }
-            ArrayBank1[0, 1] = "FF";
-            ArrayBank1[0, 3] = "18";
-            ArrayBank1[0, 5] = "1F";
-            ArrayBank1[0, 6] = "FF";
-            ArrayBank0[0, 3] = "18";
-
             refreshReg();
+            searchForPorts( );
             
             #endregion Tabellen/Grid initialisierung
         }
@@ -357,6 +347,21 @@ namespace Pic_Simulator
             else
             {
                 iPC = 0;
+
+                //// Vorgeschriebene Werte !!!!!!!!!!!
+                //for (int r = 0 ; r < 16 ; r++)
+                //{
+                //    for (int c = 0 ; c < 8 ; c++)
+                //    {
+                //        ArrayBank0[r , c] = "00";
+                //        ArrayBank1[r , c] = "00";
+                //    }
+                //}
+                //ArrayBank1[0 , 1] = "FF";
+                //ArrayBank1[0 , 3] = "18";
+                //ArrayBank1[0 , 5] = "1F";
+                //ArrayBank1[0 , 6] = "FF";
+                //ArrayBank0[0 , 3] = "18";
 
                 //Bank 0
                 iReg[0x03] = iReg[0x03] & 0x1F;
@@ -403,6 +408,21 @@ namespace Pic_Simulator
             }
             else
             {
+                // Vorgeschriebene Werte !!!!!!!!!!!
+                for (int r = 0 ; r < 16 ; r++)
+                {
+                    for (int c = 0 ; c < 8 ; c++)
+                    {
+                        ArrayBank0[r , c] = "00";
+                        ArrayBank1[r , c] = "00";
+                    }
+                }
+                ArrayBank1[0 , 1] = "FF";
+                ArrayBank1[0 , 3] = "18";
+                ArrayBank1[0 , 5] = "1F";
+                ArrayBank1[0 , 6] = "FF";
+                ArrayBank0[0 , 3] = "18";
+
                 iPC = 0;
                 //Bank 0
                 iReg[0x03] = iReg[0x03] | 0x18; iReg[0x03] = iReg[0x03] & 0x1F;
@@ -736,14 +756,14 @@ namespace Pic_Simulator
             else
             {
                 string hexValue = OperandList[iPC];
-                int bCmd = Int32.Parse(hexValue, System.Globalization.NumberStyles.HexNumber);
+                int bCmd = Int16.Parse(hexValue, System.Globalization.NumberStyles.HexNumber);
                 String strCurCmd = _obDecoder.decode( bCmd );
 
                 //Execute Command
                 tbTest.Text = strCurCmd;
                 ScanCommand( strCurCmd, bCmd );
 
-                _markCommand( iPC );
+                
 
                 // Spiegelung
                 // PC wird gespiegelt
@@ -786,15 +806,13 @@ namespace Pic_Simulator
                 }
                 setInterrupt();
                 checkInterrupt();
-
+                
                 if (bSerialCon)
                 {
                     _sendSerialData( );
                 }
                 refreshReg();
-
-                // refreshGridValue();
-
+                _markCommand( iPC );
                 lRuntime = lCycles * 200;
                 checkBreakPoint();
                 watchdog();
@@ -811,10 +829,48 @@ namespace Pic_Simulator
         /// </summary>
         private void refreshGridValue()
         {
+            // steering with iReg
+            int zeile;
+            int spalte;
+
+            for (int i = 0 ; i < 127 ; i++)
+            {
+                zeile = i / 8;
+                spalte = i % 8;
+
+                //              ArrayBank0[zeile , spalte] = null;
+                ArrayBank0[zeile , spalte] = iReg[i].ToString( "X" ).PadLeft( 2 , '0' );
+            }
+
+
+
+            for (int i = 128 ; i < 255 ; i++) // Update 
+            {
+                zeile = i / 8;
+                zeile %= 16;
+                spalte = i % 8;
+
+                //              ArrayBank1[zeile , spalte] = null;
+                ArrayBank1[zeile , spalte] = iReg[i].ToString( "X" ).PadLeft( 2 , '0' );
+            }
+
+            //EEPROM-Register aktualisieren
+
+            for (int i = 0 ; i < 63 ; i++) // Update 
+            {
+                zeile = i / 8;
+                spalte = i % 8;
+
+                //                ArrayEEPROM[zeile , spalte] = null;
+                ArrayEEPROM[zeile , spalte] = iEEPROM[i].ToString( "X" ).PadLeft( 2 , '0' );
+            }
+
+
+
             int Col = 9;
             int Row = 17;
 
-            //Bank1
+            // Bank1
             for (int r = 1; r < Row; r++)
             {
                 for (int c = 1; c < Col; c++)
@@ -822,7 +878,7 @@ namespace Pic_Simulator
                     gridBank_1[r, c].Value = ArrayBank1[r - 1, c - 1];
                 }
             }
-            //Bank0
+            // Bank0
             for (int r = 1; r < Row; r++)
             {
                 for (int c = 1; c < Col; c++)
@@ -830,44 +886,44 @@ namespace Pic_Simulator
                     gridBank_0[r, c].Value = ArrayBank0[r - 1, c - 1];
                 }
             }
-            //EEPROM
+            // EEPROM
             for (int r = 1; r < 9; r++)
             {
                 for (int c = 1; c < 9; c++)
                 {
-                    gridBank_0[r, c].Value = ArrayBank0[r - 1, c - 1];
+                    gridEEPROM[r, c].Value = ArrayEEPROM[r - 1, c - 1];
                 }
             }
 
             
-            for (int c = 1; c < 9; c++)
-            {
-                // Status Register 
-                ArrayStatusReg = new string[8];
-                if ( ArrayStatusReg[c - 1] != null) 
-                {
-                    gridStatus[1, c].Value = ArrayStatusReg[c - 1];
-                }
+            //for (int c = 1; c < 9; c++)
+            //{
+            //    // Status Register 
+            //    ArrayStatusReg = new string[8];
+            //    if ( ArrayStatusReg[c - 1] != null) 
+            //    {
+            //        gridStatus[1, c].Value = ArrayStatusReg[c - 1];
+            //    }
 
-                // Option Register
-                ArrayOptionReg = new string[8];
-                if ( ArrayOptionReg[c - 1] != null) 
-                {
-                    gridOption[1, c].Value = ArrayOptionReg[c - 1];
-                }
+            //    // Option Register
+            //    ArrayOptionReg = new string[8];
+            //    if ( ArrayOptionReg[c - 1] != null) 
+            //    {
+            //        gridOption[1, c].Value = ArrayOptionReg[c - 1];
+            //    }
 
-                ArrayInterruptReg = new string[8];           
-                if ( ArrayInterruptReg[c - 1] != null) 
-                {
-                    gridInterrupt[1, c].Value = ArrayInterruptReg[c - 1];
-                }
+            //    ArrayInterruptReg = new string[8];           
+            //    if ( ArrayInterruptReg[c - 1] != null) 
+            //    {
+            //        gridInterrupt[1, c].Value = ArrayInterruptReg[c - 1];
+            //    }
 
-                ArrayStack = new string[8];
-                if ( ArrayStack[c - 1] != null) 
-                {
-                    gridStack[1, c].Value = ArrayStack[c - 1];
-                }
-            }
+            //    ArrayStack = new string[8];
+            //    if ( ArrayStack[c - 1] != null) 
+            //    {
+            //        gridStack[1, c].Value = ArrayStack[c - 1];
+            //    }
+            //}
         }
 
         #region CommandList
@@ -905,14 +961,27 @@ namespace Pic_Simulator
             return false;
         }
 
-
+        private delegate void MarkCommandDelegate( int cmdNumber );
         private void _markCommand( int cmdNumber )
         {
-            // markieren des nächsten Befehls
-            lvCode.Items[cmdNumber].Selected = true;
-            lvCode.Items[cmdNumber].Focused = true;
-            lvCode.TopItem = lvCode.Items[cmdNumber]; //listView.TopItem = listView1.Items[row#];
-            lvCode.Select( );
+            if ( InvokeRequired )
+            { 
+                var invokeVar = new MarkCommandDelegate( _markCommand );
+                Invoke(invokeVar, cmdNumber);
+            }
+            else
+            {
+                if (!_bOpenedFile)
+                { 
+                    return;
+                }
+                // markieren des nächsten Befehls
+                lvCode.Items[cmdNumber].Selected = true;
+                lvCode.Items[cmdNumber].EnsureVisible();
+                lvCode.Items[cmdNumber].Focused = true;
+                lvCode.TopItem = lvCode.Items[cmdNumber]; //listView.TopItem = listView1.Items[row#];
+                lvCode.Select( );
+            }
         }
         #endregion CommandList
 

@@ -1,13 +1,15 @@
 ﻿/**************************************************************************
 **
-**  KerTKDSim
+**  MisCip
+**  ~~~~~~~~~~
 **
 **  FormRefresh.cs: 
 **  ---------
-**  Refreshes the program page.
+**  Aktualisiert die Anzeige des Hauptfensters
 **
 **  
 **************************************************************************/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,18 +19,21 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
-
 namespace Pic_Simulator
 {
     public partial class KerTKDSim : Form
     {
-        private delegate void updateStatus_ClickDelegate( object sender , EventArgs e );
 
-        /// <summary>
-        /// Registers clicks in the Status register fields
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
+        /*********************************************************************/
+        /**   updateStatus_Click
+        **
+        **  Ein Klick auf ein Bit im Status-Register wird registriert
+        **
+        **  Ret: void
+        **
+        **************************************************************************/
+
+        private delegate void updateStatus_ClickDelegate( object sender , EventArgs e );
         private void updateStatus_Click( object sender , EventArgs e )
         {
             if (InvokeRequired)
@@ -48,16 +53,19 @@ namespace Pic_Simulator
                     ctrl.Text = "0";
                 }
 
-                string statusReg = null;
-
-                for ( int i = 0 ; i < 8 ; i++ )
-                { 
-                    statusReg += ArrayStatusReg[i];   // that should work
-                }
-
+                string statusReg = tStatus7.Text +
+                                   tStatus6.Text +
+                                   tStatus5.Text +
+                                   tStatus4.Text +
+                                   tStatus3.Text +
+                                   tStatus2.Text +
+                                   tStatus1.Text +
+                                   tStatus0.Text;
                 statusReg.PadLeft( 2 , '0' );
                 iReg[0x03] = Convert.ToInt32( statusReg , 2 );
                 iReg[0x83] = iReg[0x03];
+
+                lvCode.Focus( );
 
                 refreshReg( );
             }
@@ -93,7 +101,7 @@ namespace Pic_Simulator
                 }
 
                 //String trisAReg;
-                string trisAReg =  tbTrisA4.Text +
+                string trisAReg = tbTrisA4.Text +
                                    tbTrisA3.Text +
                                    tbTrisA2.Text +
                                    tbTrisA1.Text +
@@ -104,9 +112,33 @@ namespace Pic_Simulator
                 trisAReg.PadLeft( 2 , '0' );
                 iReg[0x85] = Convert.ToInt32( trisAReg , 2 );
 
+                lvCode.Focus( );
+
                 refreshReg( );
             }
         }
+        private delegate void cbDelay_SelectedIndexChangedDelegate( object sender , EventArgs e );
+        private void cbDelay_SelectedIndexChanged( object sender , EventArgs e )
+        {
+            if (InvokeRequired)
+            {
+                var invokeVar = new cbDelay_SelectedIndexChangedDelegate( cbDelay_SelectedIndexChanged );
+                Invoke( invokeVar );
+            }
+            else
+            {
+                _iDelay = Convert.ToInt32( cbDelay.SelectedItem );
+            }
+        }
+
+        /*********************************************************************/
+        /**   updateTrisB_Click
+        **
+        **  Ein Klick auf ein Bit im TRISB-Register wird registriert
+        **
+        **  Ret: void
+        **
+        **************************************************************************/
 
         private delegate void updateTrisB_ClickDelegate( object sender , EventArgs e );
         private void updateTrisB_Click( object sender , EventArgs e )
@@ -141,795 +173,16 @@ namespace Pic_Simulator
                 trisBReg.PadLeft( 2 , '0' );
                 iReg[0x86] = Convert.ToInt32( trisBReg , 2 );
 
-                refreshReg( );
-            }
-        }
-
-        private delegate void updateOptionReg_ClickkDelegate( object sender , EventArgs e );
-        /// <summary>
-        /// Registers the click on the Option Register
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        private void updateOptionReg_Click( object sender , EventArgs e )
-        {
-            if (InvokeRequired)
-            {
-                var invokeVar = new updateOptionReg_ClickkDelegate( updateOptionReg_Click );
-                Invoke( invokeVar );
-            }
-            else
-            {
-                Control ctrl = (Control)sender;
-                if (ctrl.Text == "0")
-                {
-                    ctrl.Text = "1";
-                }
-                else
-                {
-                    ctrl.Text = "0";
-                }
-
-                string OptionReg = null;
-
-                for (int i = 0 ; i < 8 ; i++)
-                {
-                    OptionReg += ArrayInterruptReg[i].ToString( );
-                }
-
-                OptionReg.PadLeft( 2 , '0' );
-                iReg[0x81] = Convert.ToInt32( OptionReg , 2 );
+                lvCode.Focus( );
 
                 refreshReg( );
             }
         }
-
-
-        private delegate void updateIntReg_ClickkDelegate( object sender , EventArgs e );
-
-        /// <summary>
-        /// Registers the click on the INTCON Register
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        private void updateIntReg_Click( object sender , EventArgs e )
-        {
-            if (InvokeRequired)
-            {
-                var invokeVar = new updateIntReg_ClickkDelegate( updateIntReg_Click );
-                Invoke( invokeVar );
-            }
-            else
-            {
-                Control ctrl = (Control)sender;
-                if (ctrl.Text == "0")
-                {
-                    ctrl.Text = "1";
-                }
-                else
-                {
-                    ctrl.Text = "0";
-                }
-
-                string IntReg = null;
-
-                for (int i = 0 ; i < 8 ; i++)
-                {
-                    IntReg += ArrayInterruptReg[i].ToString( ); 
-                }
-
-                IntReg.PadLeft( 2 , '0' );
-                iReg[0xB] = Convert.ToInt32( IntReg , 2 );
-                iReg[0x8B] = iReg[0xB];
-
-                refreshReg( );
-            }
-        }
-
-        private delegate void updateWatchDogDelegate( object sender , EventArgs e );
-
-        /// <summary>
-        /// Sets the watchdog on or off
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        private void updateWatchDog( object sender , EventArgs e )
-        {
-            if (InvokeRequired)
-            {
-                var invokeVar = new updateWatchDogDelegate( updateWatchDog );
-                Invoke( invokeVar );
-            }
-            else
-            {
-                if ( bWatchdog )
-                {
-                    bWatchdog = false;
-                    tbWatchDogSw.Text = "OFF";
-                    tbWatchDogSw.BackColor = Color.Red;
-                }
-                else
-                {
-                    bWatchdog = true;
-                    tbWatchDogSw.Text = "ON";
-                    tbWatchDogSw.BackColor = Color.Green;
-                }
-            }
-        }
-
-
-        private delegate void refreshRegkDelegate();
-        
-        private void refreshReg()
-        {
-            if (InvokeRequired)
-            {
-                var invokeVar = new refreshRegkDelegate(refreshReg);
-                Invoke(invokeVar);
-            }
-            else
-            {
-                int zeile;
-                int spalte;
-
-                for(int i = 0 ; i < 127 ; i++ )
-                {
-                    zeile  = i / 8;
-                    spalte = i % 8;
-                    
-                    ArrayBank0[zeile,spalte] = null;
-                    ArrayBank0[zeile,spalte] = iReg[i].ToString("X").PadLeft(2, '0');
-                }
-
-                for (int i = 128; i < 255; i++) // Update 
-                {
-                    zeile = i / 8;
-                    zeile %= 16;
-                    spalte = i % 8;
-
-                    ArrayBank1[zeile , spalte] = null;
-                    ArrayBank1[zeile, spalte] = iReg[i].ToString("X").PadLeft(2, '0');
-                }
-
-
-                refreshGridValue( );
-
-                tbWReg.Text = iWReg.ToString( "X" ).PadLeft( 2 , '0' );         // W-Register
-                tbPC.Text = iPC.ToString( "X" ).PadLeft( 2 , '0' );             // Programme counter
-                tblCycles.Text = lCycles.ToString( "D" ).PadLeft( 2 , '0' );    // Cycles       
-                tbRuntime.Text = lRuntime.ToString( "D" ).PadLeft( 2 , '0' );   // Runtime counter
-                tbWatchdog.Text = lWatchdog.ToString( "D" ).PadLeft( 2 , '0' ); // Watchdog
-
-                // Status register
-
-
-                #region StatusReg
-                //RegStatusupdate fuer GUI
-
-                if ((iReg[0x03] & 0x01) == 0x01)
-                {
-                    tStatus0.Text = "1";
-                }
-                else
-                {
-                    tStatus0.Text = "0";
-                }
-                if ((iReg[0x03] & 0x02) == 0x02)
-                {
-                    tStatus1.Text = "1";
-                }
-                else
-                {
-                    tStatus1.Text = "0";
-                }
-
-                if ((iReg[0x03] & 0x04) == 0x04)
-                {
-                    tStatus2.Text = "1";
-                }
-                else
-                {
-                    tStatus2.Text = "0";
-                }
-                if ((iReg[0x03] & 0x08) == 0x08)
-                {
-                    tStatus3.Text = "1";
-                }
-                else
-                {
-                    tStatus3.Text = "0";
-                }
-                if ((iReg[0x03] & 0x10) == 0x10)
-                {
-                    tStatus4.Text = "1";
-                }
-                else
-                {
-                    tStatus4.Text = "0";
-                }
-                if ((iReg[0x03] & 0x20) == 0x20)
-                {
-                    tStatus5.Text = "1";
-                }
-                else
-                {
-                    tStatus5.Text = "0";
-                }
-                if ((iReg[0x03] & 0x40) == 0x40)
-                {
-                    tStatus6.Text = "1";
-                }
-                else
-                {
-                    tStatus6.Text = "0";
-                }
-                if ((iReg[0x03] & 0x01) == 0x01)
-                {
-                    tStatus0.Text = "1";
-                }
-                else
-                {
-                    tStatus0.Text = "0";
-                }
-                if ((iReg[0x03] & 0x02) == 0x02)
-                {
-                    tStatus1.Text = "1";
-                }
-                else
-                {
-                    tStatus1.Text = "0";
-                }
-
-                if ((iReg[0x03] & 0x04) == 0x04)
-                {
-                    tStatus2.Text = "1";
-                }
-                else
-                {
-                    tStatus2.Text = "0";
-                }
-                if ((iReg[0x03] & 0x08) == 0x08)
-                {
-                    tStatus3.Text = "1";
-                }
-                else
-                {
-                    tStatus3.Text = "0";
-                }
-                if ((iReg[0x03] & 0x10) == 0x10)
-                {
-                    tStatus4.Text = "1";
-                }
-                else
-                {
-                    tStatus4.Text = "0";
-                }
-                if ((iReg[0x03] & 0x20) == 0x20)
-                {
-                    tStatus5.Text = "1";
-                }
-                else
-                {
-                    tStatus5.Text = "0";
-                }
-                if ((iReg[0x03] & 0x40) == 0x40)
-                {
-                    tStatus6.Text = "1";
-                }
-                else
-                {
-                    tStatus6.Text = "0";
-                }
-
-                #endregion StatusReg
-                #region SourceGridStatus
-
-                //RegStatusupdate fuer GUI
-
-                if ( ( iReg[0x03] & 0x01 ) == 0x01)
-                {
-                    ArrayStatusReg[0] = "1";
-                }
-                else
-                {
-                    ArrayStatusReg[0] = "0";
-                }
-                if ((iReg[0x03] & 0x02) == 0x02)
-                {
-                    ArrayStatusReg[1] = "1";
-                }
-                else
-                {
-                    ArrayStatusReg[1] = "0";
-                }
-
-                if ((iReg[0x03] & 0x04) == 0x04)
-                {
-                    ArrayStatusReg[2] = "1";
-                }
-                else
-                {
-                    ArrayStatusReg[2] = "0";
-                }
-                if ((iReg[0x03] & 0x08) == 0x08)
-                {
-                    ArrayStatusReg[3] = "1";
-                }
-                else
-                {
-                    ArrayStatusReg[3] = "0";
-                }
-                if ((iReg[0x03] & 0x10) == 0x10)
-                {
-                    ArrayStatusReg[4] = "1";
-                }
-                else
-                {
-                    ArrayStatusReg[4] = "0";
-                }
-                if ((iReg[0x03] & 0x20) == 0x20)
-                {
-                    ArrayStatusReg[5] = "1";
-                }
-                else
-                {
-                    ArrayStatusReg[5] = "0";
-                }
-                if ((iReg[0x03] & 0x40) == 0x40)
-                {
-                    ArrayStatusReg[6] = "1";
-                }
-                else
-                {
-                    ArrayStatusReg[6] = "0";
-                }
-                if ((iReg[0x03] & 0x01) == 0x01)
-                {
-                    ArrayStatusReg[0] = "1";
-                }
-                else
-                {
-                    ArrayStatusReg[0] = "0";
-                }
-                if ((iReg[0x03] & 0x02) == 0x02)
-                {
-                    ArrayStatusReg[1] = "1";
-                }
-                else
-                {
-                    ArrayStatusReg[1] = "0";
-                }
-
-                if ((iReg[0x03] & 0x04) == 0x04)
-                {
-                    ArrayStatusReg[2] = "1";
-                }
-                else
-                {
-                    ArrayStatusReg[2] = "0";
-                }
-                if ((iReg[0x03] & 0x08) == 0x08)
-                {
-                    ArrayStatusReg[3] = "1";
-                }
-                else
-                {
-                    ArrayStatusReg[3] = "0";
-                }
-                if ((iReg[0x03] & 0x10) == 0x10)
-                {
-                    ArrayStatusReg[4] = "1";
-                }
-                else
-                {
-                    ArrayStatusReg[4] = "0";
-                }
-                if ((iReg[0x03] & 0x20) == 0x20)
-                {
-                    ArrayStatusReg[5] = "1";
-                }
-                else
-                {
-                    ArrayStatusReg[5] = "0";
-                }
-                if ((iReg[0x03] & 0x40) == 0x40)
-                {
-                    ArrayStatusReg[6] = "1";
-                }
-                else
-                {
-                    ArrayStatusReg[6] = "0";
-                }
-
-                #endregion SourceGridStatus
-
-
-                //PortRA
-                if ((iReg[0x05] & 0x01) == 0x01)
-                {
-                    tRA0.Text = "1";
-                }
-                else
-                {
-                    tRA0.Text = "0";
-                }
-
-                if ((iReg[0x05] & 0x02) == 0x02)
-                {
-                    tRA1.Text = "1";
-                }
-                else
-                {
-                    tRA1.Text = "0";
-                }
-
-
-                if ((iReg[0x05] & 0x04) == 0x04)
-                {
-                    tRA2.Text = "1";
-                }
-                else
-                {
-                    tRA2.Text = "0";
-                }
-                if ((iReg[0x05] & 0x08) == 0x08)
-                {
-                    tRA3.Text = "1";
-                }
-                else
-                {
-                    tRA3.Text = "0";
-                }
-                if ((iReg[0x05] & 0x10) == 0x10)
-                {
-                    tRA4.Text = "1";
-                }
-                else
-                {
-                    tRA4.Text = "0";
-                }
-
-                //PortRB
-                if ((iReg[0x06] & 0x01) == 0x01)
-                {
-                    tRB0.Text = "1";
-                }
-                else
-                {
-                    tRB0.Text = "0";
-                }
-                if ((iReg[0x06] & 0x02) == 0x02)
-                {
-                    tRB1.Text = "1";
-                }
-                else
-                {
-                    tRB1.Text = "0";
-                }
-                if ((iReg[0x06] & 0x04) == 0x04)
-                {
-                    tRB2.Text = "1";
-                }
-                else
-                {
-                    tRB2.Text = "0";
-                }
-                if ((iReg[0x06] & 0x08) == 0x08)
-                {
-                    tRB3.Text = "1";
-                }
-                else
-                {
-                    tRB3.Text = "0";
-                }
-                if ((iReg[0x06] & 0x10) == 0x10)
-                {
-                    tRB4.Text = "1";
-                }
-                else
-                {
-                    tRB4.Text = "0";
-                }
-                if ((iReg[0x06] & 0x20) == 0x20)
-                {
-                    tRB5.Text = "1";
-                }
-                else
-                {
-                    tRB5.Text = "0";
-                }
-                if ((iReg[0x06] & 0x40) == 0x40)
-                {
-                    tRB6.Text = "1";
-                }
-                else
-                {
-                    tRB6.Text = "0";
-                }
-                if ((iReg[0x06] & 0x80) == 0x80)
-                {
-                    tRB7.Text = "1";
-                }
-                else
-                {
-                    tRB7.Text = "0";
-                }
-
-                //OptionRegister
-
-                if ((iReg[0x81] & 0x01) == 0x01)
-                {
-
-                    ArrayOptionReg[0] = "1";
-                }
-                else
-                {
-                    ArrayOptionReg[0] = "0";
-                }
-                if ((iReg[0x81] & 0x02) == 0x02)
-                {
-                    ArrayOptionReg[1] = "1";
-                }
-                else
-                {
-                    ArrayOptionReg[1] = "0";
-                }
-                if ((iReg[0x81] & 0x04) == 0x04)
-                {
-                    ArrayOptionReg[2] = "1";
-                }
-                else
-                {
-                    ArrayOptionReg[2] = "0";
-                }
-                if ((iReg[0x81] & 0x08) == 0x08)
-                {
-                    ArrayOptionReg[3] = "1";
-                }
-                else
-                {
-                    ArrayOptionReg[3] = "0";
-                }
-                if ((iReg[0x81] & 0x10) == 0x10)
-                {
-                    ArrayOptionReg[4] = "1";
-                }
-                else
-                {
-                    ArrayOptionReg[4] = "0";
-                }
-                if ((iReg[0x81] & 0x20) == 0x20)
-                {
-                    ArrayOptionReg[5] = "1";
-                }
-                else
-                {
-                    ArrayOptionReg[5] = "0";
-                }
-                if ((iReg[0x81] & 0x40) == 0x40)
-                {
-                    ArrayOptionReg[6] = "1";
-                }
-                else
-                {
-                    ArrayOptionReg[6] = "0";
-                }
-                if ((iReg[0x81] & 0x80) == 0x80)
-                {
-                    ArrayOptionReg[7] = "1";
-                }
-                else
-                {
-                    ArrayOptionReg[7] = "0";
-                }
-
-                /**********************************************
-                //   TRISA
-                **********************************************/
-                if ((iReg[0x85] & 0x01) == 0x01)
-                {
-                    tbTrisA0.Text = "i";
-                }
-                else
-                {
-                    tbTrisA0.Text = "o";
-                }
-                if ((iReg[0x85] & 0x02) == 0x02)
-                {
-                    tbTrisA1.Text = "i";
-                }
-                else
-                {
-                    tbTrisA1.Text = "o";
-                }
-                if ((iReg[0x85] & 0x04) == 0x04)
-                {
-                    tbTrisA2.Text = "i";
-                }
-                else
-                {
-                    tbTrisA2.Text = "o";
-                }
-                if ((iReg[0x85] & 0x08) == 0x08)
-                {
-                    tbTrisA3.Text = "i";
-                }
-                else
-                {
-                    tbTrisA3.Text = "o";
-                }
-                if ((iReg[0x85] & 0x10) == 0x10)
-                {
-                    tbTrisA4.Text = "i";
-                }
-                else
-                {
-                    tbTrisA4.Text = "o";
-                }
-
-
-                /**********************************************
-                //   TRISB
-                **********************************************/
-
-
-                if ((iReg[0x86] & 0x01) == 0x01)
-                {
-                    tbTrisB0.Text = "i";
-                }
-                else
-                {
-                    tbTrisB0.Text = "o";
-                }
-                if ((iReg[0x86] & 0x02) == 0x02)
-                {
-                    tbTrisB1.Text = "i";
-                }
-                else
-                {
-                    tbTrisB1.Text = "o";
-                }
-                if ((iReg[0x86] & 0x04) == 0x04)
-                {
-                    tbTrisB2.Text = "i";
-                }
-                else
-                {
-                    tbTrisB2.Text = "o";
-                }
-                if ((iReg[0x86] & 0x08) == 0x08)
-                {
-                    tbTrisB3.Text = "i";
-                }
-                else
-                {
-                    tbTrisB3.Text = "o";
-                }
-                if ((iReg[0x86] & 0x10) == 0x10)
-                {
-                    tbTrisB4.Text = "i";
-                }
-                else
-                {
-                    tbTrisB4.Text = "o";
-                }
-                if ((iReg[0x86] & 0x20) == 0x20)
-                {
-                    tbTrisB5.Text = "i";
-                }
-                else
-                {
-                    tbTrisB5.Text = "o";
-                }
-                if ((iReg[0x86] & 0x40) == 0x40)
-                {
-                    tbTrisB6.Text = "i";
-                }
-                else
-                {
-                    tbTrisB6.Text = "o";
-                }
-                if ((iReg[0x86] & 0x80) == 0x80)
-                {
-                    tbTrisB7.Text = "i";
-                }
-                else
-                {
-                    tbTrisB7.Text = "o";
-                }
-
-
-                /**********************************************
-                //   InterruptRegister
-                **********************************************/
-                if ((iReg[0x0B] & 0x01) == 0x01)
-                {
-                    ArrayInterruptReg[0] = "1";
-                }
-                else
-                {
-                    ArrayInterruptReg[0] = "0";
-                }
-                if ((iReg[0x0B] & 0x02) == 0x02)
-                {
-                    ArrayInterruptReg[1] = "1";
-                }
-                else
-                {
-                    ArrayInterruptReg[1] = "0";
-                }
-                if ((iReg[0x0B] & 0x04) == 0x04)
-                {
-                    ArrayInterruptReg[2] = "1";
-                }
-                else
-                {
-                    ArrayInterruptReg[2] = "0";
-                }
-                if ((iReg[0x0B] & 0x08) == 0x08)
-                {
-                    ArrayInterruptReg[3] = "1";
-                }
-                else
-                {
-                    ArrayInterruptReg[3] = "0";
-                }
-                if ((iReg[0x0B] & 0x10) == 0x10)
-                {
-                    ArrayInterruptReg[4] = "1";
-                }
-                else
-                {
-                    ArrayInterruptReg[4] = "0";
-                }
-                if ((iReg[0x0B] & 0x20) == 0x20)
-                {
-                    ArrayInterruptReg[5] = "1";
-                }
-                else
-                {
-                    ArrayInterruptReg[5] = "0";
-                }
-                if ((iReg[0x0B] & 0x40) == 0x40)
-                {
-                    ArrayInterruptReg[6] = "1";
-                }
-                else
-                {
-                    ArrayInterruptReg[6] = "0";
-                }
-                if ((iReg[0x0B] & 0x80) == 0x80)
-                {
-                    ArrayInterruptReg[7] = "1";
-                }
-                else
-                {
-                    ArrayInterruptReg[7] = "0";
-                }
-
-
-                // Prescaler
-
-                _iPrescalerValue = Convert.ToInt32( Math.Pow( 2 , 1 + (iReg[0x81] & 0x07) ) );
-                if ((iReg[0x81] & 0x08) == 0x08)
-                {
-                    _iPrescalerValue = ( _iPrescalerValue / 2);
-                    tbPSCAssign.Text = "WDT";
-                }
-                else
-                {
-                    tbPSCAssign.Text = "TMR0";
-                }
-                tbPrescaler.Text = "1:" + Convert.ToString( _iPrescalerValue );
-            }
-            
-        }
-        
 
         /*********************************************************************/
         /**   registryChanged
         **
-        **  Click at the portRA registry 
+        **  Ein Klick auf ein Bit im PortRA-Register wird registriert
         **
         **  Ret: void
         **
@@ -960,15 +213,79 @@ namespace Pic_Simulator
                                 tRA2.Text +
                                 tRA1.Text +
                                 tRA0.Text;
-                
                 portRA.PadLeft( 2 , '0' );
                 iReg[0x05] = Convert.ToInt32( portRA , 2 );
+                lvCode.Focus( );
 
                 refreshReg( );
             }
         }
 
- 
+        /*********************************************************************/
+        /**   registryChanged
+        **
+        **  Wenn ein Wert in der Registry geändert wurde, wird der in der Registry übernommen
+        **
+        **  Ret: void
+        **
+        **************************************************************************/
+
+        private delegate void registryChangedDelegate( object sender , KeyPressEventArgs e );
+        private void registryChanged( object sender , KeyPressEventArgs e )
+        {
+            if (InvokeRequired)
+            {
+                var invokeHelper = new registryChangedDelegate( registryChanged );
+                Invoke( invokeHelper , sender , e );
+            }
+            else
+            {
+                if (e.KeyChar == 13)
+                {
+                    try
+                    {
+                        Control ctrl = (Control)sender;
+                        lvCode.Focus( );
+
+                        int iValue = Convert.ToInt32( ctrl.Text , 16 );
+                        int iRegAdress = Convert.ToInt32( ctrl.Name.Remove( 0 , 5 ) );
+
+                        if (iRegAdress == 0x05 || iRegAdress == 0x0A || iRegAdress == 0x85 || iRegAdress == 0x88 || iRegAdress == 0x8A)
+                        {
+                            if (iValue >= 0x00 && iValue <= 0x1F)
+                            {
+                                iReg[iRegAdress] = iValue;
+                                refreshReg( );
+                            }
+                            else
+                            {
+                                refreshReg( );
+                                MessageBox.Show( "Es sind nur Hex-Werte von 0 bis 1F in diesem Register erlaubt!" , "Falsche Eingabe" , MessageBoxButtons.OK , MessageBoxIcon.Information );
+                            }
+                        }
+
+                        else
+                        {
+                            if (iValue >= 0x00 && iValue <= 0xFF)
+                            {
+                                iReg[iRegAdress] = iValue;
+                                refreshReg( );
+                            }
+                            else
+                            {
+                                refreshReg( );
+                                MessageBox.Show( "Es sind nur Hex-Werte von 0 bis FF in diesem Register erlaubt!" , "Falsche Eingabe" , MessageBoxButtons.OK , MessageBoxIcon.Information );
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        refreshReg( );
+                        MessageBox.Show( "Es sind nur Hex-Werte von 0 bis FF in diesem Register erlaubt!" , "Falsche Eingabe" , MessageBoxButtons.OK , MessageBoxIcon.Information );
+                    }
+                }
+            }
+        }
 
         /*********************************************************************/
         /**   portRB_Click
@@ -1007,24 +324,118 @@ namespace Pic_Simulator
                                 tRB2.Text +
                                 tRB1.Text +
                                 tRB0.Text;
-
                 portRB.PadLeft( 2 , '0' );
-
                 iReg[0x06] = Convert.ToInt32( portRB , 2 );
 
                 lvCode.Focus( );
 
-                refreshGridValue( );
+                refreshReg( );
             }
         }
 
-        private delegate void updateSerielConDelegate( object sender , EventArgs e );
+        /*********************************************************************/
+        /**   updateOptionReg_Click
+        **
+        **  Ein Klick auf ein Bit im Option-Register wird registriert
+        **
+        **  Ret: void
+        **
+        **************************************************************************/
 
-        /// <summary>
-        /// Sets up the serial connection with the right port
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
+        private delegate void updateOptionReg_ClickkDelegate( object sender , EventArgs e );
+        private void updateOptionReg_Click( object sender , EventArgs e )
+        {
+            if (InvokeRequired)
+            {
+                var invokeVar = new updateOptionReg_ClickkDelegate( updateOptionReg_Click );
+                Invoke( invokeVar );
+            }
+            else
+            {
+                Control ctrl = (Control)sender;
+                if (ctrl.Text == "0")
+                {
+                    ctrl.Text = "1";
+                }
+                else
+                {
+                    ctrl.Text = "0";
+                }
+
+                string OptionReg = tbOption7.Text +
+                                   tbOption6.Text +
+                                   tbOption5.Text +
+                                   tbOption4.Text +
+                                   tbOption3.Text +
+                                   tbOption2.Text +
+                                   tbOption1.Text +
+                                   tbOption0.Text;
+                OptionReg.PadLeft( 2 , '0' );
+                iReg[0x81] = Convert.ToInt32( OptionReg , 2 );
+
+                lvCode.Focus( );
+
+                refreshReg( );
+            }
+        }
+
+        /*********************************************************************/
+        /**   updateIntReg_Click
+        **
+        **  Ein Klick auf ein Bit im INTCON-Register wird registriert
+        **
+        **  Ret: void
+        **
+        **************************************************************************/
+
+        private delegate void updateIntReg_ClickkDelegate( object sender , EventArgs e );
+        private void updateIntReg_Click( object sender , EventArgs e )
+        {
+            if (InvokeRequired)
+            {
+                var invokeVar = new updateIntReg_ClickkDelegate( updateIntReg_Click );
+                Invoke( invokeVar );
+            }
+            else
+            {
+                Control ctrl = (Control)sender;
+                if (ctrl.Text == "0")
+                {
+                    ctrl.Text = "1";
+                }
+                else
+                {
+                    ctrl.Text = "0";
+                }
+
+                string IntReg = tbInt7.Text +
+                                tbInt6.Text +
+                                tbInt5.Text +
+                                tbInt4.Text +
+                                tbInt3.Text +
+                                tbInt2.Text +
+                                tbInt1.Text +
+                                tbInt0.Text;
+                IntReg.PadLeft( 2 , '0' );
+                iReg[0xB] = Convert.ToInt32( IntReg , 2 );
+                iReg[0x8B] = iReg[0xB];
+
+                lvCode.Focus( );
+
+                refreshReg( );
+            }
+        }
+
+        /*********************************************************************/
+        /**   updateSerielCon
+        **
+        **  Setzt die Serialverbindung mit deren zugehörigen Port
+        **
+        **  Ret: void
+        **
+        **************************************************************************/
+
+        private delegate void updateSerielConDelegate( object sender , EventArgs e );
         private void updateSerialCom( object sender , EventArgs e )
         {
             if (InvokeRequired)
@@ -1034,7 +445,7 @@ namespace Pic_Simulator
             }
             else
             {
-                if ( bSerialCon )
+                if (bSerialCon)
                 {
                     bSerialCon = false;
                     tbSerialState.Text = "OFF";
@@ -1046,6 +457,761 @@ namespace Pic_Simulator
                     tbSerialState.Text = "ON";
                     tbSerialState.BackColor = Color.Green;
                 }
+                lvCode.Focus( );
+            }
+        }
+
+        /*********************************************************************/
+        /**   updateWatchDog
+        **
+        **  Schaltet den Watchdog an oder aus
+        **
+        **  Ret: void
+        **
+        **************************************************************************/
+
+        private delegate void updateWatchDogDelegate( object sender , EventArgs e );
+        private void updateWatchDog( object sender , EventArgs e )
+        {
+            if (InvokeRequired)
+            {
+                var invokeVar = new updateWatchDogDelegate( updateWatchDog );
+                Invoke( invokeVar );
+            }
+            else
+            {
+                if (bWatchdog)
+                {
+                    bWatchdog = false;
+                    tbWatchDogSw.Text = "OFF";
+                    tbWatchDogSw.BackColor = Color.Red;
+                }
+                else
+                {
+                    bWatchdog = true;
+                    tbWatchDogSw.Text = "ON";
+                    tbWatchDogSw.BackColor = Color.Green;
+                }
+                lvCode.Focus( );
+            }
+        }
+
+        /*********************************************************************/
+        /**   updateEECONReg_Click
+        **
+        **  Ein Klick auf ein Bit im EECON1-Register wird registriert
+        **
+        **  Ret: void
+        **
+        **************************************************************************/
+
+        //private delegate void updateEECONReg_ClickDelegate( object sender , EventArgs e );
+        //private void updateEECONReg_Click( object sender , EventArgs e )
+        //{
+        //    if (InvokeRequired)
+        //    {
+        //        var invokeVar = new updateEECONReg_ClickDelegate( updateEECONReg_Click );
+        //        Invoke( invokeVar );
+        //    }
+        //    else
+        //    {
+        //        Control ctrl = (Control)sender;
+        //        if (ctrl.Text == "0")
+        //        {
+        //            ctrl.Text = "1";
+        //        }
+        //        else
+        //        {
+        //            ctrl.Text = "0";
+        //        }
+
+        //        string EECONReg =  tbEECON4.Text +
+        //                           tbEECON3.Text +
+        //                           tbEECON2.Text +
+        //                           tbEECON1.Text +
+        //                           tbEECON0.Text;
+        //        EECONReg.PadLeft( 2 , '0' );
+        //        iReg[0x88] = Convert.ToInt32( EECONReg , 2 );
+
+        //        lvCode.Focus( );
+
+        //        refreshReg( );
+        //    }
+        //}
+
+        /*********************************************************************/
+        /**   refreshReg
+        **
+        **  Aktualisiert alle Registerfelder auf der GUI sowie den Stack
+        **
+        **  Ret: void
+        **
+        **************************************************************************/
+
+        private delegate void refreshRegkDelegate();
+        private void refreshReg()
+        {
+            if (InvokeRequired)
+            {
+                var invokeVar = new refreshRegkDelegate( refreshReg );
+                Invoke( invokeVar );
+            }
+
+            tbWReg.Text = iWReg.ToString( "X" ).PadLeft( 2 , '0' );   //W-Register aktualisieren
+            tbPC.Text = iPC.ToString( "X" ).PadLeft( 2 , '0' );    //Programmcounter
+            tblCycles.Text = lCycles.ToString( "D" ).PadLeft( 2 , '0' );    //Zyklen            
+            tbRuntime.Text = lRuntime.ToString( "D" ).PadLeft( 2 , '0' );   //Laufzeitzähler
+            tbWatchdog.Text = lWatchdog.ToString( "D" ).PadLeft( 2 , '0' ); //Watchdog
+            
+            
+            refreshGridValue( );
+
+
+
+            //RegStatusupdate fuer GUI
+
+            if ((iReg[0x03] & 0x01) == 0x01)
+            {
+                tStatus0.Text = "1";
+            }
+            else
+            {
+                tStatus0.Text = "0";
+            }
+            if ((iReg[0x03] & 0x02) == 0x02)
+            {
+                tStatus1.Text = "1";
+            }
+            else
+            {
+                tStatus1.Text = "0";
+            }
+
+            if ((iReg[0x03] & 0x04) == 0x04)
+            {
+                tStatus2.Text = "1";
+            }
+            else
+            {
+                tStatus2.Text = "0";
+            }
+            if ((iReg[0x03] & 0x08) == 0x08)
+            {
+                tStatus3.Text = "1";
+            }
+            else
+            {
+                tStatus3.Text = "0";
+            }
+            if ((iReg[0x03] & 0x10) == 0x10)
+            {
+                tStatus4.Text = "1";
+            }
+            else
+            {
+                tStatus4.Text = "0";
+            }
+            if ((iReg[0x03] & 0x20) == 0x20)
+            {
+                tStatus5.Text = "1";
+            }
+            else
+            {
+                tStatus5.Text = "0";
+            }
+            if ((iReg[0x03] & 0x40) == 0x40)
+            {
+                tStatus6.Text = "1";
+            }
+            else
+            {
+                tStatus6.Text = "0";
+            }
+            if ((iReg[0x03] & 0x01) == 0x01)
+            {
+                tStatus0.Text = "1";
+            }
+            else
+            {
+                tStatus0.Text = "0";
+            }
+            if ((iReg[0x03] & 0x02) == 0x02)
+            {
+                tStatus1.Text = "1";
+            }
+            else
+            {
+                tStatus1.Text = "0";
+            }
+
+            if ((iReg[0x03] & 0x04) == 0x04)
+            {
+                tStatus2.Text = "1";
+            }
+            else
+            {
+                tStatus2.Text = "0";
+            }
+            if ((iReg[0x03] & 0x08) == 0x08)
+            {
+                tStatus3.Text = "1";
+            }
+            else
+            {
+                tStatus3.Text = "0";
+            }
+            if ((iReg[0x03] & 0x10) == 0x10)
+            {
+                tStatus4.Text = "1";
+            }
+            else
+            {
+                tStatus4.Text = "0";
+            }
+            if ((iReg[0x03] & 0x20) == 0x20)
+            {
+                tStatus5.Text = "1";
+            }
+            else
+            {
+                tStatus5.Text = "0";
+            }
+            if ((iReg[0x03] & 0x40) == 0x40)
+            {
+                tStatus6.Text = "1";
+            }
+            else
+            {
+                tStatus6.Text = "0";
+            }
+            //PortRA
+            if ((iReg[0x05] & 0x01) == 0x01)
+            {
+                tRA0.Text = "1";
+            }
+            else
+            {
+                tRA0.Text = "0";
+            }
+
+            if ((iReg[0x05] & 0x02) == 0x02)
+            {
+                tRA1.Text = "1";
+            }
+            else
+            {
+                tRA1.Text = "0";
+            }
+
+
+            if ((iReg[0x05] & 0x04) == 0x04)
+            {
+                tRA2.Text = "1";
+            }
+            else
+            {
+                tRA2.Text = "0";
+            }
+            if ((iReg[0x05] & 0x08) == 0x08)
+            {
+                tRA3.Text = "1";
+            }
+            else
+            {
+                tRA3.Text = "0";
+            }
+            if ((iReg[0x05] & 0x10) == 0x10)
+            {
+                tRA4.Text = "1";
+            }
+            else
+            {
+                tRA4.Text = "0";
+            }
+
+            //PortRB
+            if ((iReg[0x06] & 0x01) == 0x01)
+            {
+                tRB0.Text = "1";
+            }
+            else
+            {
+                tRB0.Text = "0";
+            }
+            if ((iReg[0x06] & 0x02) == 0x02)
+            {
+                tRB1.Text = "1";
+            }
+            else
+            {
+                tRB1.Text = "0";
+            }
+            if ((iReg[0x06] & 0x04) == 0x04)
+            {
+                tRB2.Text = "1";
+            }
+            else
+            {
+                tRB2.Text = "0";
+            }
+            if ((iReg[0x06] & 0x08) == 0x08)
+            {
+                tRB3.Text = "1";
+            }
+            else
+            {
+                tRB3.Text = "0";
+            }
+            if ((iReg[0x06] & 0x10) == 0x10)
+            {
+                tRB4.Text = "1";
+            }
+            else
+            {
+                tRB4.Text = "0";
+            }
+            if ((iReg[0x06] & 0x20) == 0x20)
+            {
+                tRB5.Text = "1";
+            }
+            else
+            {
+                tRB5.Text = "0";
+            }
+            if ((iReg[0x06] & 0x40) == 0x40)
+            {
+                tRB6.Text = "1";
+            }
+            else
+            {
+                tRB6.Text = "0";
+            }
+            if ((iReg[0x06] & 0x80) == 0x80)
+            {
+                tRB7.Text = "1";
+            }
+            else
+            {
+                tRB7.Text = "0";
+            }
+            //OptionRegister
+
+            if ((iReg[0x81] & 0x01) == 0x01)
+            {
+                tbOption0.Text = "1";
+            }
+            else
+            {
+                tbOption0.Text = "0";
+            }
+            if ((iReg[0x81] & 0x02) == 0x02)
+            {
+                tbOption1.Text = "1";
+            }
+            else
+            {
+                tbOption1.Text = "0";
+            }
+            if ((iReg[0x81] & 0x04) == 0x04)
+            {
+                tbOption2.Text = "1";
+            }
+            else
+            {
+                tbOption2.Text = "0";
+            }
+            if ((iReg[0x81] & 0x08) == 0x08)
+            {
+                tbOption3.Text = "1";
+            }
+            else
+            {
+                tbOption3.Text = "0";
+            }
+            if ((iReg[0x81] & 0x10) == 0x10)
+            {
+                tbOption4.Text = "1";
+            }
+            else
+            {
+                tbOption4.Text = "0";
+            }
+            if ((iReg[0x81] & 0x20) == 0x20)
+            {
+                tbOption5.Text = "1";
+            }
+            else
+            {
+                tbOption5.Text = "0";
+            }
+            if ((iReg[0x81] & 0x40) == 0x40)
+            {
+                tbOption6.Text = "1";
+            }
+            else
+            {
+                tbOption6.Text = "0";
+            }
+            if ((iReg[0x81] & 0x80) == 0x80)
+            {
+                tbOption7.Text = "1";
+            }
+            else
+            {
+                tbOption7.Text = "0";
+            }
+
+            //TRISA
+            if ((iReg[0x85] & 0x01) == 0x01)
+            {
+                tbTrisA0.Text = "i";
+            }
+            else
+            {
+                tbTrisA0.Text = "o";
+            }
+            if ((iReg[0x85] & 0x02) == 0x02)
+            {
+                tbTrisA1.Text = "i";
+            }
+            else
+            {
+                tbTrisA1.Text = "o";
+            }
+            if ((iReg[0x85] & 0x04) == 0x04)
+            {
+                tbTrisA2.Text = "i";
+            }
+            else
+            {
+                tbTrisA2.Text = "o";
+            }
+            if ((iReg[0x85] & 0x08) == 0x08)
+            {
+                tbTrisA3.Text = "i";
+            }
+            else
+            {
+                tbTrisA3.Text = "o";
+            }
+            if ((iReg[0x85] & 0x10) == 0x10)
+            {
+                tbTrisA4.Text = "i";
+            }
+            else
+            {
+                tbTrisA4.Text = "o";
+            }
+            //TRISB
+            if ((iReg[0x86] & 0x01) == 0x01)
+            {
+                tbTrisB0.Text = "i";
+            }
+            else
+            {
+                tbTrisB0.Text = "o";
+            }
+            if ((iReg[0x86] & 0x02) == 0x02)
+            {
+                tbTrisB1.Text = "i";
+            }
+            else
+            {
+                tbTrisB1.Text = "o";
+            }
+            if ((iReg[0x86] & 0x04) == 0x04)
+            {
+                tbTrisB2.Text = "i";
+            }
+            else
+            {
+                tbTrisB2.Text = "o";
+            }
+            if ((iReg[0x86] & 0x08) == 0x08)
+            {
+                tbTrisB3.Text = "i";
+            }
+            else
+            {
+                tbTrisB3.Text = "o";
+            }
+            if ((iReg[0x86] & 0x10) == 0x10)
+            {
+                tbTrisB4.Text = "i";
+            }
+            else
+            {
+                tbTrisB4.Text = "o";
+            }
+            if ((iReg[0x86] & 0x20) == 0x20)
+            {
+                tbTrisB5.Text = "i";
+            }
+            else
+            {
+                tbTrisB5.Text = "o";
+            }
+            if ((iReg[0x86] & 0x40) == 0x40)
+            {
+                tbTrisB6.Text = "i";
+            }
+            else
+            {
+                tbTrisB6.Text = "o";
+            }
+            if ((iReg[0x86] & 0x80) == 0x80)
+            {
+                tbTrisB7.Text = "i";
+            }
+            else
+            {
+                tbTrisB7.Text = "o";
+            }
+
+            //InterruptRegister
+            if ((iReg[0x0B] & 0x01) == 0x01)
+            {
+                tbInt0.Text = "1";
+            }
+            else
+            {
+                tbInt0.Text = "0";
+            }
+            if ((iReg[0x0B] & 0x02) == 0x02)
+            {
+                tbInt1.Text = "1";
+            }
+            else
+            {
+                tbInt1.Text = "0";
+            }
+            if ((iReg[0x0B] & 0x04) == 0x04)
+            {
+                tbInt2.Text = "1";
+            }
+            else
+            {
+                tbInt2.Text = "0";
+            }
+            if ((iReg[0x0B] & 0x08) == 0x08)
+            {
+                tbInt3.Text = "1";
+            }
+            else
+            {
+                tbInt3.Text = "0";
+            }
+            if ((iReg[0x0B] & 0x10) == 0x10)
+            {
+                tbInt4.Text = "1";
+            }
+            else
+            {
+                tbInt4.Text = "0";
+            }
+            if ((iReg[0x0B] & 0x20) == 0x20)
+            {
+                tbInt5.Text = "1";
+            }
+            else
+            {
+                tbInt5.Text = "0";
+            }
+            if ((iReg[0x0B] & 0x40) == 0x40)
+            {
+                tbInt6.Text = "1";
+            }
+            else
+            {
+                tbInt6.Text = "0";
+            }
+            if ((iReg[0x0B] & 0x80) == 0x80)
+            {
+                tbInt7.Text = "1";
+            }
+            else
+            {
+                tbInt7.Text = "0";
+            }
+            //EEPROM-Register
+            if ((iReg[0x88] & 0x01) == 0x01)
+            {
+                tbEECON0.Text = "1";
+            }
+            else
+            {
+                tbEECON0.Text = "0";
+            }
+            if ((iReg[0x88] & 0x02) == 0x02)
+            {
+                tbEECON1.Text = "1";
+            }
+            else
+            {
+                tbEECON1.Text = "0";
+            }
+            if ((iReg[0x88] & 0x04) == 0x04)
+            {
+                tbEECON2.Text = "1";
+            }
+            else
+            {
+                tbEECON2.Text = "0";
+            }
+            if ((iReg[0x88] & 0x08) == 0x08)
+            {
+                tbEECON3.Text = "1";
+            }
+            else
+            {
+                tbEECON3.Text = "0";
+            }
+            if ((iReg[0x88] & 0x10) == 0x10)
+            {
+                tbEECON4.Text = "1";
+            }
+            else
+            {
+                tbEECON4.Text = "0";
+            }
+
+            _iPrescalerValue = Convert.ToInt32( Math.Pow( 2 , 1 + (iReg[0x81] & 0x07) ) );
+            if ((iReg[0x81] & 0x08) == 0x08)
+            {
+                _iPrescalerValue = (_iPrescalerValue / 2);
+                tbPSCAssign.Text = "WDT";
+            }
+            else
+            {
+                tbPSCAssign.Text = "TMR0";
+            }
+            tbPrescaler.Text = "1:" + Convert.ToString( _iPrescalerValue );
+
+
+            //Stack anzeigen mithilfe eines temporären Stacks
+            Stack<int> tempStack = new Stack<int>( );
+            string[] sStack = new string[8] { "  " , "  " , "  " , "  " , "  " , "  " , "  " , "  " };
+
+            while (stack.Count > 0)
+            {
+                if (stack.Count == 1)
+                {
+                    try
+                    {
+                        sStack[0] = stack.Peek( ).ToString( "X" );
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+                if (stack.Count == 2)
+                {
+                    try
+                    {
+                        sStack[1] = stack.Peek( ).ToString( "X" );
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+                if (stack.Count == 3)
+                {
+                    try
+                    {
+                        sStack[2] = stack.Peek( ).ToString( "X" );
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+                if (stack.Count == 4)
+                {
+                    try
+                    {
+                        sStack[3] = stack.Peek( ).ToString( "X" );
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+                if (stack.Count == 5)
+                {
+                    try
+                    {
+                        sStack[4] = stack.Peek( ).ToString( "X" );
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+                if (stack.Count == 6)
+                {
+                    try
+                    {
+                        sStack[5] = stack.Peek( ).ToString( "X" );
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+                if (stack.Count == 7)
+                {
+                    try
+                    {
+                        sStack[6] = stack.Peek( ).ToString( "X" );
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+                if (stack.Count == 8)
+                {
+                    try
+                    {
+                        sStack[7] = stack.Peek( ).ToString( "X" );
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+
+                tempStack.Push( stack.Pop( ) );
+            }
+            while (tempStack.Count > 0)
+            {
+                stack.Push( tempStack.Pop( ) );
+            }
+
+            lbStack0.Text = sStack[0];
+            lbStack1.Text = sStack[1];
+            lbStack2.Text = sStack[2];
+            lbStack3.Text = sStack[3];
+            lbStack4.Text = sStack[4];
+            lbStack5.Text = sStack[5];
+            lbStack6.Text = sStack[6];
+            lbStack7.Text = sStack[7];
+        }
+
+        /*********************************************************************/
+        /**   enableEEPReg
+        **
+        **  Alle EEPROM-Register Felder werden auf Enabled gesetzt, nachdem eine
+        **  *.eep Datei geöffnet wurde
+        **
+        **  Ret: void
+        **
+        **************************************************************************/
+        private delegate void enableEEPRegDelegate();
+        private void enableEEPReg()
+        {
+            if (InvokeRequired)
+            {
+                var invokeVar = new enableEEPRegDelegate( enableEEPReg );
+                Invoke( invokeVar );
+            }
+            else
+            {
+                
             }
         }
     }

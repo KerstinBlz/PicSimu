@@ -44,8 +44,6 @@
             this.tbEEPName = new System.Windows.Forms.TextBox();
             this.btnSaveEEP = new System.Windows.Forms.Button();
             this.btnLoadEEP = new System.Windows.Forms.Button();
-            this.gbEECON = new System.Windows.Forms.GroupBox();
-            this.gridEECON1 = new SourceGrid.Grid();
             this.gridEEPROM = new SourceGrid.Grid();
             this.lvCode = new System.Windows.Forms.ListView();
             this.tbTest = new System.Windows.Forms.TextBox();
@@ -231,13 +229,23 @@
             this.lbStack2 = new System.Windows.Forms.Label();
             this.lbStack1 = new System.Windows.Forms.Label();
             this.lbStack0 = new System.Windows.Forms.Label();
+            this.gbEECON = new System.Windows.Forms.GroupBox();
+            this.label95 = new System.Windows.Forms.Label();
+            this.label94 = new System.Windows.Forms.Label();
+            this.label93 = new System.Windows.Forms.Label();
+            this.label92 = new System.Windows.Forms.Label();
+            this.label91 = new System.Windows.Forms.Label();
+            this.tbEECON0 = new System.Windows.Forms.TextBox();
+            this.tbEECON1 = new System.Windows.Forms.TextBox();
+            this.tbEECON2 = new System.Windows.Forms.TextBox();
+            this.tbEECON3 = new System.Windows.Forms.TextBox();
+            this.tbEECON4 = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tP_bank_0.SuspendLayout();
             this.tP_bank_1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.gbEECON.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.gbRA.SuspendLayout();
@@ -258,6 +266,7 @@
             this.groupBox4.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.gbStack.SuspendLayout();
+            this.gbEECON.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -371,8 +380,8 @@
             // tabPage1
             // 
             this.tabPage1.AutoScroll = true;
-            this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.gbEECON);
+            this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.gridEEPROM);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
@@ -421,28 +430,6 @@
             this.btnLoadEEP.TabIndex = 478;
             this.btnLoadEEP.Text = "Load EEPROM";
             this.btnLoadEEP.UseVisualStyleBackColor = true;
-            // 
-            // gbEECON
-            // 
-            this.gbEECON.Controls.Add(this.gridEECON1);
-            this.gbEECON.Location = new System.Drawing.Point(3, 206);
-            this.gbEECON.Name = "gbEECON";
-            this.gbEECON.Size = new System.Drawing.Size(253, 62);
-            this.gbEECON.TabIndex = 476;
-            this.gbEECON.TabStop = false;
-            this.gbEECON.Text = "EECON1";
-            // 
-            // gridEECON1
-            // 
-            this.gridEECON1.EnableSort = true;
-            this.gridEECON1.Location = new System.Drawing.Point(11, 14);
-            this.gridEECON1.Name = "gridEECON1";
-            this.gridEECON1.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
-            this.gridEECON1.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.gridEECON1.Size = new System.Drawing.Size(225, 43);
-            this.gridEECON1.TabIndex = 99;
-            this.gridEECON1.TabStop = true;
-            this.gridEECON1.ToolTipText = "";
             // 
             // gridEEPROM
             // 
@@ -951,6 +938,7 @@
             this.tRB7.TabIndex = 88;
             this.tRB7.TabStop = false;
             this.tRB7.Text = "0";
+            this.tRB7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.tRB7.Click += new System.EventHandler(this.portRB_Click);
             // 
             // tRB6
@@ -1265,6 +1253,7 @@
             this.cbDelay.Size = new System.Drawing.Size(48, 21);
             this.cbDelay.TabIndex = 1;
             this.cbDelay.Text = "250";
+            this.cbDelay.SelectedIndexChanged += new System.EventHandler( this.cbDelay_SelectedIndexChanged );
             // 
             // groupBox7
             // 
@@ -1669,6 +1658,7 @@
             this.tStatus7.TabStop = false;
             this.tStatus7.Text = "0";
             this.tStatus7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tStatus7.Click += new System.EventHandler( this.updateStatus_Click );
             // 
             // tStatus6
             // 
@@ -1682,6 +1672,7 @@
             this.tStatus6.TabStop = false;
             this.tStatus6.Text = "0";
             this.tStatus6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tStatus6.Click += new System.EventHandler( this.updateStatus_Click );
             // 
             // label145
             // 
@@ -1704,6 +1695,7 @@
             this.tStatus5.TabStop = false;
             this.tStatus5.Text = "0";
             this.tStatus5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tStatus5.Click += new System.EventHandler( this.updateStatus_Click );
             // 
             // tStatus4
             // 
@@ -1717,6 +1709,7 @@
             this.tStatus4.TabStop = false;
             this.tStatus4.Text = "0";
             this.tStatus4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tStatus4.Click += new System.EventHandler( this.updateStatus_Click );
             // 
             // tStatus3
             // 
@@ -1730,6 +1723,7 @@
             this.tStatus3.TabStop = false;
             this.tStatus3.Text = "0";
             this.tStatus3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tStatus3.Click += new System.EventHandler( this.updateStatus_Click );
             // 
             // tStatus2
             // 
@@ -1743,6 +1737,7 @@
             this.tStatus2.TabStop = false;
             this.tStatus2.Text = "0";
             this.tStatus2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tStatus2.Click += new System.EventHandler( this.updateStatus_Click );
             // 
             // tStatus1
             // 
@@ -1756,6 +1751,7 @@
             this.tStatus1.TabStop = false;
             this.tStatus1.Text = "0";
             this.tStatus1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tStatus1.Click += new System.EventHandler( this.updateStatus_Click );
             // 
             // tStatus0
             // 
@@ -1769,6 +1765,7 @@
             this.tStatus0.TabStop = false;
             this.tStatus0.Text = "0";
             this.tStatus0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tStatus0.Click += new System.EventHandler( this.updateStatus_Click );
             // 
             // groupBox4
             // 
@@ -1979,6 +1976,7 @@
             this.tbOption7.TabStop = false;
             this.tbOption7.Text = "0";
             this.tbOption7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbOption7.Click += new System.EventHandler( this.updateOptionReg_Click );
             // 
             // tbOption6
             // 
@@ -1992,6 +1990,7 @@
             this.tbOption6.TabStop = false;
             this.tbOption6.Text = "0";
             this.tbOption6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbOption6.Click += new System.EventHandler( this.updateOptionReg_Click );
             // 
             // tbOption5
             // 
@@ -2005,6 +2004,7 @@
             this.tbOption5.TabStop = false;
             this.tbOption5.Text = "0";
             this.tbOption5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbOption5.Click += new System.EventHandler( this.updateOptionReg_Click );
             // 
             // tbOption4
             // 
@@ -2018,6 +2018,7 @@
             this.tbOption4.TabStop = false;
             this.tbOption4.Text = "0";
             this.tbOption4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbOption4.Click += new System.EventHandler( this.updateOptionReg_Click );
             // 
             // tbOption3
             // 
@@ -2031,6 +2032,7 @@
             this.tbOption3.TabStop = false;
             this.tbOption3.Text = "0";
             this.tbOption3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbOption3.Click += new System.EventHandler( this.updateOptionReg_Click );
             // 
             // tbOption2
             // 
@@ -2044,6 +2046,7 @@
             this.tbOption2.TabStop = false;
             this.tbOption2.Text = "0";
             this.tbOption2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbOption2.Click += new System.EventHandler( this.updateOptionReg_Click );
             // 
             // tbOption1
             // 
@@ -2057,6 +2060,7 @@
             this.tbOption1.TabStop = false;
             this.tbOption1.Text = "0";
             this.tbOption1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbOption1.Click += new System.EventHandler( this.updateOptionReg_Click );
             // 
             // tbOption0
             // 
@@ -2070,6 +2074,7 @@
             this.tbOption0.TabStop = false;
             this.tbOption0.Text = "0";
             this.tbOption0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbOption0.Click += new System.EventHandler( this.updateOptionReg_Click );
             // 
             // groupBox9
             // 
@@ -2270,6 +2275,7 @@
             this.tbInt7.TabStop = false;
             this.tbInt7.Text = "0";
             this.tbInt7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbInt7.Click += new System.EventHandler( this.updateIntReg_Click );
             // 
             // tbInt6
             // 
@@ -2283,6 +2289,7 @@
             this.tbInt6.TabStop = false;
             this.tbInt6.Text = "0";
             this.tbInt6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbInt6.Click += new System.EventHandler( this.updateIntReg_Click );
             // 
             // tbInt5
             // 
@@ -2296,6 +2303,7 @@
             this.tbInt5.TabStop = false;
             this.tbInt5.Text = "0";
             this.tbInt5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbInt5.Click += new System.EventHandler( this.updateIntReg_Click );
             // 
             // tbInt4
             // 
@@ -2309,6 +2317,7 @@
             this.tbInt4.TabStop = false;
             this.tbInt4.Text = "0";
             this.tbInt4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbInt4.Click += new System.EventHandler( this.updateIntReg_Click );
             // 
             // tbInt3
             // 
@@ -2322,6 +2331,7 @@
             this.tbInt3.TabStop = false;
             this.tbInt3.Text = "0";
             this.tbInt3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbInt3.Click += new System.EventHandler( this.updateIntReg_Click );
             // 
             // tbInt2
             // 
@@ -2335,6 +2345,7 @@
             this.tbInt2.TabStop = false;
             this.tbInt2.Text = "0";
             this.tbInt2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbInt2.Click += new System.EventHandler( this.updateIntReg_Click );
             // 
             // tbInt1
             // 
@@ -2348,6 +2359,7 @@
             this.tbInt1.TabStop = false;
             this.tbInt1.Text = "0";
             this.tbInt1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbInt1.Click += new System.EventHandler( this.updateIntReg_Click );
             // 
             // tbInt0
             // 
@@ -2361,6 +2373,7 @@
             this.tbInt0.TabStop = false;
             this.tbInt0.Text = "0";
             this.tbInt0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbInt0.Click += new System.EventHandler( this.updateIntReg_Click );
             // 
             // gbStack
             // 
@@ -2549,6 +2562,135 @@
             this.lbStack0.TabIndex = 0;
             this.lbStack0.Text = "  ";
             // 
+            // gbEECON
+            // 
+            this.gbEECON.Controls.Add(this.label95);
+            this.gbEECON.Controls.Add(this.label94);
+            this.gbEECON.Controls.Add(this.label93);
+            this.gbEECON.Controls.Add(this.label92);
+            this.gbEECON.Controls.Add(this.label91);
+            this.gbEECON.Controls.Add(this.tbEECON0);
+            this.gbEECON.Controls.Add(this.tbEECON1);
+            this.gbEECON.Controls.Add(this.tbEECON2);
+            this.gbEECON.Controls.Add(this.tbEECON3);
+            this.gbEECON.Controls.Add(this.tbEECON4);
+            this.gbEECON.Location = new System.Drawing.Point(4, 206);
+            this.gbEECON.Name = "gbEECON";
+            this.gbEECON.Size = new System.Drawing.Size(251, 62);
+            this.gbEECON.TabIndex = 478;
+            this.gbEECON.TabStop = false;
+            this.gbEECON.Text = "EECON1";
+            // 
+            // label95
+            // 
+            this.label95.AutoSize = true;
+            this.label95.Location = new System.Drawing.Point(20, 22);
+            this.label95.Name = "label95";
+            this.label95.Size = new System.Drawing.Size(30, 13);
+            this.label95.TabIndex = 98;
+            this.label95.Text = "EEIF";
+            // 
+            // label94
+            // 
+            this.label94.AutoSize = true;
+            this.label94.Location = new System.Drawing.Point(58, 22);
+            this.label94.Name = "label94";
+            this.label94.Size = new System.Drawing.Size(49, 13);
+            this.label94.TabIndex = 97;
+            this.label94.Text = "WRERR";
+            // 
+            // label93
+            // 
+            this.label93.AutoSize = true;
+            this.label93.Location = new System.Drawing.Point(110, 22);
+            this.label93.Name = "label93";
+            this.label93.Size = new System.Drawing.Size(41, 13);
+            this.label93.TabIndex = 96;
+            this.label93.Text = "WREN";
+            // 
+            // label92
+            // 
+            this.label92.AutoSize = true;
+            this.label92.Location = new System.Drawing.Point(153, 22);
+            this.label92.Name = "label92";
+            this.label92.Size = new System.Drawing.Size(26, 13);
+            this.label92.TabIndex = 95;
+            this.label92.Text = "WR";
+            // 
+            // label91
+            // 
+            this.label91.AutoSize = true;
+            this.label91.Location = new System.Drawing.Point(185, 22);
+            this.label91.Name = "label91";
+            this.label91.Size = new System.Drawing.Size(23, 13);
+            this.label91.TabIndex = 94;
+            this.label91.Text = "RD";
+            // 
+            // tbEECON0
+            // 
+            this.tbEECON0.BackColor = System.Drawing.SystemColors.Window;
+            this.tbEECON0.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.tbEECON0.Location = new System.Drawing.Point(183, 38);
+            this.tbEECON0.Name = "tbEECON0";
+            this.tbEECON0.ReadOnly = true;
+            this.tbEECON0.Size = new System.Drawing.Size(26, 20);
+            this.tbEECON0.TabIndex = 93;
+            this.tbEECON0.TabStop = false;
+            this.tbEECON0.Text = "0";
+            this.tbEECON0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // tbEECON1
+            // 
+            this.tbEECON1.BackColor = System.Drawing.SystemColors.Window;
+            this.tbEECON1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.tbEECON1.Location = new System.Drawing.Point(151, 38);
+            this.tbEECON1.Name = "tbEECON1";
+            this.tbEECON1.ReadOnly = true;
+            this.tbEECON1.Size = new System.Drawing.Size(26, 20);
+            this.tbEECON1.TabIndex = 92;
+            this.tbEECON1.TabStop = false;
+            this.tbEECON1.Text = "0";
+            this.tbEECON1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // tbEECON2
+            // 
+            this.tbEECON2.BackColor = System.Drawing.SystemColors.Window;
+            this.tbEECON2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.tbEECON2.Location = new System.Drawing.Point(110, 38);
+            this.tbEECON2.Name = "tbEECON2";
+            this.tbEECON2.ReadOnly = true;
+            this.tbEECON2.Size = new System.Drawing.Size(26, 20);
+            this.tbEECON2.TabIndex = 91;
+            this.tbEECON2.TabStop = false;
+            this.tbEECON2.Text = "0";
+            this.tbEECON2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // tbEECON3
+            // 
+            this.tbEECON3.BackColor = System.Drawing.SystemColors.Window;
+            this.tbEECON3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.tbEECON3.Location = new System.Drawing.Point(69, 38);
+            this.tbEECON3.Name = "tbEECON3";
+            this.tbEECON3.ReadOnly = true;
+            this.tbEECON3.Size = new System.Drawing.Size(26, 20);
+            this.tbEECON3.TabIndex = 90;
+            this.tbEECON3.TabStop = false;
+            this.tbEECON3.Text = "0";
+            this.tbEECON3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // tbEECON4
+            // 
+            this.tbEECON4.BackColor = System.Drawing.SystemColors.Window;
+            this.tbEECON4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.tbEECON4.Location = new System.Drawing.Point(23, 38);
+            this.tbEECON4.Name = "tbEECON4";
+            this.tbEECON4.ReadOnly = true;
+            this.tbEECON4.Size = new System.Drawing.Size(26, 20);
+            this.tbEECON4.TabIndex = 89;
+            this.tbEECON4.TabStop = false;
+            this.tbEECON4.Text = "0";
+            this.tbEECON4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // KerTKDSim
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2591,7 +2733,6 @@
             this.tabPage1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.gbEECON.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -2627,6 +2768,8 @@
             this.groupBox9.PerformLayout();
             this.gbStack.ResumeLayout(false);
             this.gbStack.PerformLayout();
+            this.gbEECON.ResumeLayout(false);
+            this.gbEECON.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2657,9 +2800,7 @@
         private System.Windows.Forms.TextBox tbEEPName;
         private System.Windows.Forms.Button btnSaveEEP;
         private System.Windows.Forms.Button btnLoadEEP;
-        private System.Windows.Forms.GroupBox gbEECON;
         private System.Windows.Forms.GroupBox groupBox3;
-        private SourceGrid.Grid gridEECON1;
         private System.Windows.Forms.GroupBox gbRA;
         private System.Windows.Forms.Label label116;
         private System.Windows.Forms.Label label115;
@@ -2837,6 +2978,17 @@
         private System.Windows.Forms.Label lbStack2;
         private System.Windows.Forms.Label lbStack1;
         private System.Windows.Forms.Label lbStack0;
+        private System.Windows.Forms.GroupBox gbEECON;
+        private System.Windows.Forms.Label label95;
+        private System.Windows.Forms.Label label94;
+        private System.Windows.Forms.Label label93;
+        private System.Windows.Forms.Label label92;
+        private System.Windows.Forms.Label label91;
+        private System.Windows.Forms.TextBox tbEECON0;
+        private System.Windows.Forms.TextBox tbEECON1;
+        private System.Windows.Forms.TextBox tbEECON2;
+        private System.Windows.Forms.TextBox tbEECON3;
+        private System.Windows.Forms.TextBox tbEECON4;
     }
 }
 
