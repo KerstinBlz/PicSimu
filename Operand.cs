@@ -525,15 +525,17 @@ namespace Pic_Simulator
             if ((iReg[0x03] & 0x20) > 0) f += 0x80;  // Bank 1 check
 
             int temp = iReg[f] << 1;    // temporary variable
+            temp |= ( iReg[0x03] & 0x01 );
             if (temp > 255) //Überlauf?
             {
                 iReg[0x03] |= 0x01; //C=1;
-                temp &= 0xff;   //  keep only 8 bits
             }
             else
             {
                 iReg[0x03] &= 0xFE; //C=0;
             }
+            temp &= 0xff;   //  keep only 8 bits
+
             if (d == 0) // save in either iWReg or iReg[f]
             {
                 iWReg = temp;

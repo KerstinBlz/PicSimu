@@ -322,7 +322,7 @@
             this.tP_bank_0.Controls.Add(this.gridBank_0);
             this.tP_bank_0.Location = new System.Drawing.Point(4, 22);
             this.tP_bank_0.Name = "tP_bank_0";
-            this.tP_bank_0.Padding = new System.Windows.Forms.Padding(3);
+            this.tP_bank_0.Padding = new System.Windows.Forms.Padding(4);
             this.tP_bank_0.Size = new System.Drawing.Size(263, 343);
             this.tP_bank_0.TabIndex = 0;
             this.tP_bank_0.Text = "BANK 0";
@@ -2617,7 +2617,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "KerTKDSim";
-            this.Text = "Form1";
+            this.Text = "KerTKDSim - Pic Simulator";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);

@@ -60,11 +60,6 @@ namespace Pic_Simulator
         string[,] ArrayBank0 = new string[16, 8]; //16 Zeilen, 8 Spalten
         string[,] ArrayBank1 = new string[16, 8];
         string[,] ArrayEEPROM = new string[8, 8];
-        //string[] ArrayStatusReg = new string[8];
-        //string[] ArrayOptionReg = new string[8];
-        //string[] ArrayInterruptReg = new string[8];
-        //string[] ArrayStack = new string[8];
-
 
         public KerTKDSim()
         {
@@ -693,7 +688,11 @@ namespace Pic_Simulator
                 lRuntime = lCycles * 200;
                 checkBreakPoint();
                 watchdog();
-                simulateTimer0();
+                if (strCurCmd == "GOTO" ) // CALL und BSF set 2 mal
+                {
+                    simulateTimer0( );
+                }
+                simulateTimer0( );
             }
 
         }
@@ -715,7 +714,7 @@ namespace Pic_Simulator
                 zeile = i / 8;
                 spalte = i % 8;
 
-                //              ArrayBank0[zeile , spalte] = null;
+                //ArrayBank0[zeile , spalte] = null;
                 ArrayBank0[zeile , spalte] = iReg[i].ToString( "X" ).PadLeft( 2 , '0' );
             }
 
@@ -727,7 +726,7 @@ namespace Pic_Simulator
                 zeile %= 16;
                 spalte = i % 8;
 
-                //              ArrayBank1[zeile , spalte] = null;
+                //ArrayBank1[zeile , spalte] = null;
                 ArrayBank1[zeile , spalte] = iReg[i].ToString( "X" ).PadLeft( 2 , '0' );
             }
 
@@ -738,7 +737,7 @@ namespace Pic_Simulator
                 zeile = i / 8;
                 spalte = i % 8;
 
-                //                ArrayEEPROM[zeile , spalte] = null;
+                //ArrayEEPROM[zeile , spalte] = null;
                 ArrayEEPROM[zeile , spalte] = iEEPROM[i].ToString( "X" ).PadLeft( 2 , '0' );
             }
 
@@ -771,36 +770,6 @@ namespace Pic_Simulator
                     gridEEPROM[r, c].Value = ArrayEEPROM[r - 1, c - 1];
                 }
             }
-
-            
-            //for (int c = 1; c < 9; c++)
-            //{
-            //    // Status Register 
-            //    ArrayStatusReg = new string[8];
-            //    if ( ArrayStatusReg[c - 1] != null) 
-            //    {
-            //        gridStatus[1, c].Value = ArrayStatusReg[c - 1];
-            //    }
-
-            //    // Option Register
-            //    ArrayOptionReg = new string[8];
-            //    if ( ArrayOptionReg[c - 1] != null) 
-            //    {
-            //        gridOption[1, c].Value = ArrayOptionReg[c - 1];
-            //    }
-
-            //    ArrayInterruptReg = new string[8];           
-            //    if ( ArrayInterruptReg[c - 1] != null) 
-            //    {
-            //        gridInterrupt[1, c].Value = ArrayInterruptReg[c - 1];
-            //    }
-
-            //    ArrayStack = new string[8];
-            //    if ( ArrayStack[c - 1] != null) 
-            //    {
-            //        gridStack[1, c].Value = ArrayStack[c - 1];
-            //    }
-            //}
         }
 
         #region CommandList

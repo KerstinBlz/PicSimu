@@ -427,9 +427,9 @@ namespace Pic_Simulator
         }
 
         /*********************************************************************/
-        /**   updateSerielCon
+        /**   updateSerialCom
         **
-        **  Setzt die Serialverbindung mit deren zugehörigen Port
+        **  Sets a Serial Connection 
         **
         **  Ret: void
         **
