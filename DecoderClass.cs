@@ -10,9 +10,9 @@ namespace Pic_Simulator
         {
             //Argument
 
-            public String decode(int iCmd)
+            public String decode( int iCmd )
             {
-                //wandelt den Befehl in Bits um
+                // Wandelt den Befehl in Bits um
                 String bCmd = Convert.ToString(iCmd, 2).PadLeft(14, '0'); ;
 
                 string bCmdLeft;

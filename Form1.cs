@@ -345,7 +345,7 @@ namespace Pic_Simulator
 
         private delegate void SimResetDelegate();
         /// <summary>
-        /// Verursacht einen normalen, nicht Hardware, Reset
+        /// Resets the programme with normal, non-hardware way
         /// </summary>
         private void SimReset()
         {
@@ -385,10 +385,10 @@ namespace Pic_Simulator
                 }
 
                 iWReg = 0;
-                stack.Clear(); 
+                stack.Clear();
+                _markCommand( iPC );
 
                 refreshReg();
-                _markCommand(iPC);
             }
         }
 
@@ -416,7 +416,7 @@ namespace Pic_Simulator
                 iReg[0x88] = iReg[0x88] & 0x08;
 
                 iWReg = 0;
-                stack.Clear(); //Stack leeren
+                stack.Clear(); // Clear the Stack
 
                 for (int i = 0; i <= 255; i++)
                 {
@@ -441,59 +441,6 @@ namespace Pic_Simulator
                     refreshReg();
                 }
             }
-
-        }
-
-
-        private void beendenToolStripMenuItem_Click(object sender, EventArgs e) // End the Application
-        {
-            this.Close();
-        }
-
-        /// <summary>
-        /// Der Button zum Datei Laden im ToolStrip Menü
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void dateiLadenToolStripMenuItem_Click(object sender, EventArgs e) // Laden der .LST
-        {
-            OpenFileDialog MyOpenFileDialog = new OpenFileDialog();
-            MyOpenFileDialog.Filter = "MASM Listing (*.LST)|*.LST|All files (*.*)|*.*";
-            DialogResult myresult = MyOpenFileDialog.ShowDialog();
-            
-            if (myresult == DialogResult.OK)
-            {
-                string filepath = MyOpenFileDialog.FileName;
-                try
-                {
-                    List<string> StrList = new List<string>();
-
-                    _bOpenedFile = true;
-
-                    System.IO.StreamReader myReader = new System.IO.StreamReader(filepath);
-                    string FileLine;
-                    while ((FileLine = myReader.ReadLine()) != null)
-                    {
-                        StrList.Add(FileLine);
-                    }
-                    try
-                    {
-                        StringCutter myCutter = new StringCutter();
-                        OperandList = myCutter.StringCutterFkt(StrList);
-                        List<string> TStrList = myCutter.CodeView(StrList);
-                        lvCode.Items.Clear(); // Leeren der Code Anzeige
-
-                        lvCode.Columns.Add("", 500); //Eine Spalte einfügen(Überschrift,breite)
-                        for (int i = 0; i < TStrList.Count; i++)
-                        {
-                            lvCode.Items.Add(new ListViewItem(new String[] { TStrList[i] }));
-                        }
-                    }
-                    catch { MessageBox.Show("Stringcutter fehler"); }
-                }
-                catch { MessageBox.Show("Fehler bei Dateiaufruf"); }
-            } // Dialogresult
-
 
         }
 
@@ -676,7 +623,7 @@ namespace Pic_Simulator
                 btnStart.Enabled = true;
                 btnStep.Enabled = true;
                 btnStop.Enabled = false;
-                //Buttons disablen..
+                // disable buttons
             }
         }
 
@@ -790,22 +737,22 @@ namespace Pic_Simulator
             {
                 string hexValue = OperandList[iPC];
                 int bCmd = Int32.Parse(hexValue, System.Globalization.NumberStyles.HexNumber);
-                String strCurCmd = _obDecoder.decode(bCmd);
+                String strCurCmd = _obDecoder.decode( bCmd );
 
                 //Execute Command
                 tbTest.Text = strCurCmd;
-                ScanCommand(strCurCmd, bCmd);
+                ScanCommand( strCurCmd, bCmd );
 
-                _markCommand(iPC);
+                _markCommand( iPC );
 
-                //Spiegelung
-                //PC wird gespiegelt
+                // Spiegelung
+                // PC wird gespiegelt
                 iReg[0x02] = iPC & 0xFF;
                 iReg[0x82] = iPC & 0xFF;
                 iReg[0x0A] = (iPC & 0x1F00) >> 8;
                 iReg[0x8A] = (iPC & 0x1F00) >> 8;
 
-                //Register die nicht änderbar sind
+                // Register die nicht änderbar sind
                 iReg[0x00] = 0;
                 iReg[0x80] = 0;
                 iReg[0x07] = 0;
@@ -832,7 +779,7 @@ namespace Pic_Simulator
                     iReg[0x07] = iReg[0x87];
                     iReg[0x0A] = iReg[0x8A];
                     iReg[0x0B] = iReg[0x8B];
-                    if ((iReg[0x03] & 0x20) == 0)
+                    if ( (iReg[0x03] & 0x20 ) == 0)
                     {
                         _bank0 = true;
                     }
@@ -844,8 +791,10 @@ namespace Pic_Simulator
                 {
                     _sendSerialData( );
                 }
-                //refreshReg();
-                refreshGridValue();
+                refreshReg();
+
+                // refreshGridValue();
+
                 lRuntime = lCycles * 200;
                 checkBreakPoint();
                 watchdog();
@@ -853,37 +802,6 @@ namespace Pic_Simulator
             }
 
         }
-
-
-        private bool checkBreakPoint()
-        {
-            {
-                if (lvCode.Items[iPC].Selected == true)
-                {
-                    if (lvCode.Items[iPC].BackColor == Color.Red)
-                    {
-                        Stop();
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-            return false;
-        }
-
-
-        private void _markCommand(int cmdNumber)
-        {
-            // markieren des nächsten Befehls
-            lvCode.Items[cmdNumber].Selected = true;
-            lvCode.Items[cmdNumber].Focused = true;
-            lvCode.TopItem = lvCode.Items[cmdNumber]; //listView.TopItem = listView1.Items[row#];
-            lvCode.Select();
-        }
-
 
 
 
@@ -895,6 +813,7 @@ namespace Pic_Simulator
         {
             int Col = 9;
             int Row = 17;
+
             //Bank1
             for (int r = 1; r < Row; r++)
             {
@@ -920,14 +839,17 @@ namespace Pic_Simulator
                 }
             }
 
+            
             for (int c = 1; c < 9; c++)
             {
-                // ArrayStatusReg = new string[8];
+                // Status Register 
+                ArrayStatusReg = new string[8];
                 if ( ArrayStatusReg[c - 1] != null) 
                 {
                     gridStatus[1, c].Value = ArrayStatusReg[c - 1];
                 }
 
+                // Option Register
                 ArrayOptionReg = new string[8];
                 if ( ArrayOptionReg[c - 1] != null) 
                 {
@@ -948,6 +870,8 @@ namespace Pic_Simulator
             }
         }
 
+        #region CommandList
+
 
         private void lvCode_DoubleClick(object sender, EventArgs e)// Einfärben der BreakePoint Zeilen
         {
@@ -962,8 +886,37 @@ namespace Pic_Simulator
         }
 
 
+        private bool checkBreakPoint()
+        {
+            {
+                if (lvCode.Items[iPC].Selected == true)
+                {
+                    if (lvCode.Items[iPC].BackColor == Color.Red)
+                    {
+                        Stop( );
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            return false;
+        }
 
-        #region DebugButtons
+
+        private void _markCommand( int cmdNumber )
+        {
+            // markieren des nächsten Befehls
+            lvCode.Items[cmdNumber].Selected = true;
+            lvCode.Items[cmdNumber].Focused = true;
+            lvCode.TopItem = lvCode.Items[cmdNumber]; //listView.TopItem = listView1.Items[row#];
+            lvCode.Select( );
+        }
+        #endregion CommandList
+
+        #region SimButtons
 
         /// <summary>
         /// Startet den Prorgammdurchlauf
@@ -987,6 +940,8 @@ namespace Pic_Simulator
                 btnStop.Enabled = true;
             }
         }
+
+        
 
         /// <summary>
         /// "Pausiert" das Programm/ Stoppt es
@@ -1022,14 +977,85 @@ namespace Pic_Simulator
             if (OperandList == null || OperandList.Count <= 0) { MessageBox.Show("Bitte laden sie eine .LST Datei"); }
             else
             {
-
                 ExecuteCmd();
-
             }
         }
 
+        #endregion SimButtons
 
+        #region MenuItems
+
+        private void beendenToolStripMenuItem_Click( object sender , EventArgs e ) // End the Application
+        {
+            this.Close( );
+        }
+
+        /// <summary>
+        /// Der Button zum Datei Laden im ToolStrip Menü
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dateiLadenToolStripMenuItem_Click( object sender , EventArgs e ) // Laden der .LST
+        {
+            OpenFileDialog MyOpenFileDialog = new OpenFileDialog( );
+            MyOpenFileDialog.Filter = "MASM Listing (*.LST)|*.LST|All files (*.*)|*.*";
+            DialogResult myresult = MyOpenFileDialog.ShowDialog( );
+
+            if ( myresult == DialogResult.OK )
+            {
+                string filepath = MyOpenFileDialog.FileName;
+                
+                try
+                {
+                    List<string> StrList = new List<string>( );
+
+                    _bOpenedFile = true;
+
+                    System.IO.StreamReader myReader = new System.IO.StreamReader( filepath );
+                    string FileLine;
+                    
+                    while ( ( FileLine = myReader.ReadLine( ) ) != null )
+                    {
+                        StrList.Add( FileLine );
+                    }
+
+                    StringCutter myCutter = new StringCutter( );
+                    OperandList = myCutter.StringCutterFkt( StrList );
+                    List<string> TStrList = myCutter.CodeView( StrList );
+                    lvCode.Items.Clear( ); // Leeren der Code Anzeige
+
+                    lvCode.Columns.Add( "" , 500 ); //Eine Spalte einfügen( Überschrift,breite )
+
+                    for (int i = 0 ; i < TStrList.Count ; i++)
+                    {
+                        lvCode.Items.Add( new ListViewItem( new String[] { TStrList[i] } ) );
+                    }
+                }
+                catch { MessageBox.Show( "Fehler bei Dateiaufruf" ); }
+            } // Dialogresult
+
+            // Reset 
+            SimReset();
+            refreshReg();
+
+        }
+
+
+        private void documentationToolStripMenuItem_Click( object sender , EventArgs e )
+        {
+            string Path = Application.StartupPath + "/KerTKDSim-Documentation.pdf";
+
+            try
+            {
+                System.Diagnostics.Process p = new System.Diagnostics.Process( );
+                p.StartInfo.FileName = System.IO.Path.Combine( System.IO.Path.GetDirectoryName( Application.ExecutablePath ) , Path ); ;
+                p.Start( );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show( ex.Message );
+            }
+        }
         #endregion DebugButtons
-
     }
 }

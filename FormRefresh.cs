@@ -277,17 +277,22 @@ namespace Pic_Simulator
                     zeile  = i / 8;
                     spalte = i % 8;
                     
+                    ArrayBank0[zeile,spalte] = null;
                     ArrayBank0[zeile,spalte] = iReg[i].ToString("X").PadLeft(2, '0');
                 }
 
-                for (int i = 128; i < 255; i++)
+                for (int i = 128; i < 255; i++) // Update 
                 {
                     zeile = i / 8;
                     zeile %= 16;
                     spalte = i % 8;
 
+                    ArrayBank1[zeile , spalte] = null;
                     ArrayBank1[zeile, spalte] = iReg[i].ToString("X").PadLeft(2, '0');
                 }
+
+
+                refreshGridValue( );
 
                 tbWReg.Text = iWReg.ToString( "X" ).PadLeft( 2 , '0' );         // W-Register
                 tbPC.Text = iPC.ToString( "X" ).PadLeft( 2 , '0' );             // Programme counter
@@ -298,6 +303,126 @@ namespace Pic_Simulator
                 // Status register
 
 
+                #region StatusReg
+                //RegStatusupdate fuer GUI
+
+                if ((iReg[0x03] & 0x01) == 0x01)
+                {
+                    tStatus0.Text = "1";
+                }
+                else
+                {
+                    tStatus0.Text = "0";
+                }
+                if ((iReg[0x03] & 0x02) == 0x02)
+                {
+                    tStatus1.Text = "1";
+                }
+                else
+                {
+                    tStatus1.Text = "0";
+                }
+
+                if ((iReg[0x03] & 0x04) == 0x04)
+                {
+                    tStatus2.Text = "1";
+                }
+                else
+                {
+                    tStatus2.Text = "0";
+                }
+                if ((iReg[0x03] & 0x08) == 0x08)
+                {
+                    tStatus3.Text = "1";
+                }
+                else
+                {
+                    tStatus3.Text = "0";
+                }
+                if ((iReg[0x03] & 0x10) == 0x10)
+                {
+                    tStatus4.Text = "1";
+                }
+                else
+                {
+                    tStatus4.Text = "0";
+                }
+                if ((iReg[0x03] & 0x20) == 0x20)
+                {
+                    tStatus5.Text = "1";
+                }
+                else
+                {
+                    tStatus5.Text = "0";
+                }
+                if ((iReg[0x03] & 0x40) == 0x40)
+                {
+                    tStatus6.Text = "1";
+                }
+                else
+                {
+                    tStatus6.Text = "0";
+                }
+                if ((iReg[0x03] & 0x01) == 0x01)
+                {
+                    tStatus0.Text = "1";
+                }
+                else
+                {
+                    tStatus0.Text = "0";
+                }
+                if ((iReg[0x03] & 0x02) == 0x02)
+                {
+                    tStatus1.Text = "1";
+                }
+                else
+                {
+                    tStatus1.Text = "0";
+                }
+
+                if ((iReg[0x03] & 0x04) == 0x04)
+                {
+                    tStatus2.Text = "1";
+                }
+                else
+                {
+                    tStatus2.Text = "0";
+                }
+                if ((iReg[0x03] & 0x08) == 0x08)
+                {
+                    tStatus3.Text = "1";
+                }
+                else
+                {
+                    tStatus3.Text = "0";
+                }
+                if ((iReg[0x03] & 0x10) == 0x10)
+                {
+                    tStatus4.Text = "1";
+                }
+                else
+                {
+                    tStatus4.Text = "0";
+                }
+                if ((iReg[0x03] & 0x20) == 0x20)
+                {
+                    tStatus5.Text = "1";
+                }
+                else
+                {
+                    tStatus5.Text = "0";
+                }
+                if ((iReg[0x03] & 0x40) == 0x40)
+                {
+                    tStatus6.Text = "1";
+                }
+                else
+                {
+                    tStatus6.Text = "0";
+                }
+
+                #endregion StatusReg
+                #region SourceGridStatus
 
                 //RegStatusupdate fuer GUI
 
@@ -415,6 +540,8 @@ namespace Pic_Simulator
                 {
                     ArrayStatusReg[6] = "0";
                 }
+
+                #endregion SourceGridStatus
 
 
                 //PortRA
@@ -596,8 +723,9 @@ namespace Pic_Simulator
                     ArrayOptionReg[7] = "0";
                 }
 
-
-                //TRISA
+                /**********************************************
+                //   TRISA
+                **********************************************/
                 if ((iReg[0x85] & 0x01) == 0x01)
                 {
                     tbTrisA0.Text = "i";
@@ -638,7 +766,13 @@ namespace Pic_Simulator
                 {
                     tbTrisA4.Text = "o";
                 }
-                //TRISB
+
+
+                /**********************************************
+                //   TRISB
+                **********************************************/
+
+
                 if ((iReg[0x86] & 0x01) == 0x01)
                 {
                     tbTrisB0.Text = "i";
@@ -705,7 +839,9 @@ namespace Pic_Simulator
                 }
 
 
-                //InterruptRegister
+                /**********************************************
+                //   InterruptRegister
+                **********************************************/
                 if ((iReg[0x0B] & 0x01) == 0x01)
                 {
                     ArrayInterruptReg[0] = "1";
@@ -786,7 +922,7 @@ namespace Pic_Simulator
                 }
                 tbPrescaler.Text = "1:" + Convert.ToString( _iPrescalerValue );
             }
-            refreshGridValue();
+            
         }
         
 
@@ -832,70 +968,7 @@ namespace Pic_Simulator
             }
         }
 
-        /*********************************************************************/
-        /**   registryChanged
-        **
-        **  Wenn ein Wert in der Registry geändert wurde, wird der in der Registry übernommen
-        **
-        **  Ret: void
-        **
-        **************************************************************************/
-
-        private delegate void registryChangedDelegate( object sender , KeyPressEventArgs e );
-        private void registryChanged( object sender , KeyPressEventArgs e )
-        {
-            if (InvokeRequired)
-            {
-                var invokeHelper = new registryChangedDelegate( registryChanged );
-                Invoke( invokeHelper , sender , e );
-            }
-            else
-            {
-                if (e.KeyChar == 13)
-                {
-                    try
-                    {
-                        Control ctrl = (Control)sender;
-
-                        int iValue = Convert.ToInt32( ctrl.Text , 16 );
-                        int iRegAdress = Convert.ToInt32( ctrl.Name.Remove( 0 , 5 ) );
-
-                        if (iRegAdress == 0x05 || iRegAdress == 0x0A || iRegAdress == 0x85 || iRegAdress == 0x88 || iRegAdress == 0x8A)
-                        {
-                            if (iValue >= 0x00 && iValue <= 0x1F)
-                            {
-                                iReg[iRegAdress] = iValue;
-                                refreshReg( );
-                            }
-                            else
-                            {
-                                refreshReg( );
-                                MessageBox.Show( "Es sind nur Hex-Werte von 0 bis 1F in diesem Register erlaubt!" , "Falsche Eingabe" , MessageBoxButtons.OK , MessageBoxIcon.Information );
-                            }
-                        }
-
-                        else
-                        {
-                            if (iValue >= 0x00 && iValue <= 0xFF)
-                            {
-                                iReg[iRegAdress] = iValue;
-                                refreshReg( );
-                            }
-                            else
-                            {
-                                refreshReg( );
-                                MessageBox.Show( "Es sind nur Hex-Werte von 0 bis FF in diesem Register erlaubt!" , "Falsche Eingabe" , MessageBoxButtons.OK , MessageBoxIcon.Information );
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        refreshReg( );
-                        MessageBox.Show( "Es sind nur Hex-Werte von 0 bis FF in diesem Register erlaubt!" , "Falsche Eingabe" , MessageBoxButtons.OK , MessageBoxIcon.Information );
-                    }
-                }
-            }
-        }
+ 
 
         /*********************************************************************/
         /**   portRB_Click

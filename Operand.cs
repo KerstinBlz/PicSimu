@@ -181,16 +181,18 @@ namespace Pic_Simulator
                 case "XORLW":
                     opXORLW(k);
                     break;
-               
+
+                default:
+                    break;
             }
         }
 
         private void opADDWF( byte f , byte d ) // add W and f
         { 
-            if ( f == 0 ) f = (byte)iReg[0x04];
-            // 
+            if ( f == 0 ) f = (byte)iReg[0x04]; // Indirectly addressed?
+            if ( ( iReg[0x03] & 0x20 ) > 0 ) f += 0x80;  // Bank 1 check
 
-            int temp = iWReg + iReg[f];
+            int temp = iWReg + iReg[f];  // temporary varialbe to save the Addition result
 
             if ( temp > 255 ) // Is the result bigger than 1 byte?
             { 
@@ -203,7 +205,7 @@ namespace Pic_Simulator
             }
 
             // Z status
-            if (temp == 0) // is the result of the logic operation zero?
+            if ( temp == 0 ) // is the result of the logic operation zero?
             { 
                 iReg[0x03] |= 0x04; // Z = 1
             }
@@ -237,7 +239,7 @@ namespace Pic_Simulator
         private void opANDWF( byte f, byte d ) // and W with f 
         {
             if (f == 0) f = (byte)iReg[0x04]; // indirect 
-            // 
+            if ( ( iReg[0x03] & 0x20 ) > 0 ) f += 0x80;  // Bank 1 check
 
             int temp = ( iWReg & iReg[f] ) & 0xff ;  // last number because of how the  int works
 
@@ -266,7 +268,7 @@ namespace Pic_Simulator
         private void opCLRF( byte f ) // clear f
         {
             if (f == 0) f = (byte)iReg[0x04]; // indirect 
-            // 
+            if ( ( iReg[0x03] & 0x20 ) > 0 ) f += 0x80;  // Bank 1 check
 
             iReg[f] = 0x00; // Cleaning the register f 
             iReg[0x03] |= 0x04; // set z = 1
@@ -274,9 +276,9 @@ namespace Pic_Simulator
             iPC++;
         }
 
-        private void opCLRW() // clear W
+        private void opCLRW() // Clear W
         {
-            iWReg = 0x00; // clearing register W
+            iWReg = 0x00; // Clearing register W
             iReg[0x03] |= 0x04; // set z = 1
 
             lCycles++;
@@ -286,7 +288,8 @@ namespace Pic_Simulator
         private void opCOMF( byte f, byte d ) // complement f
         {
             if (f == 0) f = (byte)iReg[0x04]; // indirect 
-            // 
+            if ( (iReg[0x03] & 0x20 ) > 0 ) f += 0x80;  //Bank 1 check
+             
             int temp = iReg[f] ^ 0xFF ;  
 
             // Z status
@@ -315,7 +318,8 @@ namespace Pic_Simulator
         private void opDECF( byte f, byte d ) // decrement f
         {
             if (f == 0) f = (byte)iReg[0x04]; // indirect 
-            // 
+            if ( (iReg[0x03] & 0x20 ) > 0 ) f += 0x80;  // Bank 1 check
+
             int temp = iReg[f] - 0x01; // temporary result of decrementation
 
             if ( temp < 0 )
@@ -349,6 +353,7 @@ namespace Pic_Simulator
         private void opDECFSZ( byte f, byte d ) // decrement f, skip if 0
         {
             if (f == 0) f = (byte)iReg[0x04]; // indirect 
+            if ( (iReg[0x03] & 0x20 ) > 0 ) f += 0x80;  // Bank 1 check
 
             int temp = iReg[f] - 0x01; // temporary result of decrementation
 
@@ -379,7 +384,8 @@ namespace Pic_Simulator
         private void opINCF( byte f, byte d ) // increment f 
         {
             if (f == 0) f = (byte)iReg[0x04]; // indirect 
-            // 
+            if ( ( iReg[0x03] & 0x20) > 0 ) f += 0x80;  // Bank 1 check
+            
             int temp = iReg[f] + 0x01; // temporary result
 
             if (temp > 255 )
@@ -413,6 +419,7 @@ namespace Pic_Simulator
         private void opINCFSZ( byte f, byte d ) // increment f , skip if 0 
         {
             if (f == 0) f = (byte)iReg[0x04]; // indirect 
+            if ( ( iReg[0x03] & 0x20) > 0 ) f += 0x80;  // Bank 1 check
 
             int temp = iReg[f] - 0x01; // temporary result
 
@@ -443,7 +450,8 @@ namespace Pic_Simulator
         private void opIORWF( byte f, byte d ) // inclusive OR W with f  
         {
             if (f == 0) f = (byte)iReg[0x04]; // indirect 
-            // 
+            if ((iReg[0x03] & 0x20) > 0) f += 0x80;  // Bank 1 check
+            
             int temp = iWReg | iReg[f] ; // temporary result 
 
             // Z status
@@ -471,8 +479,9 @@ namespace Pic_Simulator
 
         private void opMOVF( byte f, byte d ) // move f 
         {
-            if (f == 0) f = (byte)iReg[0x04]; // indirect 
-            // 
+            if (f == 0) f = (byte)iReg[0x04]; // indirect
+            if ((iReg[0x03] & 0x20) > 0) f += 0x80;  // Bank 1 check 
+            
             int temp = iReg[f]; // temporary result 
 
             // Z status
@@ -497,6 +506,7 @@ namespace Pic_Simulator
         private void opMOVWF( byte f ) // move W to f  
         {
             if ( f == 0 ) f = (byte)iReg[0x04];  // indirect call
+            if ( ( iReg[0x03] & 0x20) > 0 ) f += 0x80;  // Bank 1 check
             
             iReg[f] = iWReg;
             lCycles++;
@@ -512,7 +522,7 @@ namespace Pic_Simulator
         private void opRLF( byte f, byte d ) // rotate left f through Carry 
         {
             if (f == 0x00) f = (byte)iReg[0x04];  // Indirect
-            //
+            if ((iReg[0x03] & 0x20) > 0) f += 0x80;  // Bank 1 check
 
             int temp = iReg[f] << 1;    // temporary variable
             if (temp > 255) //Überlauf?
@@ -539,7 +549,7 @@ namespace Pic_Simulator
         private void opRRF( byte f, byte d ) // rotate right f through Carry 
         {
             if (f == 0x00) f = (byte)iReg[0x04];  // Indirect
-            //
+            if ((iReg[0x03] & 0x20) > 0) f += 0x80;  // Bank 1 check
 
             int temp = iReg[f] >> 1;    // temporary variable
             if (temp < 0 ) 
@@ -566,7 +576,7 @@ namespace Pic_Simulator
         private void opSUBWF( byte f, byte d ) // Substract W from f 
         {
             if (f == 0x00) f = (byte)iReg[0x04];  // Indirect
-            //
+            if ((iReg[0x03] & 0x20) > 0) f += 0x80;  // Bank 1 check
 
             int temp = iReg[f] - iWReg;    // temporary variable
             if (temp < 0)
@@ -614,6 +624,7 @@ namespace Pic_Simulator
         private void opSWAPF( byte f, byte d ) // Swap nibbles in f 
         {
             if (f == 0x00) f = (byte)iReg[0x04];  // Indirect
+            if ((iReg[0x03] & 0x20) > 0) f += 0x80;  // Bank 1 check
 
             int temp1 = iReg[f];
             temp1 = (temp1 << 4) & 0xF0;  // Upper Nibble to lower Nibble
@@ -631,7 +642,7 @@ namespace Pic_Simulator
         private void opXORWF( byte f, byte d ) // Exclusive OR W with f  
         {
             if (f == 0x00) f = (byte)iReg[0x04];  // Indirect
-            // if ((iReg[0x03] & 0x20) > 0) f += 0x80;  //Bank 1 check
+            if ((iReg[0x03] & 0x20) > 0) f += 0x80;  //Bank 1 check
 
             int temp = iWReg ^ iReg[f];   // temporary variable
             if (temp == 0)
@@ -653,7 +664,7 @@ namespace Pic_Simulator
         private void opBCF( byte f, byte b ) // Bit clear f 
         {
             if (f == 0x00) f = (byte)iReg[0x04];  // Indirect
-            // if ((iReg[0x03] & 0x20) > 0) f += 0x80;  //Bank 1 check
+            if ((iReg[0x03] & 0x20) > 0) f += 0x80;  //Bank 1 check
 
             iReg[f] = iReg[f] & (~b);    // delete bit
             lCycles++;
@@ -767,7 +778,7 @@ namespace Pic_Simulator
         private void opCLRWDT() // clear watchdog timer
         {
             lCycles++;
-            // lWatchdog = 0; // clear the watchdog
+            lWatchdog = 0; // clear the watchdog
         }
 
         private void opGOTO( short k ) // Go to address
@@ -819,13 +830,14 @@ namespace Pic_Simulator
 
         private void opSLEEP() // Go into standby mode
         {
-            lWatchdog = 0; //Watchdog clearen
-            _timer0enabled = false;   //Timer0 deaktivieren
-            _sleepMode = true; //Simulator in Sleep Modus versetzen
+            lWatchdog = 0; // Clear the Watchdog 
+            _timer0enabled = false;   // Deactivate Timer0
+            _sleepMode = true; // Set the Simulator in Sleep Mode
             iPC++;
-            iReg[0x03] |= 0x10; iReg[0x03] &= 0xF7;     // set TO and clear PD
+            iReg[0x03] |= 0x10; iReg[0x03] &= 0xF7;     // Set T0 and clear PD
             iReg[0x83] |= 0x10; iReg[0x83] &= 0xF7;
             //Simulator kann dann durch Interrupt an RB0 oder PortB Bit 4-7 oder EEPROM-Write geweckt werden
+            // Simulator can be woken up, by setting Interrupt at RB0 or through PortB Bits 4-7, or EEPROM-Write
         }
 
         private void opSUBLW( byte k ) // Subtract W from literal

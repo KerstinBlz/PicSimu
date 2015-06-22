@@ -33,32 +33,42 @@ namespace Pic_Simulator
                 string line = input[i].ToString();
 
                 string MyString = line.Substring(5, 4);
-                if (MyString[1] != ' ')
+                if ( MyString[1] != ' ' )
                 {
                     _lstOperandString.Add(MyString);
                 }
-            } // for
+            } 
             return _lstOperandString;
         }
 
         /// <summary>
         /// Gibt eine Liste der Befehsrelevanten Zeilen als Strings zurück
         /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public List<string> CodeView(List<string> input)
+
+        public List<string> CodeView ( List<string> input )
         {
             List<string> _lstOutput = new List<string>();
-            for (int i = 0; i < input.Count; i++)
+            
+            for ( int i = 0; i < input.Count; i++ )
             {
                 string line = input[i].ToString();
                 if (line[1] != ' ')
                 {
                     _lstOutput.Add(line);
                 }
-            }// for
+            }
+
+            // Kommentare entfernen
+            for (int i = 0 ; i < _lstOutput.Count ; i++)
+            {
+                if (_lstOutput[i].Contains( ';' ))
+                {
+                    int stelle = _lstOutput[i].IndexOf( ';' );
+                    _lstOutput[i] = _lstOutput[i].Remove( stelle );
+                }
+            }
+
             return _lstOutput;
         }
-       
     }
 }
