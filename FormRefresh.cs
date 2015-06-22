@@ -278,7 +278,7 @@ namespace Pic_Simulator
                             }
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception /*ex*/)
                     {
                         refreshReg( );
                         MessageBox.Show( "Es sind nur Hex-Werte von 0 bis FF in diesem Register erlaubt!" , "Falsche Eingabe" , MessageBoxButtons.OK , MessageBoxIcon.Information );
@@ -505,39 +505,39 @@ namespace Pic_Simulator
         **
         **************************************************************************/
 
-        //private delegate void updateEECONReg_ClickDelegate( object sender , EventArgs e );
-        //private void updateEECONReg_Click( object sender , EventArgs e )
-        //{
-        //    if (InvokeRequired)
-        //    {
-        //        var invokeVar = new updateEECONReg_ClickDelegate( updateEECONReg_Click );
-        //        Invoke( invokeVar );
-        //    }
-        //    else
-        //    {
-        //        Control ctrl = (Control)sender;
-        //        if (ctrl.Text == "0")
-        //        {
-        //            ctrl.Text = "1";
-        //        }
-        //        else
-        //        {
-        //            ctrl.Text = "0";
-        //        }
+        private delegate void updateEECONReg_ClickDelegate( object sender , EventArgs e );
+        private void updateEECONReg_Click( object sender , EventArgs e )
+        {
+            if (InvokeRequired)
+            {
+                var invokeVar = new updateEECONReg_ClickDelegate( updateEECONReg_Click );
+                Invoke( invokeVar );
+            }
+            else
+            {
+                Control ctrl = (Control)sender;
+                if (ctrl.Text == "0")
+                {
+                    ctrl.Text = "1";
+                }
+                else
+                {
+                    ctrl.Text = "0";
+                }
 
-        //        string EECONReg =  tbEECON4.Text +
-        //                           tbEECON3.Text +
-        //                           tbEECON2.Text +
-        //                           tbEECON1.Text +
-        //                           tbEECON0.Text;
-        //        EECONReg.PadLeft( 2 , '0' );
-        //        iReg[0x88] = Convert.ToInt32( EECONReg , 2 );
+                string EECONReg = tbEECON4.Text +
+                                   tbEECON3.Text +
+                                   tbEECON2.Text +
+                                   tbEECON1.Text +
+                                   tbEECON0.Text;
+                EECONReg.PadLeft( 2 , '0' );
+                iReg[0x88] = Convert.ToInt32( EECONReg , 2 );
 
-        //        lvCode.Focus( );
+                lvCode.Focus( );
 
-        //        refreshReg( );
-        //    }
-        //}
+                refreshReg( );
+            }
+        }
 
         /*********************************************************************/
         /**   refreshReg
@@ -1100,7 +1100,7 @@ namespace Pic_Simulator
                     {
                         sStack[0] = stack.Peek( ).ToString( "X" );
                     }
-                    catch (Exception ex)
+                    catch (Exception /*ex*/)
                     {
                     }
                 }
@@ -1110,7 +1110,7 @@ namespace Pic_Simulator
                     {
                         sStack[1] = stack.Peek( ).ToString( "X" );
                     }
-                    catch (Exception ex)
+                    catch (Exception /*ex*/)
                     {
                     }
                 }
@@ -1120,7 +1120,7 @@ namespace Pic_Simulator
                     {
                         sStack[2] = stack.Peek( ).ToString( "X" );
                     }
-                    catch (Exception ex)
+                    catch (Exception /*ex*/)
                     {
                     }
                 }
@@ -1130,7 +1130,7 @@ namespace Pic_Simulator
                     {
                         sStack[3] = stack.Peek( ).ToString( "X" );
                     }
-                    catch (Exception ex)
+                    catch (Exception /*ex*/)
                     {
                     }
                 }
@@ -1140,7 +1140,7 @@ namespace Pic_Simulator
                     {
                         sStack[4] = stack.Peek( ).ToString( "X" );
                     }
-                    catch (Exception ex)
+                    catch (Exception /*ex*/)
                     {
                     }
                 }
@@ -1150,7 +1150,7 @@ namespace Pic_Simulator
                     {
                         sStack[5] = stack.Peek( ).ToString( "X" );
                     }
-                    catch (Exception ex)
+                    catch (Exception /*ex*/)
                     {
                     }
                 }
@@ -1160,7 +1160,7 @@ namespace Pic_Simulator
                     {
                         sStack[6] = stack.Peek( ).ToString( "X" );
                     }
-                    catch (Exception ex)
+                    catch (Exception /*ex*/)
                     {
                     }
                 }
@@ -1170,7 +1170,7 @@ namespace Pic_Simulator
                     {
                         sStack[7] = stack.Peek( ).ToString( "X" );
                     }
-                    catch (Exception ex)
+                    catch (Exception /*ex*/)
                     {
                     }
                 }

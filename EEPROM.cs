@@ -7,16 +7,16 @@ using System.IO;
 
 namespace Pic_Simulator
 {
-    public partial class KerTKDSim
+    public partial class KerTKDSim : Form
     {
         string eepromFilePath = "";
 
         private delegate void tbEECON_TextChangedDelegate( object sender , EventArgs e );
-        private void EECON_TextChanged( object sender , EventArgs e )
+        private void tbEECON_TextChanged( object sender , EventArgs e )
         {
             if (InvokeRequired)
             {
-                var invokeHelper = new tbEECON_TextChangedDelegate( EECON_TextChanged );
+                var invokeHelper = new tbEECON_TextChangedDelegate( tbEECON_TextChanged );
                 Invoke( invokeHelper , sender , e );
             }
             else
@@ -125,7 +125,7 @@ namespace Pic_Simulator
                             MessageBox.Show( "EEPROM Register: You can only use values from 0 to FF" , "Wrong Input" , MessageBoxButtons.OK , MessageBoxIcon.Information );
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception /*ex*/)
                     {
                         refreshReg( );
                         MessageBox.Show( "EEPROM Register: You can only use values from 0 to FF" , "Wrong Input" , MessageBoxButtons.OK , MessageBoxIcon.Information );

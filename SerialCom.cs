@@ -96,7 +96,7 @@ namespace Pic_Simulator
                     //close port
                     port.Close( );
                 }
-                catch (Exception e)
+                catch (Exception /*ex*/)
                 {
 
                 }

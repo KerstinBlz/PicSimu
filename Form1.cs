@@ -25,7 +25,7 @@ namespace Pic_Simulator
         long lCycles, lRuntime; //Zyklen und Laufzeit
         long lWatchdog; // Watchdog Counter
 
-        bool _timer0enabled = true;
+        bool _timer0enabled;
         int _iPrescalerCnt;
         int _iPrescalerValue;
 
@@ -97,11 +97,6 @@ namespace Pic_Simulator
             gridBank_1.EnableSort = false;
             gridBank_0.EnableSort = false;
             gridEEPROM.EnableSort = false;
-            // gridEECON1.EnableSort = false;
-            gridInterrupt.EnableSort = false;
-            gridOption.EnableSort = false;
-            gridStack.EnableSort = false;
-            gridStatus.EnableSort = false;
 
             gridBank_1.Redim(Row, Col);
             gridBank_0.Redim(Row, Col);
@@ -146,124 +141,6 @@ namespace Pic_Simulator
             }
             #endregion Bank0/1,EEPROM initialisierung
 
-            #region StatusRegister
-            //initialisieren des Stausregisters
-            gridStatus.Redim(2, 8);
-            gridStatus[0, 0] = new SourceGrid.Cells.ColumnHeader("Bit0");
-            gridStatus[0, 1] = new SourceGrid.Cells.ColumnHeader("Bit1");
-            gridStatus[0, 2] = new SourceGrid.Cells.ColumnHeader("Bit2");
-            gridStatus[0, 3] = new SourceGrid.Cells.ColumnHeader("Bit3");
-            gridStatus[0, 4] = new SourceGrid.Cells.ColumnHeader("Bit4");
-            gridStatus[0, 5] = new SourceGrid.Cells.ColumnHeader("Bit5");
-            gridStatus[0, 6] = new SourceGrid.Cells.ColumnHeader("Bit6");
-            gridStatus[0, 7] = new SourceGrid.Cells.ColumnHeader("Bit7");
-
-            gridStatus[1, 0] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridStatus[1, 1] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridStatus[1, 2] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridStatus[1, 3] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridStatus[1, 4] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridStatus[1, 5] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridStatus[1, 6] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridStatus[1, 7] = new SourceGrid.Cells.Cell("0", typeof(string));
-
-            for (int i = 0; i < 8; i++) { gridStatus.Columns[i].Width = 30; }
-
-            #endregion StatusRegister
-
-            #region OptionRegister
-            //initialisieren des Stausregisters
-            gridOption.Redim(2, 8);
-            gridOption[0, 0] = new SourceGrid.Cells.ColumnHeader("Bit0");
-            gridOption[0, 1] = new SourceGrid.Cells.ColumnHeader("Bit1");
-            gridOption[0, 2] = new SourceGrid.Cells.ColumnHeader("Bit2");
-            gridOption[0, 3] = new SourceGrid.Cells.ColumnHeader("Bit3");
-            gridOption[0, 4] = new SourceGrid.Cells.ColumnHeader("Bit4");
-            gridOption[0, 5] = new SourceGrid.Cells.ColumnHeader("Bit5");
-            gridOption[0, 6] = new SourceGrid.Cells.ColumnHeader("Bit6");
-            gridOption[0, 7] = new SourceGrid.Cells.ColumnHeader("Bit7");
-
-            gridOption[1, 0] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridOption[1, 1] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridOption[1, 2] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridOption[1, 3] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridOption[1, 4] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridOption[1, 5] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridOption[1, 6] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridOption[1, 7] = new SourceGrid.Cells.Cell("0", typeof(string));
-
-            for (int i = 0; i < 8; i++) { gridOption.Columns[i].Width = 30; }
-
-            #endregion OptionRegister
-
-            #region Stack
-            //initialisieren des Stausregisters
-            gridStack.Redim(2, 8);
-            gridStack[0, 0] = new SourceGrid.Cells.ColumnHeader("0");
-            gridStack[0, 1] = new SourceGrid.Cells.ColumnHeader("1");
-            gridStack[0, 2] = new SourceGrid.Cells.ColumnHeader("2");
-            gridStack[0, 3] = new SourceGrid.Cells.ColumnHeader("3");
-            gridStack[0, 4] = new SourceGrid.Cells.ColumnHeader("4");
-            gridStack[0, 5] = new SourceGrid.Cells.ColumnHeader("5");
-            gridStack[0, 6] = new SourceGrid.Cells.ColumnHeader("6");
-            gridStack[0, 7] = new SourceGrid.Cells.ColumnHeader("7");
-
-            gridStack[1, 0] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridStack[1, 1] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridStack[1, 2] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridStack[1, 3] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridStack[1, 4] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridStack[1, 5] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridStack[1, 6] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridStack[1, 7] = new SourceGrid.Cells.Cell("0", typeof(string));
-
-            for (int i = 0; i < 8; i++) { gridStack.Columns[i].Width = 30; }
-
-            #endregion Stack
-
-            #region InterruptRegister
-            //initialisieren des Stausregisters
-            gridInterrupt.Redim(2, 8);
-            gridInterrupt[0, 0] = new SourceGrid.Cells.ColumnHeader("Bit0");
-            gridInterrupt[0, 1] = new SourceGrid.Cells.ColumnHeader("Bit1");
-            gridInterrupt[0, 2] = new SourceGrid.Cells.ColumnHeader("Bit2");
-            gridInterrupt[0, 3] = new SourceGrid.Cells.ColumnHeader("Bit3");
-            gridInterrupt[0, 4] = new SourceGrid.Cells.ColumnHeader("Bit4");
-            gridInterrupt[0, 5] = new SourceGrid.Cells.ColumnHeader("Bit5");
-            gridInterrupt[0, 6] = new SourceGrid.Cells.ColumnHeader("Bit6");
-            gridInterrupt[0, 7] = new SourceGrid.Cells.ColumnHeader("Bit7");
-
-            gridInterrupt[1, 0] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridInterrupt[1, 1] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridInterrupt[1, 2] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridInterrupt[1, 3] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridInterrupt[1, 4] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridInterrupt[1, 5] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridInterrupt[1, 6] = new SourceGrid.Cells.Cell("0", typeof(string));
-            gridInterrupt[1, 7] = new SourceGrid.Cells.Cell("0", typeof(string));
-
-            for (int i = 0; i < 8; i++) { gridInterrupt.Columns[i].Width = 30; }
-
-            #endregion OptionRegister
-
-            //#region EECON1
-            //gridEECON1.Redim( 2 , 5 );
-            //gridEECON1[0 , 0] = new SourceGrid.Cells.ColumnHeader( "EEIF" );
-            //gridEECON1[0 , 1] = new SourceGrid.Cells.ColumnHeader( "WRERR" );
-            //gridEECON1[0 , 2] = new SourceGrid.Cells.ColumnHeader( "WREN" );
-            //gridEECON1[0 , 3] = new SourceGrid.Cells.ColumnHeader( "WR" );
-            //gridEECON1[0 , 4] = new SourceGrid.Cells.ColumnHeader( "RD" );
-
-            //gridEECON1[1 , 0] = new SourceGrid.Cells.Cell( "0" , typeof( string ) );
-            //gridEECON1[1 , 1] = new SourceGrid.Cells.Cell( "0" , typeof( string ) );
-            //gridEECON1[1 , 2] = new SourceGrid.Cells.Cell( "0" , typeof( string ) );
-            //gridEECON1[1 , 3] = new SourceGrid.Cells.Cell( "0" , typeof( string ) );
-            //gridEECON1[1 , 4] = new SourceGrid.Cells.Cell( "0" , typeof( string ) );
-
-            //gridEECON1.AutoSizeCells( );
-            //for (int i = 0 ; i < 5 ; i++) { gridEECON1.Columns[i].Width = 53; }
-
-            //#endregion EECON1
 
             #region Beschriftung der Tabellen
             gridBank_1[0, 0].Value = "0x";
@@ -977,7 +854,6 @@ namespace Pic_Simulator
                 }
                 // markieren des nächsten Befehls
                 lvCode.Items[cmdNumber].Selected = true;
-                lvCode.Items[cmdNumber].EnsureVisible();
                 lvCode.Items[cmdNumber].Focused = true;
                 lvCode.TopItem = lvCode.Items[cmdNumber]; //listView.TopItem = listView1.Items[row#];
                 lvCode.Select( );

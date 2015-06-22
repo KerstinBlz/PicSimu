@@ -40,6 +40,17 @@
             this.tP_bank_1 = new System.Windows.Forms.TabPage();
             this.gridBank_1 = new SourceGrid.Grid();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.gbEECON = new System.Windows.Forms.GroupBox();
+            this.label95 = new System.Windows.Forms.Label();
+            this.label94 = new System.Windows.Forms.Label();
+            this.label93 = new System.Windows.Forms.Label();
+            this.label92 = new System.Windows.Forms.Label();
+            this.label91 = new System.Windows.Forms.Label();
+            this.tbEECON0 = new System.Windows.Forms.TextBox();
+            this.tbEECON1 = new System.Windows.Forms.TextBox();
+            this.tbEECON2 = new System.Windows.Forms.TextBox();
+            this.tbEECON3 = new System.Windows.Forms.TextBox();
+            this.tbEECON4 = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tbEEPName = new System.Windows.Forms.TextBox();
             this.btnSaveEEP = new System.Windows.Forms.Button();
@@ -51,8 +62,6 @@
             this.btnStep = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.gridStatus = new SourceGrid.Grid();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.gbRA = new System.Windows.Forms.GroupBox();
             this.label116 = new System.Windows.Forms.Label();
@@ -124,12 +133,6 @@
             this.cbComPorts = new System.Windows.Forms.ComboBox();
             this.gbruntime = new System.Windows.Forms.GroupBox();
             this.tbRuntime = new System.Windows.Forms.TextBox();
-            this.gridOption = new SourceGrid.Grid();
-            this.groupBox = new System.Windows.Forms.GroupBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.gridStack = new SourceGrid.Grid();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.gridInterrupt = new SourceGrid.Grid();
             this.gbStatus = new System.Windows.Forms.GroupBox();
             this.label138 = new System.Windows.Forms.Label();
             this.label137 = new System.Windows.Forms.Label();
@@ -229,24 +232,13 @@
             this.lbStack2 = new System.Windows.Forms.Label();
             this.lbStack1 = new System.Windows.Forms.Label();
             this.lbStack0 = new System.Windows.Forms.Label();
-            this.gbEECON = new System.Windows.Forms.GroupBox();
-            this.label95 = new System.Windows.Forms.Label();
-            this.label94 = new System.Windows.Forms.Label();
-            this.label93 = new System.Windows.Forms.Label();
-            this.label92 = new System.Windows.Forms.Label();
-            this.label91 = new System.Windows.Forms.Label();
-            this.tbEECON0 = new System.Windows.Forms.TextBox();
-            this.tbEECON1 = new System.Windows.Forms.TextBox();
-            this.tbEECON2 = new System.Windows.Forms.TextBox();
-            this.tbEECON3 = new System.Windows.Forms.TextBox();
-            this.tbEECON4 = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tP_bank_0.SuspendLayout();
             this.tP_bank_1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.gbEECON.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.gbRA.SuspendLayout();
             this.gbRB.SuspendLayout();
@@ -259,14 +251,10 @@
             this.gblCycles.SuspendLayout();
             this.gbSerial.SuspendLayout();
             this.gbruntime.SuspendLayout();
-            this.groupBox.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            this.groupBox8.SuspendLayout();
             this.gbStatus.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.gbStack.SuspendLayout();
-            this.gbEECON.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -276,7 +264,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1324, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1005, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -391,6 +379,142 @@
             this.tabPage1.Text = "EEPROM";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // gbEECON
+            // 
+            this.gbEECON.Controls.Add(this.label95);
+            this.gbEECON.Controls.Add(this.label94);
+            this.gbEECON.Controls.Add(this.label93);
+            this.gbEECON.Controls.Add(this.label92);
+            this.gbEECON.Controls.Add(this.label91);
+            this.gbEECON.Controls.Add(this.tbEECON0);
+            this.gbEECON.Controls.Add(this.tbEECON1);
+            this.gbEECON.Controls.Add(this.tbEECON2);
+            this.gbEECON.Controls.Add(this.tbEECON3);
+            this.gbEECON.Controls.Add(this.tbEECON4);
+            this.gbEECON.Location = new System.Drawing.Point(4, 206);
+            this.gbEECON.Name = "gbEECON";
+            this.gbEECON.Size = new System.Drawing.Size(251, 62);
+            this.gbEECON.TabIndex = 478;
+            this.gbEECON.TabStop = false;
+            this.gbEECON.Text = "EECON1";
+            // 
+            // label95
+            // 
+            this.label95.AutoSize = true;
+            this.label95.Location = new System.Drawing.Point(20, 22);
+            this.label95.Name = "label95";
+            this.label95.Size = new System.Drawing.Size(30, 13);
+            this.label95.TabIndex = 98;
+            this.label95.Text = "EEIF";
+            // 
+            // label94
+            // 
+            this.label94.AutoSize = true;
+            this.label94.Location = new System.Drawing.Point(58, 22);
+            this.label94.Name = "label94";
+            this.label94.Size = new System.Drawing.Size(49, 13);
+            this.label94.TabIndex = 97;
+            this.label94.Text = "WRERR";
+            // 
+            // label93
+            // 
+            this.label93.AutoSize = true;
+            this.label93.Location = new System.Drawing.Point(110, 22);
+            this.label93.Name = "label93";
+            this.label93.Size = new System.Drawing.Size(41, 13);
+            this.label93.TabIndex = 96;
+            this.label93.Text = "WREN";
+            // 
+            // label92
+            // 
+            this.label92.AutoSize = true;
+            this.label92.Location = new System.Drawing.Point(153, 22);
+            this.label92.Name = "label92";
+            this.label92.Size = new System.Drawing.Size(26, 13);
+            this.label92.TabIndex = 95;
+            this.label92.Text = "WR";
+            // 
+            // label91
+            // 
+            this.label91.AutoSize = true;
+            this.label91.Location = new System.Drawing.Point(185, 22);
+            this.label91.Name = "label91";
+            this.label91.Size = new System.Drawing.Size(23, 13);
+            this.label91.TabIndex = 94;
+            this.label91.Text = "RD";
+            // 
+            // tbEECON0
+            // 
+            this.tbEECON0.BackColor = System.Drawing.SystemColors.Window;
+            this.tbEECON0.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.tbEECON0.Location = new System.Drawing.Point(183, 38);
+            this.tbEECON0.Name = "tbEECON0";
+            this.tbEECON0.ReadOnly = true;
+            this.tbEECON0.Size = new System.Drawing.Size(26, 20);
+            this.tbEECON0.TabIndex = 93;
+            this.tbEECON0.TabStop = false;
+            this.tbEECON0.Text = "0";
+            this.tbEECON0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbEECON0.Click += new System.EventHandler(this.updateEECONReg_Click);
+            this.tbEECON0.TextChanged += new System.EventHandler(this.tbEECON_TextChanged);
+            // 
+            // tbEECON1
+            // 
+            this.tbEECON1.BackColor = System.Drawing.SystemColors.Window;
+            this.tbEECON1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.tbEECON1.Location = new System.Drawing.Point(151, 38);
+            this.tbEECON1.Name = "tbEECON1";
+            this.tbEECON1.ReadOnly = true;
+            this.tbEECON1.Size = new System.Drawing.Size(26, 20);
+            this.tbEECON1.TabIndex = 92;
+            this.tbEECON1.TabStop = false;
+            this.tbEECON1.Text = "0";
+            this.tbEECON1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbEECON1.Click += new System.EventHandler(this.updateEECONReg_Click);
+            this.tbEECON1.TextChanged += new System.EventHandler(this.tbEECON_TextChanged);
+            // 
+            // tbEECON2
+            // 
+            this.tbEECON2.BackColor = System.Drawing.SystemColors.Window;
+            this.tbEECON2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.tbEECON2.Location = new System.Drawing.Point(110, 38);
+            this.tbEECON2.Name = "tbEECON2";
+            this.tbEECON2.ReadOnly = true;
+            this.tbEECON2.Size = new System.Drawing.Size(26, 20);
+            this.tbEECON2.TabIndex = 91;
+            this.tbEECON2.TabStop = false;
+            this.tbEECON2.Text = "0";
+            this.tbEECON2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbEECON2.TextChanged += new System.EventHandler(this.tbEECON_TextChanged);
+            // 
+            // tbEECON3
+            // 
+            this.tbEECON3.BackColor = System.Drawing.SystemColors.Window;
+            this.tbEECON3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.tbEECON3.Location = new System.Drawing.Point(69, 38);
+            this.tbEECON3.Name = "tbEECON3";
+            this.tbEECON3.ReadOnly = true;
+            this.tbEECON3.Size = new System.Drawing.Size(26, 20);
+            this.tbEECON3.TabIndex = 90;
+            this.tbEECON3.TabStop = false;
+            this.tbEECON3.Text = "0";
+            this.tbEECON3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbEECON3.TextChanged += new System.EventHandler(this.tbEECON_TextChanged);
+            // 
+            // tbEECON4
+            // 
+            this.tbEECON4.BackColor = System.Drawing.SystemColors.Window;
+            this.tbEECON4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.tbEECON4.Location = new System.Drawing.Point(23, 38);
+            this.tbEECON4.Name = "tbEECON4";
+            this.tbEECON4.ReadOnly = true;
+            this.tbEECON4.Size = new System.Drawing.Size(26, 20);
+            this.tbEECON4.TabIndex = 89;
+            this.tbEECON4.TabStop = false;
+            this.tbEECON4.Text = "0";
+            this.tbEECON4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbEECON4.TextChanged += new System.EventHandler(this.tbEECON_TextChanged);
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.tbEEPName);
@@ -421,6 +545,7 @@
             this.btnSaveEEP.TabIndex = 479;
             this.btnSaveEEP.Text = "Save EEPROM";
             this.btnSaveEEP.UseVisualStyleBackColor = true;
+            this.btnSaveEEP.Click += new System.EventHandler(this.saveEEPROM);
             // 
             // btnLoadEEP
             // 
@@ -430,6 +555,7 @@
             this.btnLoadEEP.TabIndex = 478;
             this.btnLoadEEP.Text = "Load EEPROM";
             this.btnLoadEEP.UseVisualStyleBackColor = true;
+            this.btnLoadEEP.Click += new System.EventHandler(this.loadEEPROM);
             // 
             // gridEEPROM
             // 
@@ -505,31 +631,6 @@
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.gridStatus);
-            this.groupBox1.Location = new System.Drawing.Point(646, 27);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(267, 64);
-            this.groupBox1.TabIndex = 17;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Statusregister";
-            // 
-            // gridStatus
-            // 
-            this.gridStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridStatus.EnableSort = true;
-            this.gridStatus.Location = new System.Drawing.Point(8, 16);
-            this.gridStatus.Name = "gridStatus";
-            this.gridStatus.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
-            this.gridStatus.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.gridStatus.Size = new System.Drawing.Size(255, 40);
-            this.gridStatus.TabIndex = 2;
-            this.gridStatus.TabStop = true;
-            this.gridStatus.ToolTipText = "";
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.tbTest);
@@ -560,7 +661,7 @@
             this.gbRA.Controls.Add(this.tbTrisA4);
             this.gbRA.Controls.Add(this.tRA1);
             this.gbRA.Controls.Add(this.tRA2);
-            this.gbRA.Location = new System.Drawing.Point(650, 315);
+            this.gbRA.Location = new System.Drawing.Point(650, 43);
             this.gbRA.Name = "gbRA";
             this.gbRA.Size = new System.Drawing.Size(225, 84);
             this.gbRA.TabIndex = 27;
@@ -807,7 +908,7 @@
             this.gbRB.Controls.Add(this.tbTrisB7);
             this.gbRB.Controls.Add(this.tbTrisB5);
             this.gbRB.Controls.Add(this.tbTrisB4);
-            this.gbRB.Location = new System.Drawing.Point(650, 410);
+            this.gbRB.Location = new System.Drawing.Point(650, 137);
             this.gbRB.Name = "gbRB";
             this.gbRB.Size = new System.Drawing.Size(311, 91);
             this.gbRB.TabIndex = 28;
@@ -1253,7 +1354,7 @@
             this.cbDelay.Size = new System.Drawing.Size(48, 21);
             this.cbDelay.TabIndex = 1;
             this.cbDelay.Text = "250";
-            this.cbDelay.SelectedIndexChanged += new System.EventHandler( this.cbDelay_SelectedIndexChanged );
+            this.cbDelay.SelectedIndexChanged += new System.EventHandler(this.cbDelay_SelectedIndexChanged);
             // 
             // groupBox7
             // 
@@ -1373,81 +1474,6 @@
             this.tbRuntime.Size = new System.Drawing.Size(74, 20);
             this.tbRuntime.TabIndex = 0;
             // 
-            // gridOption
-            // 
-            this.gridOption.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridOption.EnableSort = true;
-            this.gridOption.Location = new System.Drawing.Point(9, 16);
-            this.gridOption.Name = "gridOption";
-            this.gridOption.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
-            this.gridOption.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.gridOption.Size = new System.Drawing.Size(255, 41);
-            this.gridOption.TabIndex = 45;
-            this.gridOption.TabStop = true;
-            this.gridOption.ToolTipText = "";
-            // 
-            // groupBox
-            // 
-            this.groupBox.Controls.Add(this.gridOption);
-            this.groupBox.Location = new System.Drawing.Point(650, 99);
-            this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new System.Drawing.Size(267, 64);
-            this.groupBox.TabIndex = 46;
-            this.groupBox.TabStop = false;
-            this.groupBox.Text = "Optionregister";
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.gridStack);
-            this.groupBox5.Location = new System.Drawing.Point(650, 245);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(267, 64);
-            this.groupBox5.TabIndex = 47;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Stack";
-            // 
-            // gridStack
-            // 
-            this.gridStack.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridStack.EnableSort = true;
-            this.gridStack.Location = new System.Drawing.Point(9, 16);
-            this.gridStack.Name = "gridStack";
-            this.gridStack.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
-            this.gridStack.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.gridStack.Size = new System.Drawing.Size(255, 41);
-            this.gridStack.TabIndex = 45;
-            this.gridStack.TabStop = true;
-            this.gridStack.ToolTipText = "";
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.gridInterrupt);
-            this.groupBox8.Location = new System.Drawing.Point(650, 175);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(267, 64);
-            this.groupBox8.TabIndex = 47;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Interruptregister(INTCON)";
-            // 
-            // gridInterrupt
-            // 
-            this.gridInterrupt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridInterrupt.EnableSort = true;
-            this.gridInterrupt.Location = new System.Drawing.Point(6, 19);
-            this.gridInterrupt.Name = "gridInterrupt";
-            this.gridInterrupt.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
-            this.gridInterrupt.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.gridInterrupt.Size = new System.Drawing.Size(255, 41);
-            this.gridInterrupt.TabIndex = 45;
-            this.gridInterrupt.TabStop = true;
-            this.gridInterrupt.ToolTipText = "";
-            // 
             // gbStatus
             // 
             this.gbStatus.Controls.Add(this.label138);
@@ -1477,7 +1503,7 @@
             this.gbStatus.Controls.Add(this.tStatus2);
             this.gbStatus.Controls.Add(this.tStatus1);
             this.gbStatus.Controls.Add(this.tStatus0);
-            this.gbStatus.Location = new System.Drawing.Point(964, 43);
+            this.gbStatus.Location = new System.Drawing.Point(650, 335);
             this.gbStatus.Name = "gbStatus";
             this.gbStatus.Size = new System.Drawing.Size(96, 293);
             this.gbStatus.TabIndex = 48;
@@ -1658,7 +1684,7 @@
             this.tStatus7.TabStop = false;
             this.tStatus7.Text = "0";
             this.tStatus7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tStatus7.Click += new System.EventHandler( this.updateStatus_Click );
+            this.tStatus7.Click += new System.EventHandler(this.updateStatus_Click);
             // 
             // tStatus6
             // 
@@ -1672,7 +1698,7 @@
             this.tStatus6.TabStop = false;
             this.tStatus6.Text = "0";
             this.tStatus6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tStatus6.Click += new System.EventHandler( this.updateStatus_Click );
+            this.tStatus6.Click += new System.EventHandler(this.updateStatus_Click);
             // 
             // label145
             // 
@@ -1695,7 +1721,7 @@
             this.tStatus5.TabStop = false;
             this.tStatus5.Text = "0";
             this.tStatus5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tStatus5.Click += new System.EventHandler( this.updateStatus_Click );
+            this.tStatus5.Click += new System.EventHandler(this.updateStatus_Click);
             // 
             // tStatus4
             // 
@@ -1709,7 +1735,7 @@
             this.tStatus4.TabStop = false;
             this.tStatus4.Text = "0";
             this.tStatus4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tStatus4.Click += new System.EventHandler( this.updateStatus_Click );
+            this.tStatus4.Click += new System.EventHandler(this.updateStatus_Click);
             // 
             // tStatus3
             // 
@@ -1723,7 +1749,7 @@
             this.tStatus3.TabStop = false;
             this.tStatus3.Text = "0";
             this.tStatus3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tStatus3.Click += new System.EventHandler( this.updateStatus_Click );
+            this.tStatus3.Click += new System.EventHandler(this.updateStatus_Click);
             // 
             // tStatus2
             // 
@@ -1737,7 +1763,7 @@
             this.tStatus2.TabStop = false;
             this.tStatus2.Text = "0";
             this.tStatus2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tStatus2.Click += new System.EventHandler( this.updateStatus_Click );
+            this.tStatus2.Click += new System.EventHandler(this.updateStatus_Click);
             // 
             // tStatus1
             // 
@@ -1751,7 +1777,7 @@
             this.tStatus1.TabStop = false;
             this.tStatus1.Text = "0";
             this.tStatus1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tStatus1.Click += new System.EventHandler( this.updateStatus_Click );
+            this.tStatus1.Click += new System.EventHandler(this.updateStatus_Click);
             // 
             // tStatus0
             // 
@@ -1765,7 +1791,7 @@
             this.tStatus0.TabStop = false;
             this.tStatus0.Text = "0";
             this.tStatus0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tStatus0.Click += new System.EventHandler( this.updateStatus_Click );
+            this.tStatus0.Click += new System.EventHandler(this.updateStatus_Click);
             // 
             // groupBox4
             // 
@@ -1795,7 +1821,7 @@
             this.groupBox4.Controls.Add(this.tbOption2);
             this.groupBox4.Controls.Add(this.tbOption1);
             this.groupBox4.Controls.Add(this.tbOption0);
-            this.groupBox4.Location = new System.Drawing.Point(1079, 49);
+            this.groupBox4.Location = new System.Drawing.Point(770, 335);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(105, 287);
             this.groupBox4.TabIndex = 49;
@@ -1976,7 +2002,7 @@
             this.tbOption7.TabStop = false;
             this.tbOption7.Text = "0";
             this.tbOption7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tbOption7.Click += new System.EventHandler( this.updateOptionReg_Click );
+            this.tbOption7.Click += new System.EventHandler(this.updateOptionReg_Click);
             // 
             // tbOption6
             // 
@@ -1990,7 +2016,7 @@
             this.tbOption6.TabStop = false;
             this.tbOption6.Text = "0";
             this.tbOption6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tbOption6.Click += new System.EventHandler( this.updateOptionReg_Click );
+            this.tbOption6.Click += new System.EventHandler(this.updateOptionReg_Click);
             // 
             // tbOption5
             // 
@@ -2004,7 +2030,7 @@
             this.tbOption5.TabStop = false;
             this.tbOption5.Text = "0";
             this.tbOption5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tbOption5.Click += new System.EventHandler( this.updateOptionReg_Click );
+            this.tbOption5.Click += new System.EventHandler(this.updateOptionReg_Click);
             // 
             // tbOption4
             // 
@@ -2018,7 +2044,7 @@
             this.tbOption4.TabStop = false;
             this.tbOption4.Text = "0";
             this.tbOption4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tbOption4.Click += new System.EventHandler( this.updateOptionReg_Click );
+            this.tbOption4.Click += new System.EventHandler(this.updateOptionReg_Click);
             // 
             // tbOption3
             // 
@@ -2032,7 +2058,7 @@
             this.tbOption3.TabStop = false;
             this.tbOption3.Text = "0";
             this.tbOption3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tbOption3.Click += new System.EventHandler( this.updateOptionReg_Click );
+            this.tbOption3.Click += new System.EventHandler(this.updateOptionReg_Click);
             // 
             // tbOption2
             // 
@@ -2046,7 +2072,7 @@
             this.tbOption2.TabStop = false;
             this.tbOption2.Text = "0";
             this.tbOption2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tbOption2.Click += new System.EventHandler( this.updateOptionReg_Click );
+            this.tbOption2.Click += new System.EventHandler(this.updateOptionReg_Click);
             // 
             // tbOption1
             // 
@@ -2060,7 +2086,7 @@
             this.tbOption1.TabStop = false;
             this.tbOption1.Text = "0";
             this.tbOption1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tbOption1.Click += new System.EventHandler( this.updateOptionReg_Click );
+            this.tbOption1.Click += new System.EventHandler(this.updateOptionReg_Click);
             // 
             // tbOption0
             // 
@@ -2074,7 +2100,7 @@
             this.tbOption0.TabStop = false;
             this.tbOption0.Text = "0";
             this.tbOption0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tbOption0.Click += new System.EventHandler( this.updateOptionReg_Click );
+            this.tbOption0.Click += new System.EventHandler(this.updateOptionReg_Click);
             // 
             // groupBox9
             // 
@@ -2103,7 +2129,7 @@
             this.groupBox9.Controls.Add(this.tbInt2);
             this.groupBox9.Controls.Add(this.tbInt1);
             this.groupBox9.Controls.Add(this.tbInt0);
-            this.groupBox9.Location = new System.Drawing.Point(967, 342);
+            this.groupBox9.Location = new System.Drawing.Point(650, 240);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(311, 76);
             this.groupBox9.TabIndex = 50;
@@ -2275,7 +2301,7 @@
             this.tbInt7.TabStop = false;
             this.tbInt7.Text = "0";
             this.tbInt7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tbInt7.Click += new System.EventHandler( this.updateIntReg_Click );
+            this.tbInt7.Click += new System.EventHandler(this.updateIntReg_Click);
             // 
             // tbInt6
             // 
@@ -2289,7 +2315,7 @@
             this.tbInt6.TabStop = false;
             this.tbInt6.Text = "0";
             this.tbInt6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tbInt6.Click += new System.EventHandler( this.updateIntReg_Click );
+            this.tbInt6.Click += new System.EventHandler(this.updateIntReg_Click);
             // 
             // tbInt5
             // 
@@ -2303,7 +2329,7 @@
             this.tbInt5.TabStop = false;
             this.tbInt5.Text = "0";
             this.tbInt5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tbInt5.Click += new System.EventHandler( this.updateIntReg_Click );
+            this.tbInt5.Click += new System.EventHandler(this.updateIntReg_Click);
             // 
             // tbInt4
             // 
@@ -2317,7 +2343,7 @@
             this.tbInt4.TabStop = false;
             this.tbInt4.Text = "0";
             this.tbInt4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tbInt4.Click += new System.EventHandler( this.updateIntReg_Click );
+            this.tbInt4.Click += new System.EventHandler(this.updateIntReg_Click);
             // 
             // tbInt3
             // 
@@ -2331,7 +2357,7 @@
             this.tbInt3.TabStop = false;
             this.tbInt3.Text = "0";
             this.tbInt3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tbInt3.Click += new System.EventHandler( this.updateIntReg_Click );
+            this.tbInt3.Click += new System.EventHandler(this.updateIntReg_Click);
             // 
             // tbInt2
             // 
@@ -2345,7 +2371,7 @@
             this.tbInt2.TabStop = false;
             this.tbInt2.Text = "0";
             this.tbInt2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tbInt2.Click += new System.EventHandler( this.updateIntReg_Click );
+            this.tbInt2.Click += new System.EventHandler(this.updateIntReg_Click);
             // 
             // tbInt1
             // 
@@ -2359,7 +2385,7 @@
             this.tbInt1.TabStop = false;
             this.tbInt1.Text = "0";
             this.tbInt1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tbInt1.Click += new System.EventHandler( this.updateIntReg_Click );
+            this.tbInt1.Click += new System.EventHandler(this.updateIntReg_Click);
             // 
             // tbInt0
             // 
@@ -2373,7 +2399,7 @@
             this.tbInt0.TabStop = false;
             this.tbInt0.Text = "0";
             this.tbInt0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tbInt0.Click += new System.EventHandler( this.updateIntReg_Click );
+            this.tbInt0.Click += new System.EventHandler(this.updateIntReg_Click);
             // 
             // gbStack
             // 
@@ -2394,7 +2420,7 @@
             this.gbStack.Controls.Add(this.lbStack2);
             this.gbStack.Controls.Add(this.lbStack1);
             this.gbStack.Controls.Add(this.lbStack0);
-            this.gbStack.Location = new System.Drawing.Point(1213, 52);
+            this.gbStack.Location = new System.Drawing.Point(896, 335);
             this.gbStack.Name = "gbStack";
             this.gbStack.Size = new System.Drawing.Size(69, 244);
             this.gbStack.TabIndex = 51;
@@ -2562,147 +2588,15 @@
             this.lbStack0.TabIndex = 0;
             this.lbStack0.Text = "  ";
             // 
-            // gbEECON
-            // 
-            this.gbEECON.Controls.Add(this.label95);
-            this.gbEECON.Controls.Add(this.label94);
-            this.gbEECON.Controls.Add(this.label93);
-            this.gbEECON.Controls.Add(this.label92);
-            this.gbEECON.Controls.Add(this.label91);
-            this.gbEECON.Controls.Add(this.tbEECON0);
-            this.gbEECON.Controls.Add(this.tbEECON1);
-            this.gbEECON.Controls.Add(this.tbEECON2);
-            this.gbEECON.Controls.Add(this.tbEECON3);
-            this.gbEECON.Controls.Add(this.tbEECON4);
-            this.gbEECON.Location = new System.Drawing.Point(4, 206);
-            this.gbEECON.Name = "gbEECON";
-            this.gbEECON.Size = new System.Drawing.Size(251, 62);
-            this.gbEECON.TabIndex = 478;
-            this.gbEECON.TabStop = false;
-            this.gbEECON.Text = "EECON1";
-            // 
-            // label95
-            // 
-            this.label95.AutoSize = true;
-            this.label95.Location = new System.Drawing.Point(20, 22);
-            this.label95.Name = "label95";
-            this.label95.Size = new System.Drawing.Size(30, 13);
-            this.label95.TabIndex = 98;
-            this.label95.Text = "EEIF";
-            // 
-            // label94
-            // 
-            this.label94.AutoSize = true;
-            this.label94.Location = new System.Drawing.Point(58, 22);
-            this.label94.Name = "label94";
-            this.label94.Size = new System.Drawing.Size(49, 13);
-            this.label94.TabIndex = 97;
-            this.label94.Text = "WRERR";
-            // 
-            // label93
-            // 
-            this.label93.AutoSize = true;
-            this.label93.Location = new System.Drawing.Point(110, 22);
-            this.label93.Name = "label93";
-            this.label93.Size = new System.Drawing.Size(41, 13);
-            this.label93.TabIndex = 96;
-            this.label93.Text = "WREN";
-            // 
-            // label92
-            // 
-            this.label92.AutoSize = true;
-            this.label92.Location = new System.Drawing.Point(153, 22);
-            this.label92.Name = "label92";
-            this.label92.Size = new System.Drawing.Size(26, 13);
-            this.label92.TabIndex = 95;
-            this.label92.Text = "WR";
-            // 
-            // label91
-            // 
-            this.label91.AutoSize = true;
-            this.label91.Location = new System.Drawing.Point(185, 22);
-            this.label91.Name = "label91";
-            this.label91.Size = new System.Drawing.Size(23, 13);
-            this.label91.TabIndex = 94;
-            this.label91.Text = "RD";
-            // 
-            // tbEECON0
-            // 
-            this.tbEECON0.BackColor = System.Drawing.SystemColors.Window;
-            this.tbEECON0.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.tbEECON0.Location = new System.Drawing.Point(183, 38);
-            this.tbEECON0.Name = "tbEECON0";
-            this.tbEECON0.ReadOnly = true;
-            this.tbEECON0.Size = new System.Drawing.Size(26, 20);
-            this.tbEECON0.TabIndex = 93;
-            this.tbEECON0.TabStop = false;
-            this.tbEECON0.Text = "0";
-            this.tbEECON0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // tbEECON1
-            // 
-            this.tbEECON1.BackColor = System.Drawing.SystemColors.Window;
-            this.tbEECON1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.tbEECON1.Location = new System.Drawing.Point(151, 38);
-            this.tbEECON1.Name = "tbEECON1";
-            this.tbEECON1.ReadOnly = true;
-            this.tbEECON1.Size = new System.Drawing.Size(26, 20);
-            this.tbEECON1.TabIndex = 92;
-            this.tbEECON1.TabStop = false;
-            this.tbEECON1.Text = "0";
-            this.tbEECON1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // tbEECON2
-            // 
-            this.tbEECON2.BackColor = System.Drawing.SystemColors.Window;
-            this.tbEECON2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.tbEECON2.Location = new System.Drawing.Point(110, 38);
-            this.tbEECON2.Name = "tbEECON2";
-            this.tbEECON2.ReadOnly = true;
-            this.tbEECON2.Size = new System.Drawing.Size(26, 20);
-            this.tbEECON2.TabIndex = 91;
-            this.tbEECON2.TabStop = false;
-            this.tbEECON2.Text = "0";
-            this.tbEECON2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // tbEECON3
-            // 
-            this.tbEECON3.BackColor = System.Drawing.SystemColors.Window;
-            this.tbEECON3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.tbEECON3.Location = new System.Drawing.Point(69, 38);
-            this.tbEECON3.Name = "tbEECON3";
-            this.tbEECON3.ReadOnly = true;
-            this.tbEECON3.Size = new System.Drawing.Size(26, 20);
-            this.tbEECON3.TabIndex = 90;
-            this.tbEECON3.TabStop = false;
-            this.tbEECON3.Text = "0";
-            this.tbEECON3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // tbEECON4
-            // 
-            this.tbEECON4.BackColor = System.Drawing.SystemColors.Window;
-            this.tbEECON4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.tbEECON4.Location = new System.Drawing.Point(23, 38);
-            this.tbEECON4.Name = "tbEECON4";
-            this.tbEECON4.ReadOnly = true;
-            this.tbEECON4.Size = new System.Drawing.Size(26, 20);
-            this.tbEECON4.TabIndex = 89;
-            this.tbEECON4.TabStop = false;
-            this.tbEECON4.Text = "0";
-            this.tbEECON4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // KerTKDSim
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1324, 608);
+            this.ClientSize = new System.Drawing.Size(1005, 642);
             this.Controls.Add(this.gbStack);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.gbStatus);
-            this.Controls.Add(this.groupBox8);
-            this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.groupBox);
             this.Controls.Add(this.gbDelay);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.gbPC);
@@ -2714,7 +2608,6 @@
             this.Controls.Add(this.gbRA);
             this.Controls.Add(this.gbRB);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnStep);
             this.Controls.Add(this.btnStop);
@@ -2731,9 +2624,10 @@
             this.tP_bank_0.ResumeLayout(false);
             this.tP_bank_1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.gbEECON.ResumeLayout(false);
+            this.gbEECON.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.gbRA.ResumeLayout(false);
@@ -2757,9 +2651,6 @@
             this.gbSerial.PerformLayout();
             this.gbruntime.ResumeLayout(false);
             this.gbruntime.PerformLayout();
-            this.groupBox.ResumeLayout(false);
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox8.ResumeLayout(false);
             this.gbStatus.ResumeLayout(false);
             this.gbStatus.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -2768,8 +2659,6 @@
             this.groupBox9.PerformLayout();
             this.gbStack.ResumeLayout(false);
             this.gbStack.PerformLayout();
-            this.gbEECON.ResumeLayout(false);
-            this.gbEECON.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2792,8 +2681,6 @@
         private System.Windows.Forms.Button btnStep;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private SourceGrid.Grid gridStatus;
         private System.Windows.Forms.TabPage tabPage1;
         private SourceGrid.Grid gridEEPROM;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -2871,12 +2758,6 @@
         private System.Windows.Forms.ComboBox cbComPorts;
         private System.Windows.Forms.GroupBox gbruntime;
         private System.Windows.Forms.TextBox tbRuntime;
-        private SourceGrid.Grid gridOption;
-        private System.Windows.Forms.GroupBox groupBox;
-        private System.Windows.Forms.GroupBox groupBox5;
-        private SourceGrid.Grid gridStack;
-        private System.Windows.Forms.GroupBox groupBox8;
-        private SourceGrid.Grid gridInterrupt;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem documentationToolStripMenuItem;
         private System.Windows.Forms.GroupBox gbStatus;

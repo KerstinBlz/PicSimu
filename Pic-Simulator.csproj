@@ -50,6 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DecoderClass.cs" />
+    <Compile Include="EEPROM.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FormRefresh.cs">
       <SubType>Form</SubType>
     </Compile>
